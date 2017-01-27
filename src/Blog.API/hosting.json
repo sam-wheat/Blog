@@ -1,0 +1,4 @@
+﻿{
+  //"server.urls": "http://localhost:53389/"
+  "server.urls": "https://localhost:44389/"
+}

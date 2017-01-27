@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Blog.Model": "1.0.0-*",
+    "Blog.Core": "1.0.0-*",
+    "Autofac": "4.2.1"
+  },
+
+  "frameworks": {
+    "net462": { "frameworkAssemblies": { } }
+  }
+}

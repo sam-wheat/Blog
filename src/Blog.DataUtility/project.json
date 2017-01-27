@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Autofac": "4.2.1",
+    "Microsoft.Extensions.Configuration": "1.1.0",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
+    "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0"
+    
+  },
+
+  "frameworks": {
+    "net462": {
+      "dependencies": {
+        "Blog.Core": "1.0.0-*",
+        "Blog.Domain": "1.0.0-*",
+        "Blog.Model": "1.0.0-*",
+        "Blog.Services": "1.0.0-*"
+      }
+    }  
+  }
+}

@@ -1,0 +1,114 @@
+﻿<article>
+If you are handling AppDomain.UnhandledException you may be interested to know that you still need to handle errors that are thrown on worker threads and Tasks.  This may come as a surprise to some because <a href="http://msdn.microsoft.com/en-us/library/system.appdomain.unhandledexception.aspx" target="_blank">the MSDN documentation found here</a> says "If the UnhandledException event is handled in the default application domain, it is raised there for <b>any</b> unhandled exception in any thread, no matter what application domain the thread started in."
+That seems pretty clear, right? Lets try it out. Create a new WPF app and in the constructor of the App class, add these two lines:
+
+```C#
+AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+Task.Run(() => { throw new Exception("boo"); });
+```
+
+
+Add a handler:
+
+```C#
+void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+{
+    Exception ex = e.ExceptionObject as Exception;
+    System.Windows.MessageBox.Show(ex.Message);
+}
+```
+
+
+Run the app and you will see the handler never executes.  Why not?  Looking at the code posted above, it looks like the exception thrown is unhandled, right?   In truth, the exception actually is handled.  Its handled because code that executes in a task is automatically enclosed in a try block whether you like it or not.  And there is good reason to like it - any exceptions that are thrown can be handled in a continuation task.  The reasoning behind it is pretty extensive and there is no reason for me to further elaborate so I’ll just post some links:
+
+
+<a href="http://blogs.msdn.com/b/pfxteam/archive/2009/05/31/9674669.aspx"  target="_blank">Tasks and Unhandled Exceptions</a>
+<br/>
+<a href="http://msdn.microsoft.com/en-us/library/dd997415(v=vs.100).aspx" target="_blank">Exception Handling (Task Parallel Library)</a>
+
+The second link above has the key information: “Exceptions are propagated when you use one of the static or instance Task.Wait or Task<TResult>.Wait methods, and you handle them by enclosing the call in a try-catch statement.”  The take-away from that excerpt is that you need to wait on your task inside a try block if you want to handle exceptions.  Use a finally block, but not a catch block if you want your application-level handler to be invoked.
+What if you want to log your exceptions but don't want to wait on your task?  Well, you have a couple of options.  You can use a good old try/catch block inside your task but your exception will not propagate up to your app.  You can also write a continuation as shown in the first link above.  This is a good option that is easy to implement - you just have to remember to use it.  
+
+In the code below I show how a fire and forget task can be handled with a Task extension method called Try.  I also show how you might factor out your exception logger you can call it from catch block inside the fire and forget task.
+
+
+```C#
+
+public App()
+{
+    AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+    Task t1 = Task.Run(() => {
+        try
+        {
+            // calling thread never sees this error.  Global exception handler is not called.
+            throw new Exception("boo"); 
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+        }
+    });
+
+    t1.Wait();
+
+    Task t2 = Task.Run(() => { throw new Exception("boo"); });
+
+    try
+    {
+        t2.Wait();
+    }
+    catch (Exception ex)
+    {
+        throw;  // Global exception handler is called.
+    }
+
+    Task t3 = Task.Run(() => { throw new Exception("boo"); }).Try("oops");
+
+    if (t3.Exception != null)
+    { 
+        // only handle if you need to.  Logging was done in the Try extension method.
+    }
+}
+
+void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+{
+    Exception ex = e.ExceptionObject as Exception;
+            
+    LogError(ex);
+}
+
+public void LogError(Exception ex)
+{ 
+    // log here
+    System.Windows.MessageBox.Show(ex.Message);
+}
+
+public static class ExtensionMethods
+{
+    public static Task Try(this Task task, string errorMsg = "Error", bool isFatal = true)
+    {
+        task.ContinueWith(t =>
+        {
+            ((App)Application.Current).LogError(t.Exception);
+                
+            if (isFatal)
+            {
+                ((App)Application.Current).Shutdown(-1);
+            }
+        }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+        return task;
+    }
+
+    public static Task<T> Try<T>(this Task<T> task, string errorMsg = "Error", bool isFatal = true)
+    {
+        task.ContinueWith(t =>
+        {
+            ((App)Application.Current).LogError(t.Exception);
+        }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+        return task;
+    }
+}
+```
+
+</article>

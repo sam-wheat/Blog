@@ -1,0 +1,693 @@
+﻿
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+   
+    https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+   http://bulma.io/
+   http://stackoverflow.com/questions/90178/make-a-div-fill-the-height-of-the-remaining-screen-space
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/*/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+ol {
+    padding:20px;
+    list-style-type:decimal;
+}
+    ol li {
+        /*float: left;*/
+        margin: 0 10px;
+        padding: 0 10px;
+    }
+
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*end reset*/
+
+body, input, select, textarea { 
+  font-family:Helvetica, arial, sans-serif;
+  color:black; 
+}
+
+
+html { 
+  background: url("../images/san-diego.jpg") no-repeat center center fixed; 
+  background-size: cover;
+  padding:0px;
+  margin:0px;
+  height:100%;
+}
+
+
+body {
+    background-color:transparent;
+    margin:0px;
+    padding:0px;
+    height:100%;
+    line-height: 1.6;
+}
+
+
+img { 
+    width:100%;
+    height:auto;
+    vertical-align:bottom;
+}
+
+strong {
+    font-weight:700;
+}
+
+p {
+    margin-bottom:6px;
+}
+
+.clear {
+    clear:both;
+}
+
+/*Keeps the footer bar pushed down*/
+#wrapper {
+    min-height:100%;
+    position:relative;
+}
+
+
+
+#topSpacer {
+    height:65vh;
+    background-color:transparent;
+}
+.pageContainer {
+    
+    background-color:transparent;
+}
+
+
+/* Set width on the form input elements since they're 100% wide by default */
+input[type="text"],
+input[type="password"] {
+    
+}
+/*  ----------------------------------------------------- flexbox   -----------------------------------------------------  */
+
+.box {
+	  display: flex;
+	  flex-flow: column;
+	  height: 100%;
+      width:100%;
+	}
+
+	.box .row {
+	  border: 1px dotted grey;
+	}
+
+	.box .row.header {
+	  flex: 0 1 auto;
+	}
+
+	.box .row.content {
+	  flex: 1 1 auto;
+	  background-color:blue;
+	}
+
+	.box .row.footer {
+	  flex: 0 1 40px;
+	}
+
+.columnContainer {
+    display:flex;
+    flex-direction:column;
+    width:100%; /*so text will wrap*/
+}
+.rowContainer {
+    display:flex;
+    flex-direction:row;
+}
+/*  ----------------------------------------------------- Validation helpers  -----------------------------------------------------  */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+
+/*  ----------------------------------------------------- Navbar  -------------------------------------------- */
+
+.navbarx {
+    background-color:black;
+    top:0px;
+    display:inline-block;
+    margin:0px;
+    padding: .5vmin 0px .5vmin 0px;
+    width:100%;
+    z-index:2;
+    flex:0 1 110px;
+}
+
+    .navbarx div {
+        display:inline-block;
+        margin: 0px 6vw 0px 0px;
+        padding: 1vmin; 
+    }
+    
+        
+
+
+
+/* ----------------------------------------------------- All pages ----------------------------------------------------- */
+
+.menuLink  {
+            text-decoration:none;
+            cursor:pointer;
+            color:white;
+        }
+
+        .menuLink:hover {
+            color:#ffd800;
+        }
+
+        .menuLink.active {
+            color:red;
+        }
+
+.pageBackground {
+    background-color:#333337;
+    flex: 1 1 auto;
+    padding:3vh 2vw 0 2vw;
+}
+
+#homePage, #aboutSamPage, #contactSamPage, #postIndexPage, #postPage {
+    padding: 4vmin;
+}
+
+/*  ----------------------------------------------------- Home Page  ----------------------------------------------------- */
+#homePage {
+    margin-bottom:7vh;
+}
+
+.footer {
+    background-color:black;
+    width: 100%;
+    height:7vh;
+    padding-top:10px;
+    padding-bottom:10px;
+    text-align:right;
+    vertical-align:middle;
+    opacity:.5;
+}
+    .footer span {
+    color:#d7d8db;
+    margin-right:8vw;
+    }
+
+
+.headline {
+    margin-left:.2vw;
+    font-size:2.5vw;
+    color: #CCCC00; 
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+#myCarousel {
+    background-color:transparent;
+    /*margin-top:21%;
+    margin-left:22%;*/
+    left:50vw;
+    top:65vh;
+    position:absolute;
+    max-width:42vw;
+}
+
+.carouselitem {
+    display:flex; 
+    height:20vh;
+    align-items:center;
+}
+
+.imageCaption {
+    background-position-x:0%;
+    background-position-y:50%;
+    background-repeat:no-repeat;
+    padding-left:21%;
+    border:3px solid white;
+    margin:auto;
+    height:10vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.carouselItemContainer {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:flex-start;
+}
+.carouselImageContainer {
+    /*align-items:center;
+    justify-content:center;*/
+    align-content:flex-start;
+    justify-content:flex-start;
+}
+.carouselImageStack {
+    display:flex;
+    flex-direction:column;
+    align-content:flex-start;
+    justify-content:flex-start;
+}
+.right.carousel-control, .left.carousel-control {
+    display: none;
+}
+/* ----------------------------------------------------- Post Index -----------------------------------------------------  */
+
+#postIndexList {
+    width:100%;
+    display:table-cell;
+}
+.postIndexContainer {
+    background-color:#d7d8db;
+    margin-right:3vw;
+    margin-bottom:3vh;
+    /*padding:1.5vh .8vw 1.5vh .8vw;*/
+}
+    .postIndexContainer:hover {
+        box-shadow:1.5vh 1.5vh 2vh black;
+        background-color:#f3f5fa;
+    }
+
+
+.postIndexImageContainer {
+    
+    max-width:15vw;
+    min-width:80px;
+    margin:1vw;
+}
+
+.postIndexTextContainer {
+    vertical-align:top;
+    padding:1.5vh 1vw 1.5vh 1vw;
+    width:100%;
+    overflow:auto;
+}
+
+.postIndexByLine {
+    font-size:.9vw;
+    text-align:right;
+    color:#35398b;
+    font-style:italic;
+    font-weight:bold;
+}
+
+
+/*Horizontal rule*/
+.postIndexHR {
+    margin-bottom:0;
+}
+
+.postIndexTitle {
+    font-size:1.4vw;
+    vertical-align:top;
+    color:#576210;
+}
+
+.postIndexAbstract {
+    margin-bottom:1.5vh;
+    font-size:1.3vmax;
+    color:#35398b;
+}
+
+.postIndexhref:hover {
+    text-decoration:none;
+}
+
+
+#fredWidget {
+    border: 1px solid #333333; 
+    margin-top:4vh;
+    width:30vw;
+    height:50vh;
+    box-shadow:1.5vh 1.5vh 2vh black;
+}
+
+/*  --------------------------------------------------- Group Filter --------------------------------------------------  */
+
+.groupFilter {
+    background-color:#2b2b2b;
+    padding: 2vh 2vw 2vh 2vw;
+    margin-right:2vw;
+    box-shadow:1.5vh 1.5vh 2vh black;
+}
+
+.groupFilter .header {
+    background-color: #780505; 
+    text-align:center;
+    padding: 2vh 2vw 2vh 2vw;
+    margin-bottom:1vh;
+}
+
+    .groupFilter li {
+        margin-bottom:2vh;
+    }
+
+    .groupFilter li a {
+        color:whitesmoke;
+    }
+
+    .groupFilter li a:active {
+        color:red;
+    }
+
+
+/*  ----------------------------------------------------- Post -----------------------------------------------------  */
+
+.postContainer {
+    margin:6vh 6vw 6vh 6vw;
+    padding:6vh 4vw 6vh 4vw; 
+    background-color:#e5e6d8;
+    flex: 1 1 auto;
+}
+
+.postTitle {
+    background: url("/images/texture4.PNG");
+    background-size:cover;
+    height:16vh;
+    padding: 2vh 2vw 2vh 2vw;
+    text-align:left;
+    color:white;
+    font-size:3.5vh;
+    margin-bottom:4vh;
+}
+article {
+    font-weight:100;
+    color:#333;
+}
+
+article h1, article h2, article h3, article h4, article h5, article h6 {
+    margin: 20px 0 10px;
+    padding: 0;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+    cursor: text;
+    position: relative;
+}
+
+article h1 {
+
+}
+
+article h2 {
+    font-size:larger;
+    font-weight:bold;
+}
+
+article h3 {
+    font-weight:bold;
+}
+
+article h4 {
+    font-style:italic;
+}
+
+article ul li {
+    list-style-type:disc;
+    margin-left:2vw;
+    margin-bottom:.8vh;
+}
+
+.postByLine {
+    font-size:1vw;
+    text-align:right;
+    font-style:italic;
+    font-weight:bold;
+}
+
+code {
+     background-color: #f8f8f8;
+     font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+     color:darkslategrey;
+     padding:1px 3px 1px 3px;
+}
+
+pre {
+    margin:12px 0px 12px 0px;
+}
+/*  ----------------------------------------------------- About Sam page  ----------------------------------------------------- */
+
+
+
+#samImg {
+    width:30vw;
+    margin-left:-7vw;
+    margin-top:-15vh;
+    margin-right:1%;
+    margin-bottom:.1%;
+    float:left;
+}
+
+.techTable {
+    width:70%;
+    background-color:silver;
+    margin:auto;
+    font-size:80%;
+    line-height:.8;
+}
+    .techTable thead {
+        background-color:gray;
+        font-weight:bold;
+    }
+    .techTable .centered {
+        text-align:center;
+    }
+    .techTable .middle {
+        display:flex;
+        align-items:center;
+        height:8vh;
+    }
+
+.clientGrid {
+    width:80%;
+    margin:auto;
+}
+.clientCell {
+    background: url("../app/about/img_background.png") no-repeat center center;
+    background-size: cover;
+    min-height:20vh;
+    padding:4vh 1vw 4vh 1vw;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:2vh;
+}
+    .clientCell .text {
+        display:flex;
+        font-size:80%;
+        line-height:.95;
+        color:white;
+        max-width:60%;
+        margin-right:2vw;
+    }
+
+    .clientCell .image {
+        display:flex;
+        max-width:40%;
+    }
+/* ----------------------------------------------------- Contact Sam page  ----------------------------------------------------- */
+#contactSamPage {
+    background-color:#e41111;
+}
+
+#letterImg {
+    height:30vw;
+    width:35vw;
+    float:left;
+    margin-right:4vw;
+}
+
+#contactMeMsg {
+    font-family:Broadway;
+    color:#576210;
+    font-size:5vw;
+}
+
+/* -----------------------------------------------------  Comment Control ----------------------------------------------------- */
+
+.commentBanner {
+    background-color:#23519a;
+    color:white;
+    padding:1vw;
+    text-align:center;
+}
+
+.commentContainer {
+    margin-bottom:1vw;
+    padding:1vw;
+    color:black;
+}
+
+.commentContainer:nth-child(odd) {
+    background-color:#ebecef;
+}
+
+.commentContainer:nth-child(even) {
+    background-color: #CACCD2;
+}
+
+#captchaImage {
+    height:60px;
+    width:auto;
+}
+/* -----------------------------------------------------  Comment Control ----------------------------------------------------- */
+
+/*Machine image on hello world post*/
+#machineImg {
+    height:25vw;
+    width:45vw;
+    float:left;
+    margin-right:1.5vw;
+    margin-bottom:1.5vw;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    body, input, select, textarea {
+        font-size:8px;
+    }
+
+    .menuLink {
+        font-size:10px;
+    }
+
+    .postIndexContainer {
+    
+    }
+
+    
+    .postIndexImageContainer {
+    
+    }
+    
+    #postIndexPage {
+    
+    }
+
+    #postIndexList {
+    
+    }
+
+    #postIndexSideBar {
+
+    }
+
+    article h1 {
+        font-size:19px;
+    }
+
+    article h2 {
+        font-size:16px;
+    }
+
+    article h3 {
+        font-size:12px;
+    }
+
+    article h4 {
+        font-size:11px;
+    }
+
+    article h5 {
+        font-size:9px;
+    }
+
+    article h6 {
+        font-size:9px;
+    }
+
+}
+
+@media only screen and (min-width: 600px) {
+    body, input, select, textarea {
+        font-size: 14px;
+    }
+
+    .menuLink {
+        font-size:16px;
+    }
+
+    article h1 {
+        font-size:28px;
+    }
+
+    article h2 {
+        font-size:24px;
+    }
+
+    article h3 {
+        font-size:18px;
+    }
+
+    article h4 {
+        font-size:16px;
+    }
+
+    article h5 {
+        font-size:14px;
+    }
+
+    article h6 {
+        font-size:14px;
+    }
+}

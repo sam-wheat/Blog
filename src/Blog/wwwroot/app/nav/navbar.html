@@ -1,0 +1,7 @@
+﻿
+<nav class="navbarx" *ngIf="this.mainMenu.MenuContentItems.length > 0">
+    <div *ngFor ="let menuItem of mainMenu.MenuContentItems" >
+        <a class="menuLink" (click)="onClick(menuItem)" [class.active]="isActive(menuItem.ContentItem.URL)"
+           [routerLink]="[menuItem.ContentItem.URL]">{{menuItem.ContentItem.MenuText}}</a>
+    </div>
+</nav>

@@ -1,0 +1,6 @@
+﻿<ul style="list-style-type:none">
+    <li *ngFor="let grp of Items">
+        <a class="menuLink" (click)="onChangeGroup(grp)" 
+           [class.active]="isActive(grp.Key)">{{grp.Value}}</a>
+    </li>
+</ul>

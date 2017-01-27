@@ -1,0 +1,37 @@
+﻿<article>
+I am working on a project that makes use of data that is available on the <a href="http://research.stlouisfed.org/fred2/" target="_blank">St. Louis Federal Reserve Economic Research</a> website a.k.a. "FRED".  FRED is a fantastic resource for anyone interested in economic data.  They have over 156,000 series and a nice interface for downloading data in Excel or CSV format.  FRED also implements an API that can be used to download data in XML or JSON.  The FRED API and how I am using it is the topic of this post and hopefully others that follow.  I hope to share my experiences with other developers and also the Web API team at the St. Louis Fed.  
+  
+<br/>
+<br/>
+The project I am working on allows a user to store selected FRED data on their local disk.  The data is used in a variety of reports and needs to be accessed quickly and in a highly structured format.  The project requires that I create an interface for downloading updates to the data the user wishes to maintain locally.  This involves extensive use of the FRED API.  Since the user may wish to store a fairly large amount of data locally, I need to find a way to update the data as quickly and efficiently as possible.
+
+<br/>
+<br/>
+One great thing about FRED is that for many series it maintains "Vintages" that indicate when certain data are relevant.  A vintage is simply the time period from when data becomes publicly known (released) to the time it is revised.  Not all data are revised, so their original vintage extends in perpetuity.  Vintages are also called "Real-time periods" in FRED speak.  Susan McGregor wrote a nice blog entry about real-time periods that is available <a href="http://www.datadocs.org/beta/getting-to-know-fred-insight-into-the-federal-reserves-economic-data-api/"  target="_blank">here</a>.  The official definition of real-time periods is found on the FRED web services page, located <a href="http://api.stlouisfed.org/docs/fred/realtime_period.html" target="_blank">here</a>.  The opening line on the aforementioned link is quite clear and concise: "The real-time period marks when facts were true or when information was known until it changed."  Real-time periods are invaluable for a number of reasons.  I wont elaborate any further, however, since my goal here is only to introduce real-time periods for the purpose of discussing portions of the FRED API related to them.
+ 
+ <br/>
+ <br/>
+ Now, before we get too far along in discussing real-time periods and the API, we need to clarify a very important detail: real-time periods are not supported for every series maintained by FRED.  Furthermore, certain API parameters are invalid for series for which real-time periods are not maintained.  There are at least two places on the FRED API documentation pages that discuss this distinction between FRED and ALFRED as they relate to the API.  The first discussion, found <a href="http://api.stlouisfed.org/docs/fred/realtime_period.html" target="_blank">here</a> says "On almost all URLs, the default real-time period is today. This can be thought of as FRED® mode- what information about the past is available today. ALFRED® users can change the real-time period to retrieve information that was known as of a past period of history."  The second discussion is found <a href="http://api.stlouisfed.org/docs/fred/fred_vs_alfred.html" target="_blank">here</a>.  The take-away piece of information is that "...FRED® and ALFRED® web services use the same URLs but with different options".  Exactly what those options are is anyone's guess.
+ 
+ <br/>
+ <br/>
+ I really think a bit more explanation needs to be added to the API documentation about the differences between FRED mode and ALFRED mode.  Except for the brief notes cited above, the documentation discusses the API as if it applies to all series equally.  However, the usage is quite different as we can see with a simple example.  The <a href="http://api.stlouisfed.org/docs/fred/realtime_period.html" target="_blank">real-time periods documentation page</a> gives several examples of how ALFRED returns real-time period data. Here is a similar example:
+
+<br/>
+<br/>
+
+   <a href="http://api.stlouisfed.org/fred/series/observations?series_id=UNRATE&realtime_start=1776-07-04&realtime_end=9999-12-31&api_key=x" target="_blank">http://api.stlouisfed.org/fred/series/observations?series_id=UNRATE&realtime_start=1776-07-04&realtime_end=9999-12-31&api_key=x</a>
+
+<br/>
+Clicking the link above will return a nice bit of data with real-time periods specified as expected.  Now, here is another link.  Note the link below is exactly the same as the link above except the series ID is different:
+ 
+<br/>
+<br/>
+
+
+ <a href="http://api.stlouisfed.org/fred/series/observations?series_id=GPDIC96&realtime_start=1776-07-04&realtime_end=9999-12-31&api_key=x" target="_blank">http://api.stlouisfed.org/fred/series/observations?series_id=GPDIC96&realtime_start=1776-07-04&realtime_end=9999-12-31&api_key=x</a>
+
+<br/>
+The second link gives a slightly different result than the first.  The 400 error you see is not the result of a typo.  You are getting a 400 error because the series ID that is specified does not support ALFRED mode.  When you think about it, this makes some sense because vintage data is not available for the series specified.  However, an argument might be made that the API call should return data just as ALFRED does instead of giving a 400 error.  That would at least make the API consistent.  Based on what I know right now, and the way the API works as of this writing, I think that would be a better option.  Having said that, I am not going to spend any time or space making an argument one way or the other as to how the API should handle an invalid mode request.  The topic is certainly worthy of discussion, however, provided the user has a mechanism for determining which series can be used in each mode, it is up to the user to call the API correctly.  Therefore, the real question that needs to be answered is "Prior to making a mode-specific call, does the API provide a way for a user to determine which mode is supported for a given series?"  This question is far more important and will be the topic of my next post.  
+    
+</article>

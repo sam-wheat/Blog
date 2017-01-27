@@ -1,0 +1,41 @@
+﻿<div class="columnContainer">
+
+    <div *ngIf="ContentItem != null">
+        <div class="commentBanner">{{Comments.length}} Comments</div>
+
+        <div *ngFor="let comment of Comments" class="commentContainer">
+            <div>{{comment.Date | date : 'M/d/yyyy'}} {{comment.SenderName}} wrote:</div>
+            <div class="comment">{{comment.CommentText}}</div>
+        </div>
+
+        <div *ngIf="Comments.length == 0" class="commentContainer">
+            <p>No comments have been posted.</p>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Your Name" [(ngModel)]="Comment.SenderName">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Your email address (optional)" [(ngModel)]="Comment.SenderEMail">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Your website (optional)" [(ngModel)]="Comment.SenderWebsite">
+        </div>
+        <div class="form-group">
+            <textarea rows="6" class="form-control" placeholder="Your comment" [(ngModel)]="Comment.CommentText"></textarea>
+        </div>
+        <div style="display:flex;flex-direction:column;width:100%;">
+            <div style="width:100px;margin:auto;">
+                <img id="captchaImage" src="{{ CaptchaURL }}" />
+            </div>
+            <div style="display:flex;justify-content:center;margin-top:1vh;">
+                <label class="control-label">Enter the numbers shown above: </label>
+                <input type="text" class="form-control" [(ngModel)]="CaptchaCode" style="max-width:70px;margin-right:6px;">
+                <input type="button" (click)="SaveComment()" value="Submit" style="max-width:100px;">
+            </div>
+        </div>
+    </div>
+</div>
+<app-dialog-component></app-dialog-component>
