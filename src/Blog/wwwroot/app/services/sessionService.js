@@ -59,4 +59,4 @@ SessionService = __decorate([
     __metadata("design:paramtypes", [])
 ], SessionService);
 exports.SessionService = SessionService;
-//# sourceMappingURL=sessionService.js.map
+//# sourceMappingURL=SessionService.js.map

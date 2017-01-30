@@ -51,13 +51,13 @@ DialogComponent = __decorate([
     __metadata("design:paramtypes", [])
 ], DialogComponent);
 exports.DialogComponent = DialogComponent;
+var Dialog;
 (function (Dialog) {
     Dialog[Dialog["None"] = 0] = "None";
     Dialog[Dialog["ErrorMsg"] = 1] = "ErrorMsg";
     Dialog[Dialog["Wait"] = 2] = "Wait";
     Dialog[Dialog["Confirm"] = 3] = "Confirm";
     Dialog[Dialog["Info"] = 4] = "Info";
-})(exports.Dialog || (exports.Dialog = {}));
-var Dialog = exports.Dialog;
+})(Dialog = exports.Dialog || (exports.Dialog = {}));
 ;
 //# sourceMappingURL=dialogComponent.js.map
