@@ -58,6 +58,8 @@
       "wwwroot/css",
       "wwwroot/images",
       "wwwroot/web.config",
+      "wwwroot/robots.txt",
+      "wwwroot/sitemap.txt",
       "logs/placeholder.txt",
       "node_modules/@angular/common/index.js"
     ],
