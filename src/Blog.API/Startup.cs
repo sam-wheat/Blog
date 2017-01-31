@@ -85,16 +85,6 @@ namespace Blog.API
             app.UseMvc();
             cacheManager.SetStringValue(CacheKeyNames.EmailAccount, emailAccount);
             cacheManager.SetStringValue(CacheKeyNames.EmailPassword, emailPassword);
-            
-            
-            //System.AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
-
-        //private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        //{
-        //    Exception ex = e.ExceptionObject as Exception;
-        //    string y = ex.Message;
-            
-        //}
     }
 }
