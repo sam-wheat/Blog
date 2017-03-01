@@ -12,9 +12,11 @@ public partial class MainWindow : Window
 
     public async Task<IActionResult> Login(int userID)
     {
-        // AdaptiveClient will use an in-process connection to the database 
-        // server on the local area network if it is available.
-        // Otherwise it will fall back to another server that can handle the request (WebAPI, WCF, etc.):
+        // AdaptiveClient will find the best server available at the time the request is made. 
+        // Server may be SQL, WCF, REST, etc. - your application does not need to know or care.
+        // If the request fails AdaptiveClient will begin an orderly fall back to other 
+        // servers that can handle the request regardless of platform or protocol:
+
         User user = await client.CallAsync(x => x.GetUser(userID));
     }
 }
@@ -26,16 +28,18 @@ public partial class MainWindow : Window
 #### [Get AdaptiveClient](https://github.com/leaderanalytics/AdaptiveClient)
 
 ---
-#### [Get the end-to-end demo](https://github.com/leaderanalytics/AdaptiveClientDemo)
+#### [Get the advanced end-to-end demo](https://github.com/leaderanalytics/AdaptiveClient.AdvancedDemo)
 
 ---
 
-#### [Get the nuget package](http://www.nuget.org/packages/LeaderAnalytics.AdaptiveClient/)
+#### [Get the nuget package](https://www.nuget.org/packages/AdaptiveClient/)
 
 ---
 
 ## What it does
-Rather than make a service call directly to a specific server or type of server you make a call using `AdaptiveClient` instead.  `AdaptiveClient` will attempt to execute the call using the most preferred server.  If the call fails `AdaptiveClient` will make successive attempts, each time falling back to other servers of the same type or other types.  For example, a mobile user who is on-site and connected to a local area network will enjoy the performance of an in-process connection directly to the database server.  If the user tries to re-connect from a remote location `AdaptiveClient` will attempt a LAN connection again but will fall back to a WebAPI server when the LAN connection fails.  Should the WebAPI connection fail, `AdaptiveClient` may attempt to connect to other WebAPI servers, a WCF server, or any other server as configured.
+Rather than make a service call directly to a specific server or type of server you make a call using `AdaptiveClient` instead.  `AdaptiveClient` will attempt to execute the call using the most preferred server.  If the call fails `AdaptiveClient` will make successive attempts, each time falling back to other servers of the same type or other types.  
+
+For example, a mobile user who is on-site and connected to a local area network will enjoy the performance of an in-process connection directly to a database server.  If the user moves off-site tries to reconnect from a remote location `AdaptiveClient` will attempt a LAN connection again but will fall back to a WebAPI server when the LAN connection fails.  Should the WebAPI connection fail, `AdaptiveClient` will continue an orderly fall back to other WebAPI servers, a WCF server, or any other server as configured.
 
 ## Who will benefit from using it
 * `AdaptiveClient` is ideally targeted to organizations that need to give local users access to their APIs over a local area network but who also wish to expose their APIs to remote users.
@@ -344,11 +348,15 @@ Finally, the type of the requested interface and the `EndPointType` of the avail
 #### [Get AdaptiveClient](https://github.com/leaderanalytics/AdaptiveClient)
 
 ---
-#### [Get the end-to-end demo](https://github.com/leaderanalytics/AdaptiveClientDemo)
+#### [Get the simple console app demo](https://github.com/leaderanalytics/AdaptiveClient.SimpleConsoleDemo)
 
 ---
 
-#### [Get the nuget package](http://www.nuget.org/packages/LeaderAnalytics.AdaptiveClient/)
+#### [Get the advanced end-to-end demo](https://github.com/leaderanalytics/AdaptiveClient.AdvancedDemo)
+
+---
+
+#### [Get the nuget package](https://www.nuget.org/packages/AdaptiveClient/)
 
 
 </article>

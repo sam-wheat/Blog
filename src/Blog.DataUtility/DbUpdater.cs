@@ -24,26 +24,17 @@ namespace Blog.DataUtility
             Menu blogIndexMenu = menus.Single(x => x.MenuName == "BlogIndex");
             List<ContentItem> contentItems = await ServiceClient.OfType<IContentItemService>().TryAsync(x => x.GetContentItems(site.ID, blogIndexMenu.ID, null, null));
 
-            ContentItem mvcArticle = contentItems.SingleOrDefault(x => x.Slug .Trim() == "How-to-use-ViewModels-effectively");
+            ContentItem article = contentItems.SingleOrDefault(x => x.ID == 13);
 
-            if (mvcArticle == null)
+            if (article != null)
             {
-                mvcArticle = new ContentItem
-                {
-                    Active = true,
-                    Abstract = "Seamlessly interact with local or remote access clients.  Provide direct database access or fall back to remote access as connectivity permits.",
-                    AllowComments = true,
-                    ContentGroupID = netContentGroup.ID,
-                    PublishDate = new DateTime(2017, 1, 5),
-                    Icon = "adaptive.jpg",
-                    Slug = "AdaptiveClient-pattern-to-resolve-a-data-access-client",
-                    URL = "adaptiveClient/adaptiveClient.html",
-                    Title = "AdaptiveClient - Pattern to dynamically resolve a data access client based on server availability",
-                    ContentType = ContentItemType.Post
-                };
-                AsyncResult result = await ServiceClient.OfType<IContentItemService>().TryAsync(x => x.SaveContentItem(mvcArticle));
-                MenuContentItem mvcArticleMCI = new MenuContentItem { MenuID = blogIndexMenu.ID, Sequence = 8, ContentItemID = mvcArticle.ID };
-                AsyncResult mciResult = await ServiceClient.OfType<IMenuContentItemService>().TryAsync(x => x.SaveMenuContentItem(mvcArticleMCI));
+                article.Slug = "Library-and-pattern-for-consuming-services-across-heterogeneous-platforms-and-protocols";
+                article.Title = "AdaptiveClient - Library and pattern for consuming services across heterogeneous platforms and protocols";
+                article.Abstract = "Library and pattern for consuming services across heterogeneous platforms and protocols.  Inject a single client that allows an application to transparently access APIs using SQL client, WebAPI, REST, WCF, ESB, etc. Gracefully fall back if preferred server or protocol becomes unavailable.";
+
+                AsyncResult result = await ServiceClient.OfType<IContentItemService>().TryAsync(x => x.SaveContentItem(article));
+                //MenuContentItem mvcArticleMCI = new MenuContentItem { MenuID = blogIndexMenu.ID, Sequence = 8, ContentItemID = mvcArticle.ID };
+                //AsyncResult mciResult = await ServiceClient.OfType<IMenuContentItemService>().TryAsync(x => x.SaveMenuContentItem(mvcArticleMCI));
             }
         }
 
