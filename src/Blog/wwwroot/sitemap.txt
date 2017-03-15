@@ -7,4 +7,4 @@ http://www.samwheat.com/Post/AppDomain-UnhandledException-is-not-raised-when-an-
 http://www.samwheat.com/Post/A-Combination-Finder-for-solving-business-problems
 http://www.samwheat.com/Post/FRED-mode-vs-ALFRED-mode
 http://www.samwheat.com/Post/The-function-of-ViewModels-in-MVC-web-development
-http://www.samwheat.com/Post/AdaptiveClient-pattern-to-resolve-a-data-access-client
+http://www.samwheat.com/Post/Library-and-pattern-for-consuming-services-across-heterogeneous-platforms-and-protocols
