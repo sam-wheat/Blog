@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 
+
 // https://forums.asp.net/p/2097672/6060142.aspx?p=True&t=636020927203167361
 // http://stackoverflow.com/questions/37577044/dotnet-core-rc2-project-and-net461-dependency-resolve-issue
 // https://github.com/dotnet/cli/issues/3171
@@ -160,7 +161,7 @@ namespace Blog.Core
             Matrix matrix = new Matrix();
             matrix.Translate(0F, 0F);
             path.Warp(points, rect, matrix, WarpMode.Perspective, 0F);
-
+            
             // Draw the text.
             //hatchBrush = new HatchBrush(HatchStyle.LargeConfetti, Color.LightGray, Color.DarkGray);
             hatchBrush = new HatchBrush(HatchStyle.LargeConfetti, Color.Silver, Color.DarkGray);

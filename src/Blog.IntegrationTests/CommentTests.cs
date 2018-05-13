@@ -14,16 +14,24 @@ namespace Blog.IntegrationTests
     public class CommentTests: BaseTest
     {
         [Test]
-        public void CommentTest()
+        public async Task CommentTest()
         {
-            List<Comment> comments = ServiceClient.OfType<ICommentService>().TryAsync(x => x.GetCommentsForContentItem(1)).Result;
+            try
+            {
+                List<Comment> comments = await ServiceClient.TryAsync(async x => await x.CommentService.GetCommentsForContentItem(1));
+            }
+            catch (Exception ex)
+            {
+                string y = ex.Message;
+            }
+            Assert.AreEqual(1, 1);
         }
 
 
         [Test]
         public void CommentTest2()
         {
-            List<Comment> comments = ServiceClient.OfType<ICommentService>().TryAsync(x => x.GetCommentsForContentItem(1)).Result;
+            //List<Comment> comments = ServiceClient.OfType<ICommentService>().TryAsync(x => x.GetCommentsForContentItem(1)).Result;
         }
     }
 }

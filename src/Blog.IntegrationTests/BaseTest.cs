@@ -7,55 +7,81 @@ using Microsoft.Extensions.Configuration;
 using Blog.Core;
 using Blog.Domain;
 using Blog.Services;
-using Blog.Services.Integration;
 using Autofac;
+using Microsoft.EntityFrameworkCore;
+using LeaderAnalytics.AdaptiveClient;
+using LeaderAnalytics.AdaptiveClient.EntityFramework;
+using Blog.Services.Database;
+using Blog.Services.Database.DataInitalizers;
 
 namespace Blog.IntegrationTests
 {
-    // This project can output the Class library as a NuGet Package.
-    // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
     public class BaseTest
     {
         protected IContainer container { get; private set; }
-        protected IServiceClient ServiceClient { get; private set; }
+        protected IAdaptiveClient<IServiceManifest> ServiceClient { get; private set; }
+        protected IEnumerable<IEndPointConfiguration> EndPoints { get; private set; }
 
         public BaseTest()
         {
-            BuildContainer();
-            CreateServiceClient();
+            BuildContainer().Wait();
             InitializeDatabase();
             SeedDatabase();
         }
 
-        protected void BuildContainer()
+        protected async Task BuildContainer()
         {
+            EndPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
+            string configFilePath = "C:\\Users\\sam\\AppData\\Roaming\\Blog\\appsettings.Development.json";
+            ConfigurationBuilder configBuilder = new ConfigurationBuilder();
+            configBuilder.AddJsonFile(configFilePath);
+            IConfigurationRoot config = configBuilder.Build();
+            IEndPointConfiguration ep = EndPoints.FirstOrDefault(x => x.Name == "Blog_MySQL");
+
+            if (ep != null)
+            {
+                ep.ConnectionString = ep.ConnectionString.Replace("{Blog_MySQL_UserName}", config["Data:MySQLUserName"]);
+                ep.ConnectionString = ep.ConnectionString.Replace("{Blog_MySQL_Password}", config["Data:MySQLPassword"]);
+            }
+            
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterModule(new Blog.Services.IOCModule());
-            builder.RegisterModule(new Blog.Core.IOCModule());
+            builder.RegisterModule(new Blog.Core.AutofacModule());
+            builder.RegisterModule(new Blog.Services.AutofacModule());
+            builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.AutofacModule());
+            builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFramework.AutofacModule());
+            RegistrationHelper registrationHelper = new RegistrationHelper(builder);
+            registrationHelper.RegisterEndPoints(EndPoints);
+            registrationHelper.RegisterModule(new Blog.Services.AdaptiveClientModule());
+            
+
+            // ---------
+            
+            builder.RegisterType<DbMSSQL>().Keyed<IMigrationContext>(API_Name.Blog + DatabaseProviderName.MSSQL);
+            builder.RegisterType<SiteDataInitalizer>().Keyed<IDatabaseInitializer>(API_Name.Blog + DatabaseProviderName.MSSQL);
+
+
+       
+
+
+            // ---------
             container = builder.Build();
+            IDatabaseUtilities dbUtils = container.Resolve<IDatabaseUtilities>();
+            IEndPointConfiguration mssql_ep = EndPoints.First(x => x.Name == "Blog_SQLServer");
+            ServiceClient = container.Resolve <IAdaptiveClient<IServiceManifest>>();
+            await dbUtils.VerifyDatabase(mssql_ep);
         }
 
-        protected void CreateServiceClient()
-        {
-            INamedConnectionString conn = container.Resolve<INamedConnectionString>();
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json");
-            var config = builder.Build();
-
-            conn.ConnectionString = config["Data:ConnectionString"];
-            ServiceClient = container.Resolve<IServiceClient>();
-        }
+        
 
         protected void InitializeDatabase()
         {
-            DropAndRecreateInitializer initializer = container.Resolve<DropAndRecreateInitializer>();
-            initializer.DropAndRecreateDb();
+            //DropAndRecreateInitializer initializer = container.Resolve<DropAndRecreateInitializer>();
+            //initializer.DropAndRecreateDb();
         }
 
         protected void SeedDatabase()
         {
-            ServiceClient.OfType<ISiteService>().Try(x => x.SeedDB()).Wait();
+            //ServiceClient.OfType<ISiteService>().Try(x => x.SeedDB()).Wait();
         }
     }
 }

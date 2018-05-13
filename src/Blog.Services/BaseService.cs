@@ -5,18 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Blog.Core;
+using Blog.Domain;
+using Blog.Services.Database;
 
 namespace Blog.Services
 {
     public class BaseService : IDisposable
     {
+        protected ICacheCollection Cache;
+        protected IServiceManifest ServiceManifest;
         protected Db db;
-
-        public BaseService(MyDbContextOptions options)
+        
+        public BaseService(Db db, IServiceManifest serviceManifest, ICacheCollection cache)
         {
-            db = new Db(options.Options);
+            this.db = db;
+            this.ServiceManifest = serviceManifest;
+            this.Cache = cache;
         }
 
+
+        #region IDisposable
         private bool disposed;
 
         protected virtual void Dispose(bool disposing)
@@ -36,5 +44,6 @@ namespace Blog.Services
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }

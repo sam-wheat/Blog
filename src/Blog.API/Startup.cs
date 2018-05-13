@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using LeaderAnalytics.AdaptiveClient.EntityFramework;
 using Blog.Core;
 using Blog.Domain;
 
@@ -22,12 +24,15 @@ namespace Blog.API
         public IConfigurationRoot Configuration { get; }
         private string emailAccount;
         private string emailPassword;
+
         public Startup(IHostingEnvironment env)
         {
+            string configFilePath = "C:\\Users\\sam\\AppData\\Roaming\\Blog";
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile(Path.Combine(configFilePath, $"appsettings.{env.EnvironmentName}.json"), optional: false)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -54,8 +59,7 @@ namespace Blog.API
             
             // Autofac
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new Blog.Core.IOCModule());
-            builder.RegisterModule(new Blog.Services.IOCModule());
+            builder.RegisterModule(new Blog.Core.AutofacModule());
             builder.Populate(services);
             var container = builder.Build();
             emailAccount = Configuration["Data:EmailAccount"];
@@ -66,25 +70,20 @@ namespace Blog.API
             if(string.IsNullOrEmpty(emailPassword))
                 throw new Exception("EmailPassword not found in appsettings file.");
 
-            INamedConnectionString conn = container.Resolve<INamedConnectionString>();
-            conn.ConnectionString = Configuration["Data:ConnectionString"];
-
             // Make sure the database exists
-            container.Resolve<IDatabaseUtilities>().CreateOrUpdateDatabase();
+            //container.Resolve<IDatabaseUtilities>().VerifyDatabase(ep);
 
             return container.Resolve<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ICacheManager cacheManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseSession();
             app.UseCors(x => x.WithOrigins(new string[] { "http://www.samwheat.com", "https://www.samwheat.com", "http://samwheat.com", "https://samwheat.com",  "http://localhost:61560", "http://dev.samwheat.com" }));
             app.UseMvc();
-            cacheManager.SetStringValue(CacheKeyNames.EmailAccount, emailAccount);
-            cacheManager.SetStringValue(CacheKeyNames.EmailPassword, emailPassword);
         }
     }
 }

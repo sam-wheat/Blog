@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.Http;
+using LeaderAnalytics.AdaptiveClient;
 using Blog.Core;
 using Blog.Model;
 using Blog.Domain;
@@ -16,11 +17,9 @@ namespace Blog.API.Controllers
     public class BlogController : BaseController, ISiteService, ICommentService
     {
         protected Random random = new Random();
-        protected ICacheManager _cacheManager;
 
-        public BlogController(IServiceClient serviceClient, ICacheManager cacheManager) : base(serviceClient)
+        public BlogController(IAdaptiveClient<IServiceManifest> serviceClient) : base(serviceClient)
         {
-            _cacheManager = cacheManager;
 
         }
 
@@ -42,71 +41,60 @@ namespace Blog.API.Controllers
         [Route("GetActiveSites")]
         public async Task<List<Site>> GetActiveSites()
         {
-            try
-            {
-                return await ServiceClient.OfType<ISiteService>().TryAsync(x => x.GetActiveSites());
-            }
-            catch (Exception ex)
-            {
-                string y = ex.Message;
-                return null;
-            }
+            return await ServiceClient.CallAsync(async x => await x.SiteService.GetActiveSites());
         }
 
         [HttpGet]
         [Route("GetContentItemBySlug")]
         public async Task<ContentItem> GetContentItemBySlug(string slug, int siteID)
         {
-            return await ServiceClient.OfType<IContentItemService>().TryAsync(x => x.GetContentItemBySlug(slug, siteID));
+            return await ServiceClient.CallAsync(async x => await x.ContentItemService.GetContentItemBySlug(slug, siteID));
         }
 
         [HttpGet]
         [Route("GetContentItems")]
         public async Task<List<ContentItem>> GetContentItems(int siteID, int menuID, int? groupID, DateTime? dateFilter)
         {
-            return await ServiceClient.OfType<IContentItemService>().TryAsync(x => x.GetContentItems(siteID, menuID, groupID, dateFilter));
+            return await ServiceClient.CallAsync(async x => await x.ContentItemService.GetContentItems(siteID, menuID, groupID, dateFilter));
         }
 
         [HttpPost]
         [Route("SaveSite")]
         public async Task<AsyncResult> SaveSite([FromBody] Site site)
         {
-            return await ServiceClient.OfType<ISiteService>().TryAsync(x => x.SaveSite(site));
+            return await ServiceClient.CallAsync(async x => await x.SiteService.SaveSite(site));
         }
 
         [HttpGet]
         [Route("GetContentItemGroups")]
         public async Task<List<KeyValuePair<String, String>>> GetContentItemGroups(string groupColumn, int menuID)
         {
-            return await ServiceClient.OfType<IContentItemService>().TryAsync(x => x.GetContentItemGroups(groupColumn, menuID));
+            return await ServiceClient.CallAsync(async x => await x.ContentItemService.GetContentItemGroups(groupColumn, menuID));
         }
 
-        [HttpGet]
-        [Route("SeedDB")]
-        public async Task SeedDB()
-        {
-            await ServiceClient.OfType<ISiteService>().TryAsync(x => x.SeedDB());
-            //throw new NotImplementedException();
-        }
+        
 
         [HttpGet]
         [Route("GetCommentsForContentItem")]
         public async Task<List<Comment>> GetCommentsForContentItem(int contentItemID)
         {
-            return await ServiceClient.OfType<ICommentService>().TryAsync(x => x.GetCommentsForContentItem(contentItemID));
+            return await ServiceClient.CallAsync(x => x.CommentService.GetCommentsForContentItem(contentItemID));
         }
 
         [HttpPost]
         [Route("SaveComment")]
         public async Task<AsyncResult<long>> SaveComment([FromBody]Comment comment, string captcha)
         {
-            string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
 
-            if (code == null || captcha != code)
-                return new AsyncResult<long> { Success = false, ErrorMessage = "Please enter the numeric code." };
+            return new AsyncResult<long>(); // stub
+
+            //string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
+
+            //if (code == null || captcha != code)
+            //    return new AsyncResult<long> { Success = false, ErrorMessage = "Please enter the numeric code." };
                 
 
-            return await ServiceClient.OfType<ICommentService>().TryAsync(x => x.SaveComment(comment, _cacheManager.GetStringValue(CacheKeyNames.EmailAccount), _cacheManager.GetStringValue(CacheKeyNames.EmailPassword)));
+            //return await ServiceClient.CallAsync(async x => await x.CommentService.SaveComment(comment, _cacheManager.GetStringValue(CacheKeyNames.EmailAccount), _cacheManager.GetStringValue(CacheKeyNames.EmailPassword)));
         }
 
         public async Task<AsyncResult<long>> SaveComment([FromBody]Comment comment, string emailAccount, string emailPassword)
@@ -118,8 +106,10 @@ namespace Blog.API.Controllers
         [Route("GetCaptchaCode")]
         public JsonResult GetCaptchaCode()
         {
-            string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
-            return Json(new { CaptchaCode = code });
+            return Json(""); // stub
+
+            //string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
+            //return Json(new { CaptchaCode = code });
         } 
 
 
@@ -132,7 +122,7 @@ namespace Blog.API.Controllers
             for (int i = 0; i < 3; i++)
                 code = String.Concat(code, random.Next(10).ToString());
 
-            _cacheManager.SetStringValue(CacheKeyNames.CaptchaCode, code);
+            //_cacheManager.SetStringValue(CacheKeyNames.CaptchaCode, code);
             CaptchaImage ci = new CaptchaImage(code, 100, 50, "Century Schoolbook");
             return new ImageResult(ci.Image, System.Drawing.Imaging.ImageFormat.Jpeg).GetFileStreamResult();
         }

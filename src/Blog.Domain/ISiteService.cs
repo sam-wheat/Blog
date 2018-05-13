@@ -10,6 +10,5 @@ namespace Blog.Domain
     {
         Task<AsyncResult> SaveSite(Site site);
         Task<List<Site>> GetActiveSites();
-        Task SeedDB();
     }
 }
