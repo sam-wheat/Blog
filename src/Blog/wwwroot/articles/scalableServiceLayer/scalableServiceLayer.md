@@ -3,7 +3,7 @@
 ## Introduction
 Most developers know Entity Framework Core as a powerful ORM that is widely used for creating business applications.  Autofac is a dependency injection library known for its robustness and flexibility.  Entity Framework Core and Autofac work wonderfully together - however it is up to the developer to devise a specific implementation.  Such implementations often involve repetitive work, they do not adhere to any known patterns, and often do not exploit the full utility either of these libraries provide.
 
-AdaptiveClient and its related library, AdaptiveClient.EntityFramework, describe a pattern for using Entity Framework Core and Autofac together. AdaptiveClient allows the developer to create loosely coupled services that are resolved at runtime using keys. Each key is a simple string that is associated with a connection string.  When a user makes a call to a particular service, AdaptiveClient identifies a server that is available and able to handle the request.  Using the keys that are associated with the connection string for the selected server, AdaptiveClient instructs Autofac how to resolve and inject all required dependencies for the called service.  This process, when described in words, may seem lengthy and complex.  However it is typically very efficient and describes how dependency injection services such as Autofac are commonly used.  
+AdaptiveClient and its related library, AdaptiveClient.EntityFramework, describe a pattern for using Entity Framework Core and Autofac together. AdaptiveClient allows the developer to create loosely coupled services that are resolved at runtime using keys. Each key is a simple string that is associated with a connection string.  When a user makes a call to a particular service, AdaptiveClient identifies a server that is available and able to handle the request.  Using the keys that are associated with the connection string for the selected server, AdaptiveClient instructs Autofac how to resolve and inject all required dependencies for the called service.  When articulated in words this process may seem lengthy and complex.  However it is typically very efficient and describes how dependency injection services such as Autofac are commonly used.  
 
 AdptiveClient defines three simple keys that are used in the resolution of service components.  These keys are stored in a json configuration file along with the connection strings that are used by the application.  AdaptiveClient provides a simple API for using these keys to register and resolve components .  AdaptiveClient also provides utilities for working with Entity Framework Core objects such as migrations and initializers.
 
@@ -184,7 +184,7 @@ When you register a service, you register it using both EndPointType and Provide
 
 
 ### EndPointConfiguration
-EndpointConfigurations are defined in a json configuration similar to the one shown below:
+EndPointConfigurations are defined in a json configuration similar to the one shown below:
 ````json
 {
     "EndPointConfigurations": [
@@ -245,7 +245,7 @@ AdaptiveClient includes a utility for reading Endpoints.json and instantiating E
 
     
 ## How AdaptiveClient resolves a service from start to finish
-![How AdaptiveClient resolves a service from start to finish](https://raw.githubusercontent.com/leaderanalytics/AdaptiveClient/master/LeaderAnalytics.AdaptiveClient/docs/HowAdaptiveClientWorks.png)
+![How AdaptiveClient resolves a service from start to finish](https://raw.githubusercontent.com/leaderanalytics/AdaptiveClient/master/LeaderAnalytics.AdaptiveClient/docs/AdaptiveClient2.png)
 
 
 ## Architecting your application
@@ -272,7 +272,7 @@ If you want to expose a web API, a web UI, or a desktop UI you should create opt
 ## Implementing AdaptiveClient in your application
 1. Define keys - Define API_Name, EndPointType, and ProviderName as described above.
 2. Define Endpoints - Create a file called something like EndPoints.json to define your EndPointConfigurations.  See example file above.
-3. Register required components -  You will need to register your EndPoints, your services, and possibly one or more IEndPointValidator implementations (see AdaptiveClient.HttpEndPointValidator and AdaptiveClient.InProcessEndPointValidator).  If you use Entity Framework you will also need to register your DbContexts and DbContextOptions.  
+3. Register required components -  You will need to register your EndPoints, your services, and possibly one or more IEndPointValidator implementations.  If you use Entity Framework you will also need to register your DbContexts and DbContextOptions.  
 4. Register optional components - Registering a ServiceManifest is optional but is highly recommended even if you have a small number of services. If you use EF migrations you should register one or more MigrationContexts.  Use a MigrationContext to easily drop and re-create your database and apply migrations as necessary.  You may also want to register a DatabaseInitalizer if you seed your database when it is created or when a migration is applied.
 
 ## Sample Application
