@@ -5,7 +5,7 @@ using Blog.Domain;
 using Autofac;
 using LeaderAnalytics.AdaptiveClient;
 using LeaderAnalytics.AdaptiveClient.Autofac;
-using LeaderAnalytics.AdaptiveClient.EntityFramework;
+using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 
 namespace Blog.Services
 {

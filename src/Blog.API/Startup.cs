@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using LeaderAnalytics.AdaptiveClient.EntityFramework;
+using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 using Blog.Core;
 using Blog.Domain;
 

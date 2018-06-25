@@ -1,16 +1,20 @@
 ﻿# Building a scalable, testable service layer with Entity Framework Core, Autofac, and AdaptiveClient
 
 ## Introduction
-Most developers know Entity Framework Core as a powerful ORM that is widely used for creating business applications.  Autofac is a dependency injection library known for its robustness and flexibility.  Entity Framework Core and Autofac work wonderfully together - however it is up to the developer to devise a specific implementation.  Such implementations often involve repetitive work, they do not adhere to any known patterns, and often do not exploit the full utility either of these libraries provide.
+Most developers know Entity Framework Core as a powerful ORM that is widely used for creating business applications.  Autofac is a dependency injection library known for its robustness and flexibility.  Entity Framework Core and Autofac work wonderfully together - however creating a true synergy requires a little creativity. That is where AdaptiveClient enters the picture.  
 
-AdaptiveClient and its related library, AdaptiveClient.EntityFrameworkCore, describe a pattern for using Entity Framework Core and Autofac together. AdaptiveClient allows the developer to create loosely coupled services that are resolved at runtime using keys. Each key is a simple string that is associated with a connection string.  When a user makes a call to a particular service, AdaptiveClient identifies a server that is available and able to handle the request.  Using the keys that are associated with the connection string for the selected server, AdaptiveClient instructs Autofac how to resolve and inject all required dependencies for the called service.  When articulated in words this process may seem lengthy and complex.  However it is typically very efficient and describes how dependency injection services such as Autofac are commonly used.  
+AdaptiveClient is a utility that provides a pattern for using Entity Framework Core and Autofac together.  AdaptiveClient eliminates much of the redundant work related to registering and resolving services. It also provides utilities for working with specific Entity Framework Core objects.  Most importantly, however, AdaptiveClient allows the developer to create granular, loosely coupled services that are resolved at runtime using keys.  
 
-AdptiveClient defines three simple keys that are used in the resolution of service components.  These keys are stored in a json configuration file along with the connection strings that are used by the application.  AdaptiveClient provides a simple API for using these keys to register and resolve components .  AdaptiveClient also provides utilities for working with Entity Framework Core objects such as migrations and initializers.
+Three keys are used in the resolution of service components.  These keys are stored in a JSON configuration file along with the connection strings that are used by the application.  AdaptiveClient provides a simple API for using these keys to register and resolve components.  When an implementation of a specific service is requested, AdaptiveClient first identifies a server that is available and able to handle the request.  Using the keys that are associated with the connection string for the selected server, AdaptiveClient instructs Autofac how to resolve and inject all required dependencies for the called service.
 
 Many applications are tightly coupled to a DBMS or protocol.  This means that if a required server such as a DBMS or web API server is unavailable the application fails. AdaptiveClient, however, provides fall back capabilities that allow the developer to automatically resolve services that are appropriate for the users connection type.  For example, a user who normally connects via a corporate LAN may make fast, in-process calls to a database server that is on the same LAN.  When the user attempts a connection from a remote location that database server will not be available.  AdaptiveClient will detect the failure to connect to the DBMS and will automatically fall back to a web API server if configured to do so.  This fall back process happens transparently to the user and requires no other configuration than proper registration of the correct components for the connection type.
 
 ## What problems does AdaptiveClient solve?
-1. A software company makes a web based order management system that is designed to run on both Microsoft SQL Server and MySQL.  One of the controllers in the product looks like this:
+
+1. The most obvious 
+
+
+2. A software company makes a web based order management system that is designed to run on both Microsoft SQL Server and MySQL.  One of the controllers in the product looks like this:
 
 &nbsp;  
   
@@ -50,7 +54,7 @@ Note that an instance of IOrderProcessor is injected into the controller.  The S
 
 Given the above two implementations of IOrderProcessor, what pattern might be used to insure the correct implementation is injected based on the configured choice of database platforms?  AdaptiveClient solves this problem by allowing each implementation of IOrderProcessor to be registered with a specific database provider (in this example, MSSQL or MySQL).  Each database provider is associated with a specific connection string.  When the application is started and a connection string is chosen AdaptiveClient is able to use the name of the database provider to resolve the correct implementation of IOrderProcessor.
 
-2. The same software company makes a version of their software that is designed to run on servers located on-site at their customer's warehouses.  Workers in the warehouse who use tablets want to make fast calls to database services over the local area network.  Users who connect remotely using an Internet connection will access database services via a RESTful API.  A ViewModel in the company's application looks like this:
+3. The same software company makes a version of their software that is designed to run on servers located on-site at their customer's warehouses.  Workers in the warehouse who use tablets want to make fast calls to database services over the local area network.  Users who connect remotely using an Internet connection will access database services via a RESTful API.  A ViewModel in the company's application looks like this:
 
 &nbsp;
 

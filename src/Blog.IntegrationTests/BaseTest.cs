@@ -10,7 +10,7 @@ using Blog.Services;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
 using LeaderAnalytics.AdaptiveClient;
-using LeaderAnalytics.AdaptiveClient.EntityFramework;
+using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 using Blog.Services.Database;
 using Blog.Services.Database.DataInitalizers;
 
@@ -48,7 +48,7 @@ namespace Blog.IntegrationTests
             builder.RegisterModule(new Blog.Core.AutofacModule());
             builder.RegisterModule(new Blog.Services.AutofacModule());
             builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.AutofacModule());
-            builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFramework.AutofacModule());
+            builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             RegistrationHelper registrationHelper = new RegistrationHelper(builder);
             registrationHelper.RegisterEndPoints(EndPoints);
             registrationHelper.RegisterModule(new Blog.Services.AdaptiveClientModule());
@@ -68,7 +68,7 @@ namespace Blog.IntegrationTests
             IDatabaseUtilities dbUtils = container.Resolve<IDatabaseUtilities>();
             IEndPointConfiguration mssql_ep = EndPoints.First(x => x.Name == "Blog_SQLServer");
             ServiceClient = container.Resolve <IAdaptiveClient<IServiceManifest>>();
-            await dbUtils.VerifyDatabase(mssql_ep);
+            //await dbUtils.CreateOrUpdateDatabase(mssql_ep);
         }
 
         

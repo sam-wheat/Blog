@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Autofac;
 using Blog.Services.Database;
-using LeaderAnalytics.AdaptiveClient.EntityFramework;
+using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 using Blog.Core;
 using Blog.Domain;
 

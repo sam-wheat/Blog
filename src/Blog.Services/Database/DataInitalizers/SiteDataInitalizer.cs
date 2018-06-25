@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blog.Model;
 using Blog.Core;
-using LeaderAnalytics.AdaptiveClient.EntityFramework;
+using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
 
 namespace Blog.Services.Database.DataInitalizers
 {

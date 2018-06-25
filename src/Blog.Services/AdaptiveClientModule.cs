@@ -15,23 +15,23 @@ namespace Blog.Services
         {
             
             // MSSQL
-            registrationHelper.Register<ServiceManifest, IServiceManifest>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
-            registrationHelper.Register<CommentService, ICommentService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
-            registrationHelper.Register<ContentGroupService, IContentGroupService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
-            registrationHelper.Register<ContentItemService, IContentItemService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
-            registrationHelper.Register<MenuContentItemService, IMenuContentItemService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
-            registrationHelper.Register<MenuService, IMenuService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
-            registrationHelper.Register<SiteService, ISiteService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
+            registrationHelper.RegisterService<ServiceManifest, IServiceManifest>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
+            registrationHelper.RegisterService<CommentService, ICommentService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
+            registrationHelper.RegisterService<ContentGroupService, IContentGroupService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
+            registrationHelper.RegisterService<ContentItemService, IContentItemService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
+            registrationHelper.RegisterService<MenuContentItemService, IMenuContentItemService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
+            registrationHelper.RegisterService<MenuService, IMenuService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
+            registrationHelper.RegisterService<SiteService, ISiteService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MSSQL);
 
 
             // MySQL
-            registrationHelper.Register<ServiceManifest, IServiceManifest>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
-            registrationHelper.Register<CommentService, ICommentService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
-            registrationHelper.Register<ContentGroupService, IContentGroupService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
-            registrationHelper.Register<ContentItemService, IContentItemService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
-            registrationHelper.Register<MenuContentItemService, IMenuContentItemService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
-            registrationHelper.Register<MenuService, IMenuService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
-            registrationHelper.Register<SiteService, ISiteService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
+            registrationHelper.RegisterService<ServiceManifest, IServiceManifest>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
+            registrationHelper.RegisterService<CommentService, ICommentService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
+            registrationHelper.RegisterService<ContentGroupService, IContentGroupService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
+            registrationHelper.RegisterService<ContentItemService, IContentItemService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
+            registrationHelper.RegisterService<MenuContentItemService, IMenuContentItemService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
+            registrationHelper.RegisterService<MenuService, IMenuService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
+            registrationHelper.RegisterService<SiteService, ISiteService>(EndPointType.InProcess, API_Name.Blog, DatabaseProviderName.MySQL);
         }
     }
 }
