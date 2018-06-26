@@ -1,7 +1,7 @@
 ﻿# Building a scalable, testable service layer with Entity Framework Core, Autofac, and AdaptiveClient
 
 ## Introduction
-Most developers know Entity Framework Core as a powerful ORM that is widely used for creating business applications.  Autofac is a dependency injection library known for its robustness and flexibility.  Entity Framework Core and Autofac work wonderfully together - however creating a true synergy requires a little creativity. That is where AdaptiveClient enters the picture.  
+Most developers know Entity Framework Core as a powerful ORM that is widely used for creating business applications.  Autofac is a dependency injection library known for its robustness and flexibility.  Entity Framework Core and Autofac work wonderfully together - however creating a true synergy requires a little creativity. That is where AdaptiveClient enters the picture.
 
 AdaptiveClient is a utility that provides a pattern for using Entity Framework Core and Autofac together.  AdaptiveClient eliminates much of the redundant work related to registering and resolving services. It also provides utilities for working with specific Entity Framework Core objects.  Most importantly, however, AdaptiveClient allows the developer to create granular, loosely coupled services that are resolved at runtime using keys.  
 
