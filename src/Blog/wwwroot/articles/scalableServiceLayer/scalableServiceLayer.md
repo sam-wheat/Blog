@@ -14,129 +14,132 @@ AdaptiveClient provides a simple API that centralizes and streamlines the regist
 
 2. A software company makes a web based order management system that is designed to run on both Microsoft SQL Server and MySQL.  One of the controllers in the product looks like this:
 
-&nbsp;  
+````csharp
   
-    public OrdersController : Controller
-    {
-        private IOrderProcessor orderProcessor;
+public class OrdersController : Controller
+{
+    private IOrderProcessor orderProcessor;
 		
-	    public OrdersController(IOrderProcessor orderProcessor)
-	    {
-		    this.orderProcessor = orderProcessor;
-	    }
-
-	    [Post]
-	    public void SaveOrder (Order order)
-	    {
-		    orderProcessor.SaveOrder(order);
-	    }
+    public OrdersController(IOrderProcessor orderProcessor)
+    {
+	    this.orderProcessor = orderProcessor;
     }
 
+    [Post]
+    public void SaveOrder (Order order)
+    {
+	    orderProcessor.SaveOrder(order);
+    }
+}
+````
 Note that an instance of IOrderProcessor is injected into the controller.  The SaveOrder method on IOrderProcessor is called when a user POSTs an order.  The company maintains two implementations of IOrderProcessor due to differences in MSSQL and MySQL:
+````csharp
 
-	public MSSQL_OrderProcessor : IOrderProcessor
-	{
-		public void SaveOrder(Order order)
-		{
-			// MSSQL specific code here
-		}
-	}
+public class MSSQL_OrderProcessor : IOrderProcessor
+{
+    public void SaveOrder(Order order)
+    {
+	    // MSSQL specific code here
+    }
+}
 
-	public MySQL_OrderProcessor : IOrderProcessor
-	{
-		public void SaveOrder(Order order)
-		{
-			// MySQL specific code here
-		}
-	}
-
+public class MySQL_OrderProcessor : IOrderProcessor
+{
+    public void SaveOrder(Order order)
+    {
+	    // MySQL specific code here
+    }
+}
+````
 Given the above two implementations of IOrderProcessor, what pattern might be used to insure the correct implementation is injected based on the configured choice of database platforms?  AdaptiveClient solves this problem by allowing each implementation of IOrderProcessor to be registered with a specific database provider (in this example, MSSQL or MySQL).  Each database provider is associated with a specific connection string.  When the application is started and a connection string is chosen AdaptiveClient is able to use the name of the database provider to resolve the correct implementation of IOrderProcessor.
 
 3. The same software company makes a version of their software that is designed to run on servers located on-site at their customer's warehouses.  Workers in the warehouse who use tablets want to make fast calls to database services over the local area network.  Users who connect remotely using an Internet connection will access database services via a RESTful API.  A ViewModel in the company's application looks like this:
 
-&nbsp;
+````csharp
 
-	public Class OrderViewModel
-	{
-		private IOrdersService ordersService;
+public class OrderViewModel
+{
+    private IOrdersService ordersService;
 		
-		public OrderViewModel(IOrdersService ordersService)
-		{
-			this.ordersService = ordersService;
-		}
+    public OrderViewModel(IOrdersService ordersService)
+    {
+	    this.ordersService = ordersService;
+    }
 		
-		public void SaveOrder(Order order)
-		{
-			ordersService.SaveOrder(order);
-		}
-	}
-
+    public void SaveOrder(Order order)
+    {
+	    ordersService.SaveOrder(order);
+    }
+}
+````
 Implementations of IOrdersService are shown below.  The first implementation requires access to a database server over a local area network or VPN.  The second implementation assumes LAN connectivity is not available and makes a web API call (orders of magnitude slower):
 
-
-    public class OrdersService : IOrdersService
+````chsharp
+public class OrdersService : IOrdersService
+{
+    public void SaveOrder(Order order)
     {
-       public void SaveOrder(Order order)
-       {
-          using(sqlConnection...)
-          {
+        using(sqlConnection...)
+        {
             // write order to db
-          }
-       }
+        }
     }
+}
 
-&nbsp;
 
-    public class HTTP_OrdersService : IOrdersService
-	{
-       public void SaveOrder(Order order)
-       {
-          // POST the oder via the web API
-          string url = "http://.../orders";
-          var content = new FormUrlEncodedContent(order);
-          client.Post(url, content);
-       }
-	}
- 
+
+public class HTTP_OrdersService : IOrdersService
+{
+    public void SaveOrder(Order order)
+    {
+        // POST the oder via the web API
+        string url = "http://.../orders";
+        var content = new FormUrlEncodedContent(order);
+        client.Post(url, content);
+    }
+}
+```` 
 Given the above two implementations of IOrdersService, what pattern might be used to ensure that a worker in the warehouse who has access to the LAN receives OrdersService while a remote user receives HTTP_OrdersService?  AdaptiveClient solves this problem by allowing URLs to be stored and used as connection strings.  Each connection string is given a type property which indicates if it is a standard database connection string or a URL. OrdersService and HTTP_OrdersService are registered with the DI container using the connection string type as a key.  When a user starts the application their connectivity is assessed and a connection string is chosen (in this example it may be a standard database connection string or a URL).  Using the connection string type as a key, AdaptiveClient is able resolve the correct implementation of IOrdersService.
 
 ## Basic concepts and components
 Every dependency injection framework, including Autofac, is basically a dictionary that allows a developer to resolve (look up) a type or instance using a key (often an interface).  More elaborate keys can be used when necessary to resolve specific implementations of interfaces.  For example consider a class that processes shipments based on the requirements of an individual freight carrier:
+````csharp
+public class USPS_ShipmentProcessor : IShipmentProcessor
+{
+    public void Ship(Order order) { // ship using USPS logic }
+}
 
-    public class USPS_ShipmentProcessor : IShipmentProcessor
-    {
-        public void Ship(Order order) { // ship using USPS logic }
-    }
-
-    public class FedEx_ShipmentProcessor : IShipmentProcessor
-    {
-        public void Ship(Order order) { // ship using FexEx logic }
-    }
-
+public class FedEx_ShipmentProcessor : IShipmentProcessor
+{
+    public void Ship(Order order) { // ship using FexEx logic }
+}
+````
 The above two classes may be registered with the DI container as follows:
-
-    Register<USPS_ShipmentProcessor>().Keyed<IShipmentProcessor>("USPS");
-    Register<FedEx_ShipmentProcessor>().Keyed<IShipmentProcessor>("FedEx");
-    
-An instance of IShipmentProcessor may be resolved as shown below, where order.Carrier is a string like "USPS" or "FedEx":
-
-    IShipmentProcessor = container.ResolveKeyed<IShipmentProcessor>(order.Carrier);
-  
+````csharp
+Register<USPS_ShipmentProcessor>().Keyed<IShipmentProcessor>("USPS");
+Register<FedEx_ShipmentProcessor>().Keyed<IShipmentProcessor>("FedEx");
+````    
+An specific instance of IShipmentProcessor may be resolved as shown below:
+````csharp
+// Process an order using USPS logic:
+order.Carrier = "USPS";
+IShipmentProcessor = container.ResolveKeyed<IShipmentProcessor>(order.Carrier);
+````  
 
 Having discussed the role of keys in resolving dependencies we now focus on three keys used by AdaptiveClient: **API_Name**, **EndPointType**, and **ProviderName**.  Each of these keys is a simple string that you define.  The keys you define are than used as properties of a modified connection string class known as an **EndPointConfiguration**.  EndPointConfiguration is the lynchpin of AdaptiveClient.  It is basically the glue that allows various objects to be registered, resolved, and linked at runtime. The structure of the EndPointConfiguration class is shown below to illustrate the use of API_Name, EndPointType, and ProviderName. EndPointConfiguration will be discussed at length in the section below.
-
-    public class EndPointConfiguration : IEndPointConfiguration
-    {
-	    public string Name { get; set; }
-	    public string API_Name { get; set; }
-	    public int Preference { get; set; }
-	    public String EndPointType { get; set; }
-	    public string ConnectionString { get; set; }
-	    public string ProviderName { get; set; }
-	    public Dictionary<string, string> Parameters { get; set; }
-	    public bool IsActive { get; set; }
-    }
-
+````csharp
+public class EndPointConfiguration : IEndPointConfiguration
+{
+    public string Name { get; set; }
+    public string API_Name { get; set; }
+    public int Preference { get; set; }
+    public String EndPointType { get; set; }
+    public string ConnectionString { get; set; }
+    public string ProviderName { get; set; }
+    public Dictionary<string, string> Parameters { get; set; }
+    public bool IsActive { get; set; }
+}
+````
 ### API_Name
 An API name is arbitrary name that describes an API.  Just as the name of a database describes the collection of tables and other objects it contains, so too does an API name describe the collection of services exposed by the API.  The name of a database used by an API is often a good choice as a name for the API itself.
 
@@ -145,40 +148,33 @@ API_Name is used in two ways:
 
 2. When a service (OrdersService) is registered its interface (IOrdersService) is automatically registered to an API_Name. When the service is resolved, AdaptiveClient resolves the API_Name also and is able to provide implementations of the service that are appropriate for the type of connection.
 
-  It is recommended that you create a class as shown below to define your API name(s) as constants:
-
 ````csharp
 public class API_Name
 {
-	public const string BackOffice = "BackOffice";
-	public const string StoreFront = "StoreFront";
+    public const string BackOffice = "BackOffice";
+    public const string StoreFront = "StoreFront";
 }
 ````
 
 ### EndPointType
 EndPointType describes how and where a connection string is used.  For example, most connection strings are used to connect to some kind of DBMS.  However we may also think of a URL as a connection string to a web API, or a path and filename as a connection string to a flat file repository.  You may use any name that is meaningful for your application.  
-
-It is recommended that you create a class as shown below to define your EndPointType(s) as constants:
-
 ````csharp
 public class EndPointType
 {
-	public const string DBMS = "DBMS";
-	public const string HTTP = "HTTP";
+    public const string DBMS = "DBMS";
+    public const string HTTP = "HTTP";
 }
 ````
 
 ### ProviderName
 ProviderName is simply a key that further defines an EndPointType.  For example, if an EndPointType is defined that describes a connection string for a DBMS, ProviderName might be defined as "MSSQL" or "MySQL".  You may use any name that is meaningful for your application.  
 
-It is recommended that you create a class as shown below to define your ProviderNames as constants:
-
 ````csharp
 public class DataBaseProviderName
 {
-	public const string MSSQL = "MSSQL";
-	public const string SQLite = "SQLite";
-	public const string MySQL = "MySQL";
+    public const string MSSQL = "MSSQL";
+    public const string SQLite = "SQLite";
+    public const string MySQL = "MySQL";
 }
 ````
 
@@ -262,7 +258,7 @@ You should have projects similar to the following for your service layer:
 |MyApp.Model|Library|Contains DTO clases (Order, Product, Client, etc.).  Minimize code in DTO classes (formatting only).  No code here.|N/A|
 
 
-If you want to expose a web API, a web UI, or a desktop UI you should create optional projects as described below.  In order to use AdaptiveClient successfully you should never put business logic in a controller or a ViewModel.  You should never attempt to access your DbContext directly from outside your Services project.  These design guidelines are recommended even if you do not use AdaptiveClient.
+If you want to expose a web API, a web UI, or a desktop UI you should create optional projects as described below.  In order to use AdaptiveClient successfully you should never put business logic in a controller or a ViewModel.  **The most important requirement for implementing AdaptiveClient successfully is that all business logic be consolidated in the service layer.**  Also, you should never attempt to access your DbContext directly from outside your Services project.  These design guidelines are recommended even if you do not use AdaptiveClient.
  
 |Project Name|Type|Description|References|
 |---|---|---|
@@ -272,11 +268,102 @@ If you want to expose a web API, a web UI, or a desktop UI you should create opt
 
 
 ## Implementing AdaptiveClient in your application
-1. Define keys - Define API_Name, EndPointType, and ProviderName as described above.
-2. Define Endpoints - Create a file called something like EndPoints.json to define your EndPointConfigurations.  See example file above.
-3. Register required components -  You will need to register your EndPoints, your services, and possibly one or more IEndPointValidator implementations.  If you use Entity Framework you will also need to register your DbContexts and DbContextOptions.  
-4. Register optional components - Registering a ServiceManifest is optional but is highly recommended even if you have a small number of services. If you use EF migrations you should register one or more MigrationContexts.  Use a MigrationContext to easily drop and re-create your database and apply migrations as necessary.  You may also want to register a DatabaseInitalizer if you seed your database when it is created or when a migration is applied.
+1.  Install Nuget packages:
+    * [Autofac](https://www.nuget.org/packages/Autofac/)
+    * [AdaptiveClient](https://www.nuget.org/packages/AdaptiveClient/)
+    * [AdaptiveClient.EntityFrameworkCore](https://www.nuget.org/packages/AdaptiveClient.EntityFrameworkCore/)
+    * [AdaptiveClient.Utilities](https://www.nuget.org/packages/AdaptiveClient.Utilities/) (optional)
+2. Define keys - Define API_Name, EndPointType, and ProviderName as described above.  These keys should be defined in the Domain layer of your app.
+3. Define Endpoints - Create a file called something like EndPoints.json to define your EndPointConfigurations.  See example file above.
+4. Register required components -  You will need to register your EndPoints, your services, and possibly one or more `IEndPointValidator` implementations.  If you use Entity Framework you will also need to register `DbContext` and `DbContextOptions`.  See the section below and the example application.
+5. Register optional components - Registering a `ServiceManifest` is optional but recommended even if you have a small number of services. If you use EF migrations you should register one or more `MigrationContexts`.  Use a `MigrationContext` to easily drop and re-create your database and apply migrations as necessary.  You may also want to register a `DatabaseInitalizer` if you seed your database when it is created or when a migration is applied.
 
 ## Sample Application
 
+The [Zamagon demo](https://github.com/leaderanalytics/AdaptiveClient.EntityFramework.Zamagon) illustrates using AdaptiveClient with a Web application, a WPF application, and a Web API.  The following excerpts are taken from that application.
+
+In the code below an AdaptiveClient `RegistrationHelper` object is instantiated.  It is used to register modules in referenced library projects (example in the following section).  
+
+After creating the container, AdaptiveClient loops through the collection of EndPoints.  It creates the database if necessary or applies migrations where the EndPoint has a connection string that points to a database server.  This bit of code is useful in integration test projects where you wish to drop and re-create multiple databases before each test.
+
 ````csharp
+// This method gets called by the runtime. Use this method to add services to the container.
+public IServiceProvider ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc();
+
+    services.AddDistributedMemoryCache();
+
+    services.AddSession(options =>
+    {
+        // Set a short timeout for easy testing.
+        //options.IdleTimeout = TimeSpan.FromSeconds(10);
+        //options.Cookie.HttpOnly = true;
+    });
+
+    // Autofac & AdaptiveClient
+    IEnumerable<IEndPointConfiguration> endPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
+    ContainerBuilder builder = new ContainerBuilder();
+    builder.Populate(services);
+    builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
+    RegistrationHelper registrationHelper = new RegistrationHelper(builder);
+
+    registrationHelper
+        .RegisterEndPoints(endPoints)
+        .RegisterModule(new Zamagon.Services.Common.AdaptiveClientModule())
+        .RegisterModule(new Zamagon.Services.BackOffice.AdaptiveClientModule())
+        .RegisterModule(new Zamagon.Services.StoreFront.AdaptiveClientModule());
+
+            
+    var container = builder.Build();
+    IDatabaseUtilities databaseUtilities = container.Resolve<IDatabaseUtilities>();
+            
+    // Create all databases or apply migrations
+    foreach (IEndPointConfiguration ep in endPoints.Where(x => x.EndPointType == EndPointType.DBMS))
+        databaseUtilities.CreateOrUpdateDatabase(ep).Wait();
+
+    return container.Resolve<IServiceProvider>();
+}
+````
+
+The [Zamagon demo](https://github.com/leaderanalytics/AdaptiveClient.EntityFramework.Zamagon) is written to run against both MySQL and MSSQL databases.  The code below shows how services and Entity Framework objects are registered.
+
+````csharp
+public class AdaptiveClientModule : IAdaptiveClientModule
+{
+    public void Register(RegistrationHelper registrationHelper)
+    {
+        // --- StoreFront Services ---
+
+        registrationHelper
+
+        // MSSQL
+        .RegisterService<StoreFront.MSSQL.OrdersService, IOrdersService>(EndPointType.DBMS, API_Name.StoreFront, DataBaseProviderName.MSSQL)
+        .RegisterService<StoreFront.MSSQL.ProductsService, IProductsService>(EndPointType.DBMS, API_Name.StoreFront, DataBaseProviderName.MSSQL)
+            
+        // MySQL
+        .RegisterService<StoreFront.MySQL.OrdersService, IOrdersService>(EndPointType.DBMS, API_Name.StoreFront, DataBaseProviderName.MySQL)
+        .RegisterService<StoreFront.MySQL.ProductsService, IProductsService>(EndPointType.DBMS, API_Name.StoreFront, DataBaseProviderName.MySQL)
+
+        // WebAPI
+        .RegisterService<StoreFront.WebAPI.OrdersService, IOrdersService>(EndPointType.HTTP, API_Name.StoreFront, DataBaseProviderName.WebAPI)
+        .RegisterService<StoreFront.WebAPI.ProductsService, IProductsService>(EndPointType.HTTP, API_Name.StoreFront, DataBaseProviderName.WebAPI)
+
+        // DbContexts
+        .RegisterDbContext<Database.Db>(API_Name.StoreFront)
+
+        // Migration Contexts
+        .RegisterMigrationContext<Database.Db_MSSQL>(API_Name.StoreFront, DataBaseProviderName.MSSQL)
+        .RegisterMigrationContext<Database.Db_MySQL>(API_Name.StoreFront, DataBaseProviderName.MySQL)
+
+        // Database Initializers
+        .RegisterDatabaseInitializer<SFDatabaseInitializer>(API_Name.StoreFront, DataBaseProviderName.MSSQL)
+        .RegisterDatabaseInitializer<SFDatabaseInitializer>(API_Name.StoreFront, DataBaseProviderName.MySQL) 
+
+        // Service Manifests
+        .RegisterServiceManifest<SFServiceManifest, ISFServiceManifest>(EndPointType.DBMS, API_Name.StoreFront, DataBaseProviderName.MSSQL)
+        .RegisterServiceManifest<SFServiceManifest, ISFServiceManifest>(EndPointType.DBMS, API_Name.StoreFront, DataBaseProviderName.MySQL)
+        .RegisterServiceManifest<SFServiceManifest, ISFServiceManifest>(EndPointType.HTTP, API_Name.StoreFront, DataBaseProviderName.WebAPI);
+    }
+}
+````
