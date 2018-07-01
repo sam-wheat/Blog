@@ -1,9 +1,43 @@
-﻿# Building a scalable, testable service layer with Entity Framework Core, Autofac, and AdaptiveClient
+﻿<style>
+    table {
+        border-collapse:collapse;
+    }
+   
+    table th tr td {
+     
+    }
+
+    th {
+        font-weight:bold;
+        background-color:grey;
+    }
+
+    th, td {
+        border:solid 1px black;
+        padding:8px;
+    }
+
+    tr {
+        background-color:lightgrey;
+    }
+
+    tr:nth-child(even) {
+        background-color:#F2F2F2;
+    }
+</style>
+<article>
 
 ## Introduction
+
+AdaptiveClient puts a spin on the well-known repository pattern where a connection string is read from a configuration file and is passed down through the stack to the data access layer.  A problem with this approach is that if the application is unable to establish a connection with the server it usually fails or becomes severely limited in its capabilities.  
+
+With AdaptiveClient, the process of connecting to a server is reversed.  First, the application asks AdaptiveClient to find a working server that handles calls for a specific API. Upon locating a server, AdaptiveClient resolves the services and components necessary to communicate with that server.  If a call to the server subsequently fails, AdaptiveClient may (optionally) fall back to any number of other servers.  The servers in the fall back chain may be of any type.   This means that AdaptiveClient may initially connect to a MSSQL server, than fall back to a MySQL server, than fall back to a WebAPI server, than a WCF server.  
+
+You might think that constructing an application that is flexible enough to handle connectivity across multiple transports and providers would be complex and difficult.  It is, however, a fairly simple task. This kind of flexibility is actually a byproduct of using a simple design pattern with two very powerful tools you might already know of and use: Autofac and Entity Framework Core.  Even if your application does not require multiple database platforms or fallback capabilities, AdaptiveClient is still useful in allowing you to build a loosely coupled service layer composed of granular, interdependent services that can be mocked and tested.
+
 Most developers know Entity Framework Core as a powerful ORM that is widely used to develop business applications.  Autofac is a dependency injection library known for its robustness and flexibility.  Entity Framework Core and Autofac work wonderfully together - however creating a true synergy requires a little creativity. That is where AdaptiveClient enters the picture.
 
-AdaptiveClient is a utility that provides a pattern for using Entity Framework Core and Autofac together.  AdaptiveClient eliminates much of the tedium and complexity related to registering and resolving services. It also provides utilities for working with specific Entity Framework Core objects.  Most importantly, however, AdaptiveClient allows the developer to create and use granular, loosely coupled services that potentially target any type of transport or storage technology.  For example, a developer may create individual implementations of a given service interface that target Microsoft SQL Server, Oracle MySQL, REST, WebAPI, WCF, and so on.  Autofac and AdaptiveClient abstract away the details of resolving the correct implementation and provide a single access point for all services regardless of the underlying storage or transport technology.
+AdaptiveClient is a utility that provides a pattern for using Entity Framework Core and Autofac together.  AdaptiveClient eliminates much of the tedium and complexity related to registering and resolving services. It also provides utilities for working with specific Entity Framework Core objects.  Most importantly, however, AdaptiveClient allows the developer to create and use loosely coupled services that potentially target any type of transport or storage technology.  For example, a developer may create individual implementations of a given service interface that target Microsoft SQL Server, Oracle MySQL, REST, WebAPI, WCF, and so on.  AdaptiveClient abstracts away the details of resolving the correct implementation and provides a single access point for all services regardless of the underlying storage or transport technology.
   
 AdaptiveClient provides a simple API that centralizes and streamlines the registration and resolution of dependencies.  Three keys are used to identify service implementations and register them in the dependency injection container.  These keys are implemented as metadata properties of the connection strings that are used by the application.  They are stored in a JSON configuration file along with the connection strings they describe.  When an implementation of a specific service is requested, AdaptiveClient first identifies a server that is able to handle the request.  Then, using the keys that are associated with the connection string for the selected server, AdaptiveClient instructs Autofac how to resolve and inject all required dependencies for the called service.
 
@@ -86,8 +120,6 @@ public class OrdersService : IOrdersService
     }
 }
 
-
-
 public class HTTP_OrdersService : IOrdersService
 {
     public void SaveOrder(Order order)
@@ -111,7 +143,7 @@ public class USPS_ShipmentProcessor : IShipmentProcessor
 
 public class FedEx_ShipmentProcessor : IShipmentProcessor
 {
-    public void Ship(Order order) { // ship using FexEx logic }
+    public void Ship(Order order) { // ship using FedEx logic }
 }
 ````
 The above two classes may be registered with the DI container as follows:
@@ -119,14 +151,26 @@ The above two classes may be registered with the DI container as follows:
 Register<USPS_ShipmentProcessor>().Keyed<IShipmentProcessor>("USPS");
 Register<FedEx_ShipmentProcessor>().Keyed<IShipmentProcessor>("FedEx");
 ````    
-An specific instance of IShipmentProcessor may be resolved as shown below:
+A specific instance of IShipmentProcessor may be resolved as shown below:
 ````csharp
 // Process an order using USPS logic:
 order.Carrier = "USPS";
-IShipmentProcessor = container.ResolveKeyed<IShipmentProcessor>(order.Carrier);
+IShipmentProcessor orderProcessor = container.ResolveKeyed<IShipmentProcessor>(order.Carrier);
 ````  
+AdaptiveClient uses keys in much the same way as the hypothetical OrderProcessor in the preceding example.  Here is an example of how a service is registered using the AdaptiveClient RegistrationHelper class:
+````csharp
+registrationHelper.RegisterService<MSSQL_OrdersService, IOrdersService>(EndPointType.DBMS, API_Name.StoreFront, ProviderName.MSSQL);
+registrationHelper.RegisterService<MySQL_OrdersService, IOrdersService>(EndPointType.DBMS, API_Name.StoreFront, ProviderName.MySQL);
+registrationHelper.RegisterService<WebAPI_OrdersService, IOrdersService>(EndPointType.HTTP, API_Name.StoreFront, ProviderName.WebAPI);
+````
+In the example above we are registering three different implementations of `IOrdersService` using the interface as a key.  The three additional keys passed as parameters to the method tell AdaptiveClient which instance of `IOrdersService` to resolve when a making a call to a specific server - in this example the server might be an MSSQL server, a MySQL server or a WebAPI server.   
 
-Having discussed the role of keys in resolving dependencies we now focus on three keys used by AdaptiveClient: **API_Name**, **EndPointType**, and **ProviderName**.  Each of these keys is a simple string that you define.  The keys you define are than used as properties of a modified connection string class known as an **EndPointConfiguration**.  EndPointConfiguration is the lynchpin of AdaptiveClient.  It is basically the glue that allows various objects to be registered, resolved, and linked at runtime. The structure of the EndPointConfiguration class is shown below to illustrate the use of API_Name, EndPointType, and ProviderName. EndPointConfiguration will be discussed at length in the section below.
+The three keys used by AdaptiveClient are: **API_Name**, **EndPointType**, and **ProviderName**.  These keys are implemented as properties of a modified connection string class known as an `EndPointConfiguration`.  **EndPointConfiguration is the lynchpin of AdaptiveClient** .  It is basically the glue that allows various objects to be registered, resolved, and linked at runtime. 
+
+API_Name, EndPointType, and ProviderName are keys that you define. The values for each key are simple strings.  You associate each of the connection strings in your application with a value for each of those keys using an instance of EndPointConfiguration as described in the preceding paragraph.  You also register your services using a value for each key.  When you need to make a call to a database server or a web API server AdaptiveClient is able to use to the keys associated with the connection string to resolve the correct implementation of your service for the server being called.
+
+
+### EndPointConfiguration
 ````csharp
 public class EndPointConfiguration : IEndPointConfiguration
 {
@@ -140,49 +184,7 @@ public class EndPointConfiguration : IEndPointConfiguration
     public bool IsActive { get; set; }
 }
 ````
-### API_Name
-An API name is arbitrary name that describes an API.  Just as the name of a database describes the collection of tables and other objects it contains, so too does an API name describe the collection of services exposed by the API.  The name of a database used by an API is often a good choice as a name for the API itself.
-
-API_Name is used in two ways:  
-1. When EndPointConfigurations are registered they are grouped by API_Name.  API_Name becomes a key to access any one of the EndPointConfigurations associated with an API.
-
-2. When a service (OrdersService) is registered its interface (IOrdersService) is automatically registered to an API_Name. When the service is resolved, AdaptiveClient resolves the API_Name also and is able to provide implementations of the service that are appropriate for the type of connection.
-
-````csharp
-public class API_Name
-{
-    public const string BackOffice = "BackOffice";
-    public const string StoreFront = "StoreFront";
-}
-````
-
-### EndPointType
-EndPointType describes how and where a connection string is used.  For example, most connection strings are used to connect to some kind of DBMS.  However we may also think of a URL as a connection string to a web API, or a path and filename as a connection string to a flat file repository.  You may use any name that is meaningful for your application.  
-````csharp
-public class EndPointType
-{
-    public const string DBMS = "DBMS";
-    public const string HTTP = "HTTP";
-}
-````
-
-### ProviderName
-ProviderName is simply a key that further defines an EndPointType.  For example, if an EndPointType is defined that describes a connection string for a DBMS, ProviderName might be defined as "MSSQL" or "MySQL".  You may use any name that is meaningful for your application.  
-
-````csharp
-public class DataBaseProviderName
-{
-    public const string MSSQL = "MSSQL";
-    public const string SQLite = "SQLite";
-    public const string MySQL = "MySQL";
-}
-````
-
-When you register a service, you register it using both EndPointType and ProviderName as keys.  This allows you to resolve implementations of your services that are specific to certain protocols (named pipes/http) and/or platforms (MSSQL/MySQL).
-
-
-### EndPointConfiguration
-EndPointConfigurations are defined in a json configuration similar to the one shown below:
+EndPointConfigurations for your application are defined in a json configuration file similar to the one shown below.  AdaptiveClient includes a utility for reading this file and instantiating EndPointConfiguration objects.
 ````json
 {
     "EndPointConfigurations": [
@@ -193,7 +195,7 @@ EndPointConfigurations are defined in a json configuration similar to the one sh
         "Preference": "10",
         "EndPointType": "InProcess",
         "ProviderName": "MSSQL",
-        "ConnectionString": "Data Source=.\\SQLSERVER;Initial Catalog=AdaptiveClientEF_StoreFront;Integrated Security=True;MultipleActiveResultSets=True;"
+        "ConnectionString": "Data Source=.\\SQLSERVER;Initial Catalog=AdaptiveClientEF_StoreFront;"
     },
 
     {
@@ -203,7 +205,7 @@ EndPointConfigurations are defined in a json configuration similar to the one sh
         "Preference": "10",
         "EndPointType": "InProcess",
         "ProviderName": "MSSQL",
-        "ConnectionString": "Data Source=.\\SQLSERVER;Initial Catalog=AdaptiveClientEF_BackOffice;Integrated Security=True;MultipleActiveResultSets=True;"
+        "ConnectionString": "Data Source=.\\SQLSERVER;Initial Catalog=AdaptiveClientEF_BackOffice;"
     },
 
     {
@@ -224,13 +226,21 @@ EndPointConfigurations are defined in a json configuration similar to the one sh
         "EndPointType": "InProcess",
         "ProviderName": "MySQL",
         "ConnectionString": "Server=localhost;Database=AdaptiveClientEF_BackOffice;Uid=x;Pwd=x;SslMode=none"
+    },
+
+    {
+      "Name": "StoreFront_WebAPI",
+      "IsActive": "true",
+      "API_Name": "StoreFront",
+      "Preference": "30",
+      "EndPointType": "HTTP",
+      "ProviderName": "WebAPI",
+      "ConnectionString": "http://localhost:59260/api/StoreFront/"
     }
-    ]
+  ]
 }
 ````
-
-
-AdaptiveClient includes a utility for reading Endpoints.json and instantiating EndPointConfiguration objects.  Properties of the EndPointConfiguration class are discussed here:
+`EndPointConfiguration` Properties:
 * **Name** - Any unique name.
 * **API_Name** - An API_Name used to group connection strings and resolve services.
 * **Preference** - A number that indicates the preference of one connection string versus another within the same API (lower is better).  AdaptiveClient attempts to use more preferred connection strings first and may fall back to lesser preferred connection strings if configured to do so.
@@ -240,10 +250,56 @@ AdaptiveClient includes a utility for reading Endpoints.json and instantiating E
 * **Parameters** - Not currently used by AdaptiveClient.  May be removed in a future release.
 * **IsActive** - A convenient boolean flag for enabling or disabling an EndPointConfiguration.  By default AdapativeClient only loads EndPointConfigurations where IsActive is true.
 
+Further discussion of API_Name, EndPointType, and ProviderName is provided below as these properties are used extensively by AdaptiveClient.
+
+### API_Name
+````csharp
+public class API_Name
+{
+    public const string BackOffice = "BackOffice";
+    public const string StoreFront = "StoreFront";
+}
+````
+An API name is arbitrary name that describes an API.  Just as the name of a database describes the collection of tables and other objects it contains, so too does an API name describe the collection of services exposed by the API.  The name of a database used by an API is often a good choice as a name for the API itself.
+
+API_Name is used in two ways:  
+1. When EndPointConfigurations are registered they are grouped by API_Name.  API_Name becomes a key to access any one of the EndPointConfigurations associated with an API.
+
+2. When a service (OrdersService) is registered its interface (IOrdersService) is automatically registered to an API_Name. When the service is resolved, AdaptiveClient resolves the API_Name also and is able to provide implementations of the service that are appropriate for the type of connection.
+
+### EndPointType
+````csharp
+public class EndPointType
+{
+    public const string DBMS = "DBMS";
+    public const string HTTP = "HTTP";
+}
+````
+EndPointType describes how and where a connection string is used.  For example, most connection strings are used to connect to some kind of DBMS.  However we may also think of a URL as a connection string to a web API, or a path and filename as a connection string to a flat file repository.  You may use any name that is meaningful for your application.  
+
+### ProviderName
+````csharp
+public class ProviderName
+{
+    public const string MSSQL = "MSSQL";
+    public const string SQLite = "SQLite";
+    public const string MySQL = "MySQL";
+}
+````
+ProviderName is simply a key that further defines an EndPointType.  For example, if an EndPointType is defined that describes a connection string for a DBMS, ProviderName might be defined as "MSSQL" or "MySQL".  You may use any name that is meaningful for your application.  
+
+When you register a service, you register it using both EndPointType and ProviderName as keys.  This allows you to resolve implementations of your services that are specific to certain protocols (named pipes/http) and/or platforms (MSSQL/MySQL).
+
+
 
     
 ## How AdaptiveClient resolves a service from start to finish
+
+<div style="max-width:800px;margin:auto;">
+
 ![How AdaptiveClient resolves a service from start to finish](https://raw.githubusercontent.com/leaderanalytics/AdaptiveClient/master/LeaderAnalytics.AdaptiveClient/docs/AdaptiveClient2.png)
+
+</div>
 
 
 ## Architecting your application
@@ -367,3 +423,4 @@ public class AdaptiveClientModule : IAdaptiveClientModule
     }
 }
 ````
+</article>
