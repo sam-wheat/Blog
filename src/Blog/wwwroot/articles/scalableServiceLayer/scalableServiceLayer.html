@@ -1,4 +1,11 @@
-﻿<style>
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Introduction</title>
+</head>
+<body>
+
+    <style>
     table {
         border-collapse:collapse;
     }
@@ -40,8 +47,7 @@
 <li><p>A software company makes a web based order management system that is designed to run on both Microsoft SQL Server and MySQL.  One of the controllers in the product looks like this:</p>
 </li>
 </ol>
-<pre><code class="language-csharp">  
-public class OrdersController : Controller
+<pre><code class="language-csharp">public class OrdersController : Controller
 {
     private IOrderProcessor orderProcessor;
 		
@@ -58,8 +64,7 @@ public class OrdersController : Controller
 }
 </code></pre>
 <p>Note that an instance of IOrderProcessor is injected into the controller.  The SaveOrder method on IOrderProcessor is called when a user POSTs an order.  The company maintains two implementations of IOrderProcessor due to differences in MSSQL and MySQL:</p>
-<pre><code class="language-csharp">
-public class MSSQL_OrderProcessor : IOrderProcessor
+<pre><code class="language-csharp">public class MSSQL_OrderProcessor : IOrderProcessor
 {
     public void SaveOrder(Order order)
     {
@@ -79,8 +84,7 @@ public class MySQL_OrderProcessor : IOrderProcessor
 <ol start="3">
 <li>The same software company makes a version of their software that is designed to run on servers located on-site at their customer's warehouses.  Workers in the warehouse who use tablets want to make fast calls to database services over the local area network.  Users who connect remotely using an Internet connection will access database services via a RESTful API.  A ViewModel in the company's application looks like this:</li>
 </ol>
-<pre><code class="language-csharp">
-public class OrderViewModel
+<pre><code class="language-csharp">public class OrderViewModel
 {
     private IOrdersService ordersService;
 		
@@ -426,3 +430,7 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 }
 </code></pre>
 </article>
+
+
+</body>
+</html>

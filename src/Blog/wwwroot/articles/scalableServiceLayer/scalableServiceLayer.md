@@ -49,7 +49,6 @@ AdaptiveClient provides a simple API that centralizes and streamlines the regist
 2. A software company makes a web based order management system that is designed to run on both Microsoft SQL Server and MySQL.  One of the controllers in the product looks like this:
 
 ````csharp
-  
 public class OrdersController : Controller
 {
     private IOrderProcessor orderProcessor;
@@ -68,7 +67,6 @@ public class OrdersController : Controller
 ````
 Note that an instance of IOrderProcessor is injected into the controller.  The SaveOrder method on IOrderProcessor is called when a user POSTs an order.  The company maintains two implementations of IOrderProcessor due to differences in MSSQL and MySQL:
 ````csharp
-
 public class MSSQL_OrderProcessor : IOrderProcessor
 {
     public void SaveOrder(Order order)
@@ -90,7 +88,6 @@ Given the above two implementations of IOrderProcessor, what pattern might be us
 3. The same software company makes a version of their software that is designed to run on servers located on-site at their customer's warehouses.  Workers in the warehouse who use tablets want to make fast calls to database services over the local area network.  Users who connect remotely using an Internet connection will access database services via a RESTful API.  A ViewModel in the company's application looks like this:
 
 ````csharp
-
 public class OrderViewModel
 {
     private IOrdersService ordersService;
@@ -289,9 +286,6 @@ public class ProviderName
 ProviderName is simply a key that further defines an EndPointType.  For example, if an EndPointType is defined that describes a connection string for a DBMS, ProviderName might be defined as "MSSQL" or "MySQL".  You may use any name that is meaningful for your application.  
 
 When you register a service, you register it using both EndPointType and ProviderName as keys.  This allows you to resolve implementations of your services that are specific to certain protocols (named pipes/http) and/or platforms (MSSQL/MySQL).
-
-
-
     
 ## How AdaptiveClient resolves a service from start to finish
 
