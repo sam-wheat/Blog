@@ -374,7 +374,7 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
     RegistrationHelper registrationHelper = new RegistrationHelper(builder);
 
     registrationHelper
-        .RegisterEndPoints(endPoints)
+        .RegisterEndPoints(endPoints)  // endPoints must be registered first
         .RegisterModule(new Zamagon.Services.Common.AdaptiveClientModule())
         .RegisterModule(new Zamagon.Services.BackOffice.AdaptiveClientModule())
         .RegisterModule(new Zamagon.Services.StoreFront.AdaptiveClientModule());
