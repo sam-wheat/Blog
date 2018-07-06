@@ -27,6 +27,13 @@
 </style>
 <article>
 
+#### [Get the Zamagon demo](https://github.com/leaderanalytics/AdaptiveClient.EntityFramework.Zamagon)
+
+---
+#### [Get the nuget package](https://www.nuget.org/packages/AdaptiveClient/)
+
+---
+
 ## Introduction
 
 AdaptiveClient puts a spin on the well-known repository pattern where a connection string is read from a configuration file and is passed down through the stack to the data access layer.  A problem with this approach is that if the application is unable to establish a connection with the server it usually fails or becomes severely limited in its capabilities.  
