@@ -1,4 +1,0 @@
-﻿User-agent: *
-Disallow: /images/
-
-SITEMAP: http://www.samwheat.com/sitemap.txt
