@@ -1,4 +1,6 @@
 (function (window) {
+  
+
   window.initJS = function ($) {
 
     $("#btnShowWorkExp").on("click", "", function () {
@@ -7,8 +9,10 @@
     });
   }
 
-  window.runAnimation = function (jQuery) {
-    jQuery('#myCarousel').carousel();
+  window.runAnimation = function ($) {
+    
+    $('#myCarousel').carousel();
+    alert('animationdone');
   }
 
 
@@ -20,5 +24,9 @@
       hljs.highlightBlock(allPre[i]);
     }
   }
+
+  $(window).ready(function () {
+    window.runAnimation($);
+  });
 
 })(window);

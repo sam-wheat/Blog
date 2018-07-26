@@ -41,7 +41,8 @@ namespace Blog.API.Controllers
         [Route("GetActiveSites")]
         public async Task<List<Site>> GetActiveSites()
         {
-            return await ServiceClient.CallAsync(async x => await x.SiteService.GetActiveSites());
+            var zzz = await ServiceClient.CallAsync(async x => await x.SiteService.GetActiveSites());
+            return zzz;
         }
 
         [HttpGet]

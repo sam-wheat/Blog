@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs';
-import { map } from "rxjs/operators";
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from "rxjs/operators";
 import { Site, MenuContentItem, Comment, KeyValuePair, AsyncResult, ContentItem } from '../model/model';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({ providedIn:'root' })
 export class BlogService {
   private serviceURL: string;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private httpClient: HttpClient) {
     this.serviceURL = environment.API_URL;
   }
 
   GetActiveSites(): Observable<Site[]> {
     let url = this.serviceURL + 'GetActiveSites';
-    return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
-      //.catch(this.handleError);
+    return this.httpClient.get<Site[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetActiveSites`)), catchError(this.handleError<Site[]>('GetActiveSites', [])));
   }
 
   GetContentItems(siteID: number, menuID: number, groupID: number, dateFilter: Date): Observable<ContentItem[]> {
@@ -83,11 +83,24 @@ export class BlogService {
     return body || [];
   }
 
-  private handleError(error: any) {
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      this.log('${operation} failed: ${error.message}');
+      return of(result as T);
+    };
+  }
+
+  private xhandleError(error: any) {
     let errorMsg = error.message || 'Server error';
     console.error(errorMsg);
     return Observable.throw(errorMsg);
   }
+
+  private log(message: string) {
+
+  }
+   
 
   private noCache(url: string): string {
     if (url === null || typeof (url) === 'undefined')

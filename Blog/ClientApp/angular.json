@@ -23,13 +23,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/css/site.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/highlightjs/styles/androidstudio.css"
+              "node_modules/highlightjs/styles/androidstudio.css",
+              "src/assets/css/site.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/highlightjs/highlight.pack.js",
               "src/js/site.js"
             ]
@@ -51,6 +51,23 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -62,6 +79,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ClientApp:build:production"
+            },
+            "dev": {
+              "browserTarget": "ClientApp:build:dev"
             }
           }
         },

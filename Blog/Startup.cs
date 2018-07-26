@@ -44,14 +44,15 @@ namespace Blog
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/dist/ClientApp" });
+            //app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/dist/ClientApp" });
+            app.UseSpaStaticFiles();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller}/{action=Index}/{id?}");
+            //});
 
             app.UseSpa(spa =>
             {

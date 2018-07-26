@@ -35,6 +35,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   SetCurrentSite() {
     this.dialogComponent.showWaitDialog();
     this.blogService.GetActiveSites().subscribe(data => {
+      
       let site = data.find(x => x.SiteName === "Sams Blog");
 
       if (site === null || site === undefined)

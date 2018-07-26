@@ -20,7 +20,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    runAnimation(jQuery);
+    //runAnimation(jQuery);
   }
 
   ngOnDestroy() {
