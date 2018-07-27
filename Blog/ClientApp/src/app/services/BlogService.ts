@@ -29,36 +29,36 @@ export class BlogService {
       stringDate = dateFilter.getUTCFullYear() + '-' + (+dateFilter.getUTCMonth() + 1) + '-' + dateFilter.getUTCDate();
 
     let url = this.serviceURL + 'GetContentItems?siteID=' + siteID.toString() + '&menuID=' + menuID.toString() + '&groupID=' + groupID + '&dateFilter=' + stringDate;
-    return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
-      //.catch(this.handleError);
+    return this.httpClient.get<ContentItem[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItems`)), catchError(this.handleError<ContentItem[]>('GetContentItems', [])));
   }
 
   GetContentItemBySlug(slug: string, siteID: number): Observable<ContentItem> {
     let url = this.serviceURL + 'GetContentItemBySlug?slug=' + slug + '&siteID=' + siteID.toString();
-    return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
-      //.catch(this.handleError);
+    return this.httpClient.get<ContentItem>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItemBySlug`)), catchError(this.handleError<ContentItem>('GetContentItemBySlug', null)));
+    //return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
+    //.catch(this.handleError);
   }
 
   GetContentItemGroups(groupColumn: string, menuID: number): Observable<KeyValuePair[]> {
     let url = this.serviceURL + 'GetContentItemGroups?groupColumn=' + groupColumn + '&menuID=' + menuID.toString();
-    return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
-      //.catch(this.handleError);
+    return this.httpClient.get<KeyValuePair[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItemGroups`)), catchError(this.handleError<KeyValuePair[]>('GetContentItemGroups', [])));
+    //return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
+    //.catch(this.handleError);
   }
 
   GetPostHtml(url: string): Observable<string> {
     let headers = new Headers({ 'Content-Type': 'text/plain' });
     let options = new RequestOptions({ headers: headers });
-
-    return this.http.get(this.noCache(url), options).pipe(map((x: Response) => {
-      return x.text();
-    }));
+    return this.httpClient.get<string>(this.noCache(url)).pipe(tap(_ => this.log(`GetPostHtml`)), catchError(this.handleError<string>('GetPostHtml', null)));
+    //return this.http.get(this.noCache(url), options).pipe(map((x: Response) => { return x.text();  }));
       //.catch(this.handleError);
   }
 
 
   GetCommentsForContentItem(contentItemID: number): Observable<Comment[]> {
     let url = this.serviceURL + 'GetCommentsForContentItem?contentItemID=' + contentItemID.toString();
-    return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
+    return this.httpClient.get<Comment[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetCommentsForContentItem`)), catchError(this.handleError<Comment[]>('GetCommentsForContentItem', [])));
+    //return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
     //  .catch(this.handleError);
   }
 
@@ -66,8 +66,8 @@ export class BlogService {
     let url = this.serviceURL + 'SaveComment?captcha=' + captchaCode;
     let commentString = JSON.stringify(comment);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-
-    return this.http.post(this.noCache(url), commentString, { headers: headers }).pipe(map(response => this.extractData(response)));
+    return this.httpClient.post<AsyncResult>(this.noCache(url), headers); //.pipe(tap(_ => this.log(`SaveComment`)), catchError(this.handleError<AsyncResult>('SaveComment', null)));
+    //return this.http.post(this.noCache(url), commentString, { headers: headers }).pipe(map(response => this.extractData(response)));
       //.catch(this.handleError);
   }
 

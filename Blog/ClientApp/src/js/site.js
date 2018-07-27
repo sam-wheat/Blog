@@ -10,9 +10,7 @@
   }
 
   window.runAnimation = function ($) {
-    
     $('#myCarousel').carousel();
-    alert('animationdone');
   }
 
 

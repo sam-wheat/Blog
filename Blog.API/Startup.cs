@@ -94,7 +94,7 @@ namespace Blog.API
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseSession();
-            app.UseCors(x => x.WithOrigins(new string[] { "http://www.samwheat.com", "https://www.samwheat.com", "http://samwheat.com", "https://samwheat.com",  "http://localhost:4200", "http://dev.samwheat.com" }));
+            app.UseCors(x => x.WithOrigins(new string[] { "http://www.samwheat.com", "https://www.samwheat.com", "http://samwheat.com", "https://samwheat.com",  "http://localhost:5004", "http://localhost:4200", "http://dev.samwheat.com" }));
             app.UseMvc();
         }
     }
