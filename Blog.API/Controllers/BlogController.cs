@@ -86,16 +86,13 @@ namespace Blog.API.Controllers
         [Route("SaveComment")]
         public async Task<AsyncResult<long>> SaveComment([FromBody]Comment comment, string captcha)
         {
+            string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
 
-            return new AsyncResult<long>(); // stub
+            if (code == null || captcha != code)
+                return new AsyncResult<long> { Success = false, ErrorMessage = "Please enter the numeric code." };
 
-            //string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
 
-            //if (code == null || captcha != code)
-            //    return new AsyncResult<long> { Success = false, ErrorMessage = "Please enter the numeric code." };
-                
-
-            //return await ServiceClient.CallAsync(async x => await x.CommentService.SaveComment(comment, _cacheManager.GetStringValue(CacheKeyNames.EmailAccount), _cacheManager.GetStringValue(CacheKeyNames.EmailPassword)));
+            return await ServiceClient.CallAsync(async x => await x.CommentService.SaveComment(comment, _cacheManager.GetStringValue(CacheKeyNames.EmailAccount), _cacheManager.GetStringValue(CacheKeyNames.EmailPassword)));
         }
 
         public async Task<AsyncResult<long>> SaveComment([FromBody]Comment comment, string emailAccount, string emailPassword)
@@ -107,10 +104,8 @@ namespace Blog.API.Controllers
         [Route("GetCaptchaCode")]
         public JsonResult GetCaptchaCode()
         {
-            return Json(""); // stub
-
-            //string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
-            //return Json(new { CaptchaCode = code });
+            string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
+            return Json(new { CaptchaCode = code });
         } 
 
 
