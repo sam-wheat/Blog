@@ -9,7 +9,7 @@ using LeaderAnalytics.AdaptiveClient;
 using Blog.Core;
 using Blog.Model;
 using Blog.Domain;
-
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Blog.API.Controllers
 {
@@ -17,10 +17,11 @@ namespace Blog.API.Controllers
     public class BlogController : BaseController, ISiteService, ICommentService
     {
         protected Random random = new Random();
+        protected IMemoryCache Cache;
 
-        public BlogController(IAdaptiveClient<IServiceManifest> serviceClient) : base(serviceClient)
+        public BlogController(IAdaptiveClient<IServiceManifest> serviceClient, IMemoryCache cache) : base(serviceClient)
         {
-
+            Cache = cache;
         }
 
         [HttpGet]
@@ -72,7 +73,6 @@ namespace Blog.API.Controllers
         {
             return await ServiceClient.CallAsync(async x => await x.ContentItemService.GetContentItemGroups(groupColumn, menuID));
         }
-
         
 
         [HttpGet]
@@ -86,13 +86,13 @@ namespace Blog.API.Controllers
         [Route("SaveComment")]
         public async Task<AsyncResult<long>> SaveComment([FromBody]Comment comment, string captcha)
         {
-            string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
+            string code = Cache.Get<string>(CacheKeyNames.CaptchaCode);
 
             if (code == null || captcha != code)
                 return new AsyncResult<long> { Success = false, ErrorMessage = "Please enter the numeric code." };
 
 
-            return await ServiceClient.CallAsync(async x => await x.CommentService.SaveComment(comment, _cacheManager.GetStringValue(CacheKeyNames.EmailAccount), _cacheManager.GetStringValue(CacheKeyNames.EmailPassword)));
+            return await ServiceClient.CallAsync(async x => await x.CommentService.SaveComment(comment, Cache.Get<string>(CacheKeyNames.EmailAccount), Cache.Get<string>(CacheKeyNames.EmailPassword)));
         }
 
         public async Task<AsyncResult<long>> SaveComment([FromBody]Comment comment, string emailAccount, string emailPassword)
@@ -104,7 +104,7 @@ namespace Blog.API.Controllers
         [Route("GetCaptchaCode")]
         public JsonResult GetCaptchaCode()
         {
-            string code = _cacheManager.GetStringValue(CacheKeyNames.CaptchaCode);
+            string code = Cache.Get<string>(CacheKeyNames.CaptchaCode);
             return Json(new { CaptchaCode = code });
         } 
 
@@ -118,6 +118,7 @@ namespace Blog.API.Controllers
             for (int i = 0; i < 3; i++)
                 code = String.Concat(code, random.Next(10).ToString());
 
+            Cache.Set(CacheKeyNames.CaptchaCode, code);
             CaptchaImage ci = new CaptchaImage(code, 100, 50, "Century Schoolbook");
             return new ImageResult(ci.Image, System.Drawing.Imaging.ImageFormat.Jpeg).GetFileStreamResult();
         }

@@ -46,9 +46,8 @@ export class DialogComponent implements OnInit {
   }
 
   public showWaitDialog() {
-    
+    // https://github.com/twbs/bootstrap/issues/25625
     this.visibleDialog.next(Dialog.Wait);
-    
   }
 
   public hideWaitDialog() {

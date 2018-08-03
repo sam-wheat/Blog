@@ -65,10 +65,11 @@ export class BlogService {
   SaveComment(comment: Comment, captchaCode: string): Observable<AsyncResult> {
     let url = this.serviceURL + 'SaveComment?captcha=' + captchaCode;
     let commentString = JSON.stringify(comment);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.httpClient.post<AsyncResult>(this.noCache(url), headers); //.pipe(tap(_ => this.log(`SaveComment`)), catchError(this.handleError<AsyncResult>('SaveComment', null)));
+    let headers = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return this.httpClient.post<AsyncResult>(this.noCache(url), commentString, headers); //.pipe(tap(_ => this.log(`SaveComment`)), catchError(this.handleError<AsyncResult>('SaveComment', null)));
     //return this.http.post(this.noCache(url), commentString, { headers: headers }).pipe(map(response => this.extractData(response)));
-      //.catch(this.handleError);
+    //.catch(this.handleError);
+    
   }
 
   CaptchaImageURL(): string {

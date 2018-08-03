@@ -1,10 +1,10 @@
-<div *ngIf="(visibleDialog | async) === dialog.ErrorMsg" class="modal fade show in" id="errorMsgDialog" role="dialog">
+<div *ngIf="(visibleDialog | async) === dialog.ErrorMsg" class="modal fade show in" id="errorMsgDialog" role="dialog" style="display:block">
   <div class="modal-dialog">
 
     <div class="modal-content">
       <div class="modal-header">
+        <h4 class="modal-title centered">Error</h4>
         <button type="button" class="close" (click)="hideDialog()">&times;</button>
-        <h4 class="modal-title">Error</h4>
       </div>
       <div class="modal-body">
         <p>{{message}}</p>
@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div *ngIf="(visibleDialog | async) === dialog.Confirm" class="modal fade show in" id="confirmMsgDialog" role="dialog">
+<div *ngIf="(visibleDialog | async) === dialog.Confirm" class="modal fade show in" id="confirmMsgDialog" role="dialog" style="display:block">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -33,7 +33,7 @@
   </div>
 </div>
 
-<div *ngIf="(visibleDialog | async) === dialog.Wait" class="modal fade show in" id="waitMsgDialog" role="dialog">
+<div *ngIf="(visibleDialog | async) === dialog.Wait" class="modal fade show in" id="waitMsgDialog" role="dialog" style="display:block">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -49,7 +49,7 @@
   </div>
 </div>
 
-<div *ngIf="(visibleDialog | async) === dialog.Info" class="modal fade show in" id="infoMsgDialog" role="dialog">
+<div *ngIf="(visibleDialog | async) === dialog.Info" class="modal fade show in" id="infoMsgDialog" role="dialog" style="display:block">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

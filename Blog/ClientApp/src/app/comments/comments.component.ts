@@ -53,7 +53,6 @@ export class CommentList implements OnChanges {
   }
 
   public SaveComment() {
-
     if (this.Comment === null || typeof this.Comment === 'undefined')
       return;
 
@@ -70,7 +69,7 @@ export class CommentList implements OnChanges {
       this.dialogComponent.hideWaitDialog();
       this._captchaURL = null;
 
-      if (x.ErrorMessage !== null && x.ErrorMessage.length > 0)
+      if (typeof x.ErrorMessage !== 'undefined' && x.ErrorMessage !== null && x.ErrorMessage.length > 0)
         this.dialogComponent.showErrorMessage(x.ErrorMessage);
       else {
         this.dialogComponent.showInfoDialog("Your comment was saved successfully.");

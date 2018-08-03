@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Autofac;
+using LeaderAnalytics.AdaptiveClient;
 using Blog.Model;
 using Blog.Core;
 using Blog.Domain;
@@ -16,14 +17,9 @@ namespace Blog.IntegrationTests
         [Test]
         public async Task CommentTest()
         {
-            try
-            {
-                List<Comment> comments = await ServiceClient.TryAsync(async x => await x.CommentService.GetCommentsForContentItem(1));
-            }
-            catch (Exception ex)
-            {
-                string y = ex.Message;
-            }
+            ServiceClient = Container.Resolve<IAdaptiveClient<IServiceManifest>>();
+            List<KeyValuePair<string,string>> c1 = await ServiceClient.TryAsync(async x => await x.ContentItemService.GetContentItemGroups("PubDate",1));
+            List<KeyValuePair<string, string>> c2 = await ServiceClient.TryAsync(async x => await x.ContentItemService.GetContentItemGroups("GroupID", 1));
             Assert.AreEqual(1, 1);
         }
 

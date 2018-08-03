@@ -19,8 +19,8 @@ namespace Blog.IntegrationTests
     public class BaseTest
     {
         protected IContainer Container { get; private set; }
-        protected IAdaptiveClient<IServiceManifest> ServiceClient { get; private set; }
-        protected IEnumerable<IEndPointConfiguration> EndPoints { get; private set; }
+        protected IAdaptiveClient<IServiceManifest> ServiceClient { get;  set; }
+        protected IEnumerable<IEndPointConfiguration> EndPoints { get; set; }
         protected IDatabaseUtilities DatabaseUtilities;
 
 

@@ -67,6 +67,7 @@ namespace Blog.API
             builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             builder.RegisterModule(new Blog.Services.AutofacModule());
             builder.RegisterModule(new Blog.Core.AutofacModule());
+            builder.RegisterType<Microsoft.Extensions.Caching.Memory.MemoryCache>().As<Microsoft.Extensions.Caching.Memory.IMemoryCache>().SingleInstance();
             RegistrationHelper registrationHelper = new RegistrationHelper(builder);
 
             registrationHelper
@@ -94,7 +95,7 @@ namespace Blog.API
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseSession();
-            app.UseCors(x => x.WithOrigins(new string[] { "http://www.samwheat.com", "https://www.samwheat.com", "http://samwheat.com", "https://samwheat.com",  "http://localhost:5004", "http://localhost:4200", "http://dev.samwheat.com" }));
+            app.UseCors(x => x.WithOrigins(new string[] { "http://www.samwheat.com", "https://www.samwheat.com", "http://samwheat.com", "https://samwheat.com",  "http://localhost:5004", "http://localhost:4200", "http://dev.samwheat.com" }).AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
         }
     }

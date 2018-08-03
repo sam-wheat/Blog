@@ -56,20 +56,20 @@ namespace Blog.Services.MSSQL
         {
             List<KeyValuePair<string, string>> result = null;
 
-            var query = db.ContentItems.Where(x => x.Active && x.ContentGroupID.HasValue && x.PublishDate.HasValue && x.MenuContentItems.Any(y => y.MenuID == menuID));
+            var query = await db.ContentItems.Where(x => x.Active && x.ContentGroupID.HasValue && x.PublishDate.HasValue && x.MenuContentItems.Any(y => y.MenuID == menuID)).ToListAsync();
 
             if (groupColumn == "GroupID")
             {
                 
-                result = await (from q in query
+                result = (from q in query
                                 group q by q.ContentGroupID into groups
-                                select new KeyValuePair<string, string>(groups.Key.ToString(), db.ContentGroups.First(x => x.ID == groups.Key).Description)).ToListAsync();
+                                select new KeyValuePair<string, string>(groups.Key.ToString(), db.ContentGroups.First(x => x.ID == groups.Key).Description)).ToList();
             }
             else if (groupColumn == "PubDate")
             {
-                result = await (from q in query
-                          group q by q.PublishDate.Value.Year.ToString() + "-" + q.PublishDate.Value.Month.ToString().PadLeft(2, '0')+ "-01" into groups
-                          select new KeyValuePair<string, string>(groups.Key, groups.First().PublishDate.Value.ToString("MMMM") + " " + groups.First().PublishDate.Value.Year.ToString())).OrderByDescending(x => x.Key).ToListAsync();
+                result = (from q in query
+                                group q by q.PublishDate.Value.Year.ToString() + "-" + q.PublishDate.Value.Month.ToString().PadLeft(2, '0') + "-01" into groups
+                                select new KeyValuePair<string, string>(groups.Key, groups.First().PublishDate.Value.ToString("MMMM") + " " + groups.First().PublishDate.Value.Year.ToString())).OrderByDescending(x => x.Key).ToList();
             }
             else
             {
