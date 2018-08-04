@@ -422,7 +422,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .postTitle {
-    background: url("/images/texture4.PNG");
+    background: url("/assets/images/texture4.PNG");
     background-size:cover;
     height:16vh;
     padding: 2vh 2vw 2vh 2vw;

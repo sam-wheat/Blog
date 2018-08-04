@@ -47,11 +47,8 @@ export class BlogService {
   }
 
   GetPostHtml(url: string): Observable<string> {
-    let headers = new Headers({ 'Content-Type': 'text/plain' });
-    let options = new RequestOptions({ headers: headers });
-    return this.httpClient.get<string>(this.noCache(url)).pipe(tap(_ => this.log(`GetPostHtml`)), catchError(this.handleError<string>('GetPostHtml', null)));
-    //return this.http.get(this.noCache(url), options).pipe(map((x: Response) => { return x.text();  }));
-      //.catch(this.handleError);
+    // note that this.httpClient is not generic 
+    return this.httpClient.get(this.noCache(url), {responseType:'text'}).pipe(tap(_ => this.log(`GetPostHtml`)), catchError(this.handleError<string>('GetPostHtml', null)));
   }
 
 
