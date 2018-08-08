@@ -47,7 +47,7 @@ namespace Blog.Services.MSSQL
             if (dateFilter.HasValue)
                 query = query.Where(item => item.PublishDate.HasValue && item.PublishDate.Value.Month == dateFilter.Value.Month && item.PublishDate.Value.Year == dateFilter.Value.Year);
 
-
+            query = query.Include(x => x.ContentGroup);
             var junk = await query.ToListAsync();
             return junk;
         }

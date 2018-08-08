@@ -1,41 +1,43 @@
 <div class="pageBackground">
-  <div class="rowContainer">
+  <div class="postIndexOuterGrid">
 
-    <div class="columnContainer" style="flex-grow:4;">
+      <div class="postIndexItemsGrid">
 
-      <div *ngFor="let item of ContentItems" class="postIndexContainer">
-        <a [class.active]="item === SelectedItem" (click)="onClick(item)" href="#" [routerLink]="['/Post', item.Slug]" class="postIndexhref rowContainer">
+        <div class="gridContainer">
+          <a *ngFor="let item of ContentItems" class="postIndexContainer" [class.active]="item === SelectedItem" (click)="onClick(item)" href="#" [routerLink]="['/Post', item.Slug]">
+            <img src="{{ImageRoot + item.Icon}}" class="cell-image" />
 
-          <figure class="postIndexImageContainer columnContainer">
-            <img src="{{ImageRoot + item.Icon}}" style="max-height:200px;max-width:200px;" />
-          </figure>
+            <div class="cell-title">{{item.Title}}</div>
 
-          <div class="postIndexTextContainer columnContainer">
-            <div class="postIndexTitle">{{item.Title}}</div>
-            <hr class="postIndexHR" />
-            <div class="postIndexByLine">
+            <div class="cell-abstract">
+              <hr class="postIndexHR" />
+              <div>{{item.Abstract}}</div>
+            </div>
+
+            <div class="cell-pub">
               <time [attr.datetime]="item.PublishDate">
                 {{item.PublishDate | date: 'longDate' }}
               </time>
             </div>
-            <!--<time [attr.datetime]="timestamp">{{ timestamp | date:"short" }}</time>-->
-            <div class="postIndexAbstract">{{item.Abstract}}</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="columnContainer" style="flex-grow:0;max-width:30%">
-      <div class="groupFilter">
-        <div class="header">Topic</div>
-        <app-group-filter GroupColumn="GroupID"></app-group-filter>
+            <div class="cell-category">
+              {{item.ContentGroup.Description}}
+            </div>
+          </a>
+        </div>
       </div>
 
-      <div class="groupFilter" style="margin-top:6vh;">
-        <div class="header">Publication Date</div>
-        <app-group-filter GroupColumn="PubDate"></app-group-filter>
+
+      <div class="postIndexMenuGrid" >
+        <div class="groupFilter">
+          <div class="header">Topic</div>
+          <app-group-filter GroupColumn="GroupID"></app-group-filter>
+        </div>
+
+        <div class="groupFilter" style="margin-top:6vh;">
+          <div class="header">Publication Date</div>
+          <app-group-filter GroupColumn="PubDate"></app-group-filter>
+        </div>
       </div>
-    </div>
   </div>
 </div>
-<app-dialog></app-dialog>  
+<app-dialog></app-dialog>

@@ -15,6 +15,7 @@
 
 
   window.highlight = function (hljs) {
+    alert(hljs);
     var allPre, i, j;
     allPre = document.getElementsByTagName("pre");
 
