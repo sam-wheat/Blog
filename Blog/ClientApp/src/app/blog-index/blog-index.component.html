@@ -1,33 +1,13 @@
 <div class="pageBackground">
   <div class="postIndexOuterGrid">
 
-      <div class="postIndexItemsGrid">
-
-        <div class="gridContainer">
-          <a *ngFor="let item of ContentItems" class="postIndexContainer" [class.active]="item === SelectedItem" (click)="onClick(item)" href="#" [routerLink]="['/Post', item.Slug]">
-            <img src="{{ImageRoot + item.Icon}}" class="cell-image" />
-
-            <div class="cell-title">{{item.Title}}</div>
-
-            <div class="cell-abstract">
-              <hr class="postIndexHR" />
-              <div>{{item.Abstract}}</div>
-            </div>
-
-            <div class="cell-pub">
-              <time [attr.datetime]="item.PublishDate">
-                {{item.PublishDate | date: 'longDate' }}
-              </time>
-            </div>
-            <div class="cell-category">
-              {{item.ContentGroup.Description}}
-            </div>
-          </a>
-        </div>
-      </div>
-
-
-      <div class="postIndexMenuGrid" >
+    <nav class="navbar navbar-expand-lg navbar-light compactMenu">
+      
+      <button type="button" class="navbar-toggler ml-auto" data-toggle="collapse" data-target="#compactMenu" aria-controls="compactMenu" aria-expanded="false" aria-label="Toggle navigation" style="margin:0px;background-color:lightgray;">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="dropdown-menu dropdown-menu-right" id="compactMenu" style="background-color:transparent;opacity:5%;border:none">
         <div class="groupFilter">
           <div class="header">Topic</div>
           <app-group-filter GroupColumn="GroupID"></app-group-filter>
@@ -38,6 +18,47 @@
           <app-group-filter GroupColumn="PubDate"></app-group-filter>
         </div>
       </div>
+    </nav>
+
+
+
+    <div class="postIndexItemsGrid">
+
+      <div class="gridContainer">
+        <a *ngFor="let item of ContentItems" class="postIndexContainer" [class.active]="item === SelectedItem" (click)="onClick(item)" href="#" [routerLink]="['/Post', item.Slug]">
+          <img src="{{ImageRoot + item.Icon}}" class="cell-image" />
+
+          <div class="cell-title">{{item.Title}}</div>
+
+          <div class="cell-abstract">
+            <hr class="postIndexHR" />
+            <div>{{item.Abstract}}</div>
+          </div>
+
+          <div class="cell-pub">
+            <time [attr.datetime]="item.PublishDate">
+              {{item.PublishDate | date: 'longDate' }}
+            </time>
+          </div>
+          <div class="cell-category">
+            {{item.ContentGroup.Description}}
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="postIndexMenuGrid">
+      <div class="groupFilter">
+        <div class="header">Topic</div>
+        <app-group-filter GroupColumn="GroupID"></app-group-filter>
+      </div>
+
+      <div class="groupFilter" style="margin-top:6vh;">
+        <div class="header">Publication Date</div>
+        <app-group-filter GroupColumn="PubDate"></app-group-filter>
+      </div>
+    </div>
   </div>
 </div>
 <app-dialog></app-dialog>
