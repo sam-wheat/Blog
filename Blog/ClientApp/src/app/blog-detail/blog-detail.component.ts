@@ -8,6 +8,7 @@ import { SessionService } from './../services/SessionService';
 import { ContentItem } from '../model/model';
 import { CommentList } from '../comments/comments.component';
 import { DialogComponent } from '../common/dialog/dialog.component';
+
 declare var hljs: any;
 declare var highlight: any; // in site.js
 //declare var jQuery: any;
@@ -72,7 +73,10 @@ export class BlogDetail implements OnInit, OnDestroy, AfterViewInit {
           this.contentContainer2.nativeElement.innerHTML = h;
           //jQuery("#contentContainer").html(h).promise().done(function () { highlight(hljs); });
           // end workaround
+
+
           highlight(hljs); // exists in js/site.js
+
           this.dialogComponent.hideWaitDialog();
         });
       });

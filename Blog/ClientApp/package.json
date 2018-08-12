@@ -23,8 +23,11 @@
     "core-js": "^2.5.7",
     "highlightjs": "^9.10.0",
     "jquery": "^3.3.1",
+    
     "popper.js": "^1.14.4",
+    "primer-markdown": "^3.7.9",
     "rxjs": "^6.2.2",
+
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
@@ -48,6 +51,8 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~2.9.2",
-    "webpack": "^4.16.4"
+    "webpack": "^4.16.4",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0"
   }
 }

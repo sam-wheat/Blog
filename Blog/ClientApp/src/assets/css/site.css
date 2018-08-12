@@ -130,7 +130,7 @@ input[type="password"] {
 	  display: flex;
 	  flex-flow: column;
 	  height: 100%;
-      width:100%;
+    width:100%;
 	}
 
 	.box .row {
@@ -492,6 +492,7 @@ input[type="checkbox"].input-validation-error {
     padding: 2vh 2vw 2vh 2vw;
     margin-bottom:1vh;
     font-size:1.6vw;
+    
 }
 
     .groupFilter li {
@@ -523,13 +524,23 @@ input[type="checkbox"].input-validation-error {
     padding: 2vh 2vw 2vh 2vw;
     text-align:left;
     color:white;
-    font-size:3.5vh;
+    font-size:2vw;
     margin-bottom:4vh;
 }
-article {
-    font-weight:100;
-    color:#333;
-}
+
+
+article p {
+    line-height: 1.6em;
+    margin-bottom: 16px;
+    font-size: 21px;
+    font-weight: lighter;
+    color: #464646;
+  }
+
+article, .postTitle {
+    margin-left: 8vw;
+    margin-right: 8vw;
+  }
 
 article h1, article h2, article h3, article h4, article h5, article h6 {
     margin: 20px 0 10px;
@@ -570,15 +581,15 @@ article ul li {
     font-weight:bold;
 }
 
-code {
-     background-color: #f8f8f8;
-     font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
-     color:darkslategrey;
-     padding:1px 3px 1px 3px;
+pre code {
+  font-family:Consolas;
+  font-size: 90%;
 }
 
 pre {
-    margin:12px 0px 12px 0px;
+  margin: 12px 0px 12px 0px;
+  background-color: #DFDFDF;
+  padding:1vw;
 }
 /*  ----------------------------------------------------- About Sam page  ----------------------------------------------------- */
 
@@ -699,12 +710,10 @@ pre {
 
 @media screen and (max-width: 600px) {
     body, input, select, textarea {
-        font-size:8px;
+        font-size:12px;
     }
 
-    .menuLink {
-        font-size:10px;
-    }
+    
 
     .postIndexContainer {
     
@@ -726,6 +735,10 @@ pre {
     #postIndexSideBar {
 
     }
+
+  article p {
+    font-size:14px;
+  }
 
     article h1 {
         font-size:19px;
@@ -763,7 +776,16 @@ pre {
       visibility: hidden;
 
     }
+
+  .groupFilter .header {
+    font-size:14px;
   }
+
+  article, .postTitle {
+    margin-left: 1vw;
+    margin-right: 1vw;
+  }
+}
 
 @media only screen and (min-width: 600px) {
     body, input, select, textarea {

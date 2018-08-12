@@ -1,4 +1,4 @@
-﻿<article>
+<article>
 
 Many types of business problems are solved using techniques that require analysis of a combination of objects that are chosen from a set.  You probably remember from statistics class that a combination is a selection of objects chosen from a set where order is not relevant.
 
@@ -18,7 +18,7 @@ Note that the ChooseContainers method always returns false.  This is because we 
 
 After every combination of containers is evaluated the optimal list of containers is displayed.
 
-```C#
+```c#
 class Program
 {
     string selectedContainers = "";
@@ -134,5 +134,6 @@ class Program
     }
 }
 ```
+
 
 </article>

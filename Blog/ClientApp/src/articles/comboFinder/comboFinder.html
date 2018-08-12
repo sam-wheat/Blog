@@ -7,7 +7,7 @@
 <p>After evaluating every combination of six containers, every combination of five containers is evaluated, then every combination of four and so on.</p>
 <p>Note that the ChooseContainers method always returns false.  This is because we want to force the CollectionFinder to evaluate every combination of containers (theoretically we could stop processing if we find a combination of containers that weighs exactly 800 tons).  Also note that we start by choosing six containers and progressively choose fewer.   This is because a solution with a larger number of containers is favorable to a solution with a fewer number if both weigh exactly the same.</p>
 <p>After every combination of containers is evaluated the optimal list of containers is displayed.</p>
-<pre><code class="language-C#">class Program
+<pre><code class="language-c#">class Program
 {
     string selectedContainers = &quot;&quot;;
     int mostWeight = 0;

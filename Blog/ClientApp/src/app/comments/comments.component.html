@@ -30,10 +30,10 @@
       <div style="width:100px;margin:auto;">
         <img id="captchaImage" src="{{ CaptchaURL }}" />
       </div>
-      <div style="display:flex;justify-content:center;margin-top:1vh;">
-        <label class="control-label">Enter the numbers shown above: </label>
+      <div style="display:flex;justify-content:center;align-items:flex-end;margin-top:1vh;">
+        <label class="control-label">Enter the numbers shown above:&nbsp; </label>
         <input type="text" class="form-control" [(ngModel)]="CaptchaCode" style="max-width:70px;margin-right:6px;">
-        <input type="button" (click)="SaveComment()" value="Submit" style="max-width:100px;">
+        <input type="button" (click)="SaveComment()" value="Submit" class="btn btn-primary btn-md" style="max-width:100px;">
       </div>
     </div>
   </div>
