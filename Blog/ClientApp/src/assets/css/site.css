@@ -526,6 +526,7 @@ input[type="checkbox"].input-validation-error {
     color:white;
     font-size:2vw;
     margin-bottom:4vh;
+    position:relative;
 }
 
 
@@ -579,6 +580,9 @@ article ul li {
     text-align:right;
     font-style:italic;
     font-weight:bold;
+    position:absolute;
+    bottom:5px;
+    right:10px;
 }
 
 pre code {
@@ -637,14 +641,13 @@ pre {
     align-items:center;
     margin-bottom:2vh;
 }
-    .clientCell .text {
-        display:flex;
-        font-size:80%;
-        line-height:.95;
-        color:white;
-        max-width:60%;
-        margin-right:2vw;
-    }
+  .clientCell .text p {
+    display: flex;
+    color: white;
+    max-width: 60%;
+    margin-right: 2vw;
+    line-height: 1.4em;
+  }
 
     .clientCell .image {
         display:flex;
@@ -713,8 +716,14 @@ pre {
         font-size:12px;
     }
 
-    
 
+  .postTitle {
+    font-size: 18px;
+  }
+
+  .postByLine {
+    font-size:12px;
+  }
     .postIndexContainer {
     
     }
