@@ -12,17 +12,32 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Blog.API
 {
+    //public class Program
+    //{
+
+    //    public static void Main(string[] args)
+    //    {
+    //        BuildWebHost(args).Run();
+    //    }
+
+    //    public static IWebHost BuildWebHost(string[] args) =>
+    //        WebHost.CreateDefaultBuilder(args)
+    //            .UseStartup<Startup>()
+    //            .Build();
+    //}
+
     public class Program
     {
-
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+            .UseStartup<Startup>()
+            .UseKestrel()
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .UseIISIntegration();
     }
 }

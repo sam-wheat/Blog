@@ -26,7 +26,10 @@
               "src/favicon.ico",
               "src/assets",
               "src/articles",
-              "src/app/about"
+              "src/app/about",
+              "src/web.config",
+              "src/logs"
+
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",

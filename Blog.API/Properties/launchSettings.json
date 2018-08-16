@@ -1,7 +1,7 @@
 {
   "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
+    "windowsAuthentication": true,
+    "anonymousAuthentication": false,
     "iisExpress": {
       "applicationUrl": "http://localhost:53389/",
       "sslPort": 0
@@ -19,7 +19,6 @@
     "Blog.API": {
       "commandName": "Project",
       "commandLineArgs": "server.urls=http://localhost:5000/",
-      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

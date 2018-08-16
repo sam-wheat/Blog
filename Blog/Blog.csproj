@@ -30,6 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ClientApp\src\web.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\app\common\" />
     <Folder Include="ClientApp\src\assets\css\" />
     <Folder Include="ClientApp\src\assets\images\" />
