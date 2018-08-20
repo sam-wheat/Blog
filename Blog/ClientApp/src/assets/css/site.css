@@ -530,7 +530,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 
-article p {
+article p, article li {
     line-height: 1.6em;
     margin-bottom: 16px;
     font-size: 21px;

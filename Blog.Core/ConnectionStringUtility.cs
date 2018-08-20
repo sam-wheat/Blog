@@ -15,10 +15,14 @@ namespace Blog.Core
             return endPoints.First(x => x.API_Name == apiName && x.ProviderName == providerName).ConnectionString;
         }
 
-        public static string BuildConnectionString(string connectionString)
+        public static string BuildConnectionString(string connectionString, string env)
         {
             ConfigurationBuilder configBuilder = new ConfigurationBuilder();
-            configBuilder.AddJsonFile("C:\\Users\\sam\\AppData\\Roaming\\Blog\\appsettings.Development.json");
+            if(env == "Development")
+                configBuilder.AddJsonFile("C:\\Users\\sam\\AppData\\Roaming\\Blog\\appsettings.Development.json");
+            else
+                configBuilder.AddJsonFile("appsettings.Production.json");
+
             IConfigurationRoot config = configBuilder.Build();
             connectionString = connectionString.Replace("{MySQL_UserName}", config["Data:MySQLUserName"]);
             connectionString = connectionString.Replace("{MySQL_Password}", config["Data:MySQLPassword"]);

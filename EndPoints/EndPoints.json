@@ -9,6 +9,7 @@
       "ProviderName": "MSSQL",
       "ConnectionString": "Data Source=.\\SQLSERVER;Initial Catalog=Blog;Integrated Security=True;MultipleActiveResultSets=True;"
     },
+
     {
       "Name": "Blog_MySQL",
       "IsActive": "true",

@@ -12,20 +12,6 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Blog.API
 {
-    //public class Program
-    //{
-
-    //    public static void Main(string[] args)
-    //    {
-    //        BuildWebHost(args).Run();
-    //    }
-
-    //    public static IWebHost BuildWebHost(string[] args) =>
-    //        WebHost.CreateDefaultBuilder(args)
-    //            .UseStartup<Startup>()
-    //            .Build();
-    //}
-
     public class Program
     {
         public static void Main(string[] args)
@@ -38,6 +24,8 @@ namespace Blog.API
             .UseStartup<Startup>()
             .UseKestrel()
             .UseContentRoot(Directory.GetCurrentDirectory())
-            .UseIISIntegration();
+            .UseIISIntegration()
+            .UseSetting("detailedErrors", "true")
+            .CaptureStartupErrors(true);
     }
 }

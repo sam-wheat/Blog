@@ -28,7 +28,7 @@ namespace Blog.MigrationFactories
     {
         public DbMySQL CreateDbContext(string[] args)
         {
-            string connectionString = ConnectionstringUtility.BuildConnectionString(ConnectionstringUtility.GetConnectionString("bin\\debug\\netcoreapp2.0\\EndPoints.json", API_Name.Blog, ProviderName.MySQL));
+            string connectionString = ConnectionstringUtility.BuildConnectionString(ConnectionstringUtility.GetConnectionString("bin\\debug\\netcoreapp2.0\\EndPoints.json", API_Name.Blog, ProviderName.MySQL), "Development");
             DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
             dbOptions.UseMySql(connectionString);
             DbMySQL db = new DbMySQL(dbOptions.Options);

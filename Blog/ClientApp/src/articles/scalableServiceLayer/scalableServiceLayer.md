@@ -1,4 +1,4 @@
-﻿<style>
+<style>
     table {
         border-collapse:collapse;
     }
@@ -90,9 +90,11 @@ public class MySQL_OrderProcessor : IOrderProcessor
     }
 }
 ````
+
 Given the above two implementations of IOrderProcessor, what pattern might be used to insure the correct implementation is injected based on the configured choice of database platforms?  AdaptiveClient solves this problem by allowing each implementation of IOrderProcessor to be registered with a specific database provider (in this example, MSSQL or MySQL).  Each database provider is associated with a specific connection string.  When the application is started and a connection string is chosen AdaptiveClient is able to use the name of the database provider to resolve the correct implementation of IOrderProcessor.
 
-3. The same software company makes a version of their software that is designed to run on servers located on-site at their customer's warehouses.  Workers in the warehouse who use tablets want to make fast calls to database services over the local area network.  Users who connect remotely using an Internet connection will access database services via a RESTful API.  A ViewModel in the company's application looks like this:
+3. <p>The same software company makes a version of their software that is designed to run on servers located on-site at their customer's warehouses.  Workers in the warehouse who use tablets want to make fast calls to database services over the local area network.  Users who connect remotely using an Internet connection will access database services via a RESTful API.  A ViewModel in the company's application looks like this:</p>
+
 
 ````csharp
 public class OrderViewModel

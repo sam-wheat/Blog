@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using LeaderAnalytics.AdaptiveClient;
@@ -28,15 +28,19 @@ namespace Blog.API
     public class Startup
     {
         public IConfigurationRoot Configuration { get; }
-        private string emailAccount;
-        private string emailPassword;
         private Logger Logger;
+        private string EnvironmentName;
 
         public Startup(IHostingEnvironment env)
         {
-            string configFilePath = string.Empty;
+            Logger = new LoggerConfiguration()
+                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information).CreateLogger();
 
-            if (env.EnvironmentName == "Development")
+            Logger.Information("Logger created");
+            string configFilePath = string.Empty;
+            EnvironmentName = env.EnvironmentName;
+
+            if (EnvironmentName == "Development")
                 configFilePath = "C:\\Users\\sam\\AppData\\Roaming\\Blog";
 
             var builder = new ConfigurationBuilder()
@@ -45,13 +49,6 @@ namespace Blog.API
                 .AddJsonFile(Path.Combine(configFilePath, $"appsettings.{env.EnvironmentName}.json"), optional: false)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
-
-            Logger = new LoggerConfiguration()
-                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
-                
-                .CreateLogger();
-
-            Logger.Information("Logger created");
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -80,13 +77,16 @@ namespace Blog.API
             string filePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             Logger.Information("filePath is {0}",filePath);
             IEnumerable<IEndPointConfiguration> EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(filePath, "EndPoints.json"));
-            EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString = ConnectionstringUtility.BuildConnectionString(EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString);
+
+            if(EnvironmentName == "Development" && EndPoints.Any(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL))
+                EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString = ConnectionstringUtility.BuildConnectionString(EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString, EnvironmentName );
+
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             builder.RegisterModule(new Blog.Services.AutofacModule());
             builder.RegisterModule(new Blog.Core.AutofacModule());
-            builder.RegisterType<Microsoft.Extensions.Caching.Memory.MemoryCache>().As<Microsoft.Extensions.Caching.Memory.IMemoryCache>().SingleInstance();
+            builder.RegisterType<MemoryCache>().As<IMemoryCache>().SingleInstance();
             RegistrationHelper registrationHelper = new RegistrationHelper(builder);
 
             registrationHelper
@@ -94,12 +94,14 @@ namespace Blog.API
                 .RegisterModule(new Blog.Services.AdaptiveClientModule());
 
             var container = builder.Build();
-            emailAccount = Configuration["Data:EmailAccount"];
-            emailPassword = Configuration["Data:EmailPassword"];
-
-            if (string.IsNullOrEmpty(emailAccount))
+            IMemoryCache cache = container.Resolve<IMemoryCache>();
+            cache.Set<string>(CacheKeyNames.EmailAccount, Configuration["Data:EmailAccount"]);
+            cache.Set<string>(CacheKeyNames.EmailPassword, Configuration["Data:EmailPassword"]);
+            
+            
+            if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailAccount)))
                 throw new Exception("EmailAccount not found in appsettings file.");
-            if(string.IsNullOrEmpty(emailPassword))
+            if(string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailPassword)))
                 throw new Exception("EmailPassword not found in appsettings file.");
 
             // Make sure the database exists
@@ -111,11 +113,14 @@ namespace Blog.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseDeveloperExceptionPage(); // must come before UseMvc.
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseSession();
             app.UseCors(x => x.WithOrigins(new string[] { "http://www.samwheat.com", "https://www.samwheat.com", "http://samwheat.com", "https://samwheat.com",  "http://localhost:5004", "http://localhost:4200", "http://dev.samwheat.com" }).AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
+            
+            
 
             app.UseExceptionHandler( options => {
                 options.Run(
@@ -132,6 +137,7 @@ namespace Blog.API
                         }
                     });
             });
+            
         }
     }
 }

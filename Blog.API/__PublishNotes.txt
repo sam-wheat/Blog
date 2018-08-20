@@ -1,0 +1,24 @@
+﻿Visual studio ftp deploy does not work.
+Publish files to staging dir inetpub\blog\api or similar directory 
+Copy C:\Users\sam\AppData\Roaming\Blog\appsettings.Production.json to staging dir
+Copy C:\Users\sam\AppData\Roaming\Blog\EndPoints.json to staging dir
+Edit web.config, remove <handlers>.
+
+
+Copy staging dir via ftp to winhost.
+
+
+working web.config from api site:
+
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer>
+    
+    <aspNetCore processPath=".\Blog.API.exe" arguments="" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout" forwardWindowsAuthToken="false">
+      <environmentVariables>
+        <environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Production" />
+      </environmentVariables>
+    </aspNetCore>
+  </system.webServer>
+</configuration>
+<!--ProjectGuid: 5d7bc20c-9106-4e55-8e91-0a260dd44a29-->

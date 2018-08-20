@@ -1,4 +1,5 @@
-﻿<article>
+<article>
+
 If you are handling AppDomain.UnhandledException you may be interested to know that you still need to handle errors that are thrown on worker threads and Tasks.  This may come as a surprise to some because <a href="http://msdn.microsoft.com/en-us/library/system.appdomain.unhandledexception.aspx" target="_blank">the MSDN documentation found here</a> says "If the UnhandledException event is handled in the default application domain, it is raised there for <b>any</b> unhandled exception in any thread, no matter what application domain the thread started in."
 That seems pretty clear, right? Lets try it out. Create a new WPF app and in the constructor of the App class, add these two lines:
 
