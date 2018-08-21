@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,14 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
+using System.Net.Http;
 
 namespace Blog
 {
     public class Startup
     {
+        private Timer KeepAliveTimer;
+        private HttpClient httpClient = new HttpClient();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            KeepAliveTimer = new Timer(x => CallAPI(), null, 0, ((19 * 60) + 50) * 1000);
         }
 
         public IConfiguration Configuration { get; }
@@ -67,6 +74,19 @@ namespace Blog
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+        }
+
+        private void CallAPI()
+        {
+
+            try
+            {
+                string dummy = httpClient.GetStringAsync(new Uri("http://www.samwheat.com/api/api/blog/GetContentItemBySlug?slug=ZZZ&siteID=999")).Result;
+            }
+            catch (Exception)
+            {
+                // dont care
+            }
         }
     }
 }
