@@ -13,12 +13,15 @@ working web.config from api site:
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <system.webServer>
-    
+    <handlers>
+      <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModule" resourceType="Unspecified" />
+    </handlers>
     <aspNetCore processPath=".\Blog.API.exe" arguments="" stdoutLogEnabled="true" stdoutLogFile=".\logs\stdout" forwardWindowsAuthToken="false">
       <environmentVariables>
         <environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Production" />
       </environmentVariables>
     </aspNetCore>
+	<directoryBrowse enabled="false" />
   </system.webServer>
 </configuration>
 <!--ProjectGuid: 5d7bc20c-9106-4e55-8e91-0a260dd44a29-->

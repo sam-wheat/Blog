@@ -1,0 +1,11 @@
+﻿Ftp publish does not work.
+
+Delete bin and obj folders.
+
+Stop IIS on the winhost server.
+
+Run the publish, which will not copy the files.
+
+Open C:\Git\Blog\Blog\obj\Release\netcoreapp2.1\win-x64\PubTmp\Out
+
+Manually copy/paste to ftp.samwheat.com
