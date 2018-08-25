@@ -66,7 +66,7 @@ body, input, select, textarea {
 
 
 html { 
-  background: url("../images/san-diego.jpg") no-repeat center center fixed; 
+  background: url("/assets/images/san-diego.jpg") no-repeat center center fixed; 
   background-size: cover;
   padding:0px;
   margin:0px;
@@ -518,15 +518,15 @@ input[type="checkbox"].input-validation-error {
 }
 
 .postTitle {
-    background: url("/assets/images/texture4.PNG");
-    background-size:cover;
-    height:16vh;
-    padding: 2vh 2vw 2vh 2vw;
-    text-align:left;
-    color:white;
-    font-size:2vw;
-    margin-bottom:4vh;
-    position:relative;
+  background: url("/assets/images/texture4.PNG");
+  background-size: cover;
+  height: 16vh;
+  padding: 2vh 2vw 2vh 2vw;
+  text-align: left;
+  color: white;
+  font-size: 2vw;
+  margin-bottom: 4vh;
+  position: relative;
 }
 
 
@@ -633,13 +633,13 @@ pre {
     margin:auto;
 }
 .clientCell {
-    background: url("../../app/about/img_background.jpg") no-repeat center center;
-    background-size: cover;
-    min-height:20vh;
-    padding:4vh 1vw 4vh 1vw;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:2vh;
+  background: url("/assets/images/img_background.jpg") no-repeat center center;
+  background-size: cover;
+  min-height: 20vh;
+  padding: 4vh 1vw 4vh 1vw;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2vh;
 }
   .clientCell .text p {
     display: flex;

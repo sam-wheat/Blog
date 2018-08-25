@@ -24,12 +24,10 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
+              "src/assets/images",
               "src/articles",
-              "src/app/about",
               "src/web.config",
               "src/logs"
-
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
