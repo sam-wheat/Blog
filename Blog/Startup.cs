@@ -51,7 +51,7 @@ namespace Blog
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/dist/ClientApp" });
+            //app.UseSpaStaticFiles(new StaticFileOptions { RequestPath = "/ClientApp/dist" });
             app.UseSpaStaticFiles();
 
             //app.UseMvc(routes =>

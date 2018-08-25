@@ -24,8 +24,17 @@ namespace Blog.Services.MSSQL
 
         public async Task<ContentItem> GetContentItemBySlug(string slug, int siteID)
         {
-            return await db.ContentItems
+            string cacheKey = slug + siteID.ToString();
+            ContentItem item = Cache.ContentItemCache.Get(cacheKey);
+
+            if (item != null)
+                return item;
+
+            item = await db.ContentItems
                 .FirstOrDefaultAsync(x => x.Slug.ToLower() == slug.ToLower() && x.Active && x.ContentType == ContentItemType.Post &&  x.MenuContentItems.Any(y => y.Menu.SiteID == siteID));
+
+            Cache.ContentItemCache.Set(cacheKey, item);
+            return item;
         }
 
         public async Task<List<ContentItem>> GetContentItemsForGroup(int groupID)
@@ -35,6 +44,14 @@ namespace Blog.Services.MSSQL
 
         public async Task<List<ContentItem>> GetContentItems(int siteID, int menuID, int? groupID, DateTime? dateFilter)
         {
+            string cacheKey = siteID.ToString() + menuID.ToString() + (groupID?.ToString() ?? "") + (dateFilter?.ToString() ?? "");
+
+            List<ContentItem> list = Cache.ContentItemListCache.Get(cacheKey);
+
+            if (list != null)
+                return list;
+
+
             var query = from item in db.ContentItems
                         from mi in item.MenuContentItems
                         where item.Active && item.ContentType == ContentItemType.Post
@@ -48,13 +65,18 @@ namespace Blog.Services.MSSQL
                 query = query.Where(item => item.PublishDate.HasValue && item.PublishDate.Value.Month == dateFilter.Value.Month && item.PublishDate.Value.Year == dateFilter.Value.Year);
 
             query = query.Include(x => x.ContentGroup);
-            var junk = await query.ToListAsync();
-            return junk;
+            list = await query.ToListAsync();
+            Cache.ContentItemListCache.Set(cacheKey, list);
+            return list;
         }
 
         public async Task<List<KeyValuePair<String, String>>> GetContentItemGroups(string groupColumn, int menuID)
         {
-            List<KeyValuePair<string, string>> result = null;
+            string cacheKey = groupColumn + menuID.ToString();
+            List<KeyValuePair<string, string>> result = Cache.ContentGroupCache.Get(cacheKey);
+
+            if (result != null)
+                return result;
 
             var query = await db.ContentItems.Where(x => x.Active && x.ContentGroupID.HasValue && x.PublishDate.HasValue && x.MenuContentItems.Any(y => y.MenuID == menuID)).ToListAsync();
 
@@ -77,6 +99,7 @@ namespace Blog.Services.MSSQL
             }
 
             result.Insert(0, new KeyValuePair<string, string>(null, "All"));
+            Cache.ContentGroupCache.Set(cacheKey, result);
             return result;
         }
 

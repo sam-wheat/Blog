@@ -23,6 +23,7 @@ export class GroupFilter implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.siteSubscription = this.sessionService.siteAnnouncedSource.subscribe(x => {
       let blogIndex = x.Menus.find(x => x.MenuName === "BlogIndex");
       this.menuID = blogIndex.ID;
@@ -30,7 +31,6 @@ export class GroupFilter implements OnInit, OnDestroy {
       this.blogService.GetContentItemGroups(this.GroupColumn, this.menuID)
         .subscribe(groups => {
           this.initializeGroupData(groups);
-
         });
     });
   }

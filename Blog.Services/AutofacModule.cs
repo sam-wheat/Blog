@@ -15,7 +15,7 @@ namespace Blog.Services
         {
             base.Load(builder);
 
-            builder.RegisterType<CacheCollection>().As<ICacheCollection>();
+            builder.RegisterType<CacheCollection>().As<ICacheCollection>().SingleInstance();
             
         }
     }

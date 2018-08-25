@@ -1,6 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Subject } from 'rxjs';
-import { AsyncSubject } from 'rxjs';
+import { Subject, AsyncSubject, BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { Site } from '../model/model';
 
@@ -38,22 +37,33 @@ export class SessionService {
   AnnounceSite(site: Site) {
     this.CurrentSite = site;
     this.siteAnnouncedSource.next(this.CurrentSite);
-    this.siteAnnounced$
   }
 
   AnnounceGroupID(groupID: number) {
+
+    if (this.CurrentGroupID === groupID)
+      return;
+
     this.CurrentGroupID = groupID;
-    this.groupIDAnnouncedSource.next(this.CurrentGroupID);
+    this.groupIDAnnouncedSource.next(groupID);
   }
 
   AnnounceMenuID(menuID: number) {
+
+    if (this.CurrentMenuID === menuID)
+      return;
+
     this.CurrentMenuID = menuID;
-    this.groupIDAnnouncedSource.next(this.CurrentMenuID);
+    this.groupIDAnnouncedSource.next(menuID);
   }
 
   AnnounceDateFilter(dateFilter: Date) {
+
+    if (this.CurrentDateFilter === dateFilter)
+      return;
+
     this.CurrentDateFilter = dateFilter;
-    this.dateFilterAnnouncedSource.next(this.CurrentDateFilter);
+    this.dateFilterAnnouncedSource.next(dateFilter);
   }
 
   IsInitialized(): boolean {

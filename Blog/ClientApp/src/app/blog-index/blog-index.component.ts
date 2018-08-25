@@ -35,6 +35,7 @@ export class BlogIndex implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.siteSubscription = this.sessionService.siteAnnounced$.subscribe(x => {
       this.updateIndex();
     });
@@ -46,7 +47,6 @@ export class BlogIndex implements OnInit, OnDestroy {
     this.dateFilterSubscription = this.sessionService.dateFilterAnnouncedSource$.subscribe(x => {
       this.updateIndex();
     });
-    this.updateIndex();
   }
 
   ngOnDestroy() {

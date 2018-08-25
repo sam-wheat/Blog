@@ -36,12 +36,19 @@ namespace Blog.Services.MSSQL
 
         public async Task<List<Site>> GetActiveSites()
         {
-            var list = await db.Sites.Where(x => x.Active)
+            List<Site> list = Cache.SiteCache.Get("1");
+
+            if (list != null)
+                return list;
+
+            list = await db.Sites.Where(x => x.Active)
                 .Include(x => x.Menus).ThenInclude(m => m.MenuContentItems).ThenInclude(x => x.ContentItem).ToListAsync();
 
             foreach (Site site in list)
                 foreach (Menu menu in site.Menus)
-                    menu.MenuContentItems = menu.MenuContentItems.OrderBy(x => x.Sequence).ToList();         
+                    menu.MenuContentItems = menu.MenuContentItems.OrderBy(x => x.Sequence).ToList();
+
+            Cache.SiteCache.Set("1", list);
 
             return list;
         }

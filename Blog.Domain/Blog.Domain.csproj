@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="LeaderAnalytics.Caching" Version="0.0.28" />
+    <PackageReference Include="LeaderAnalytics.Caching" Version="0.0.29" />
   </ItemGroup>
 
 </Project>
