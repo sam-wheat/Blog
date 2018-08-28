@@ -28,15 +28,11 @@ namespace Blog.API
     public class Startup
     {
         public IConfigurationRoot Configuration { get; }
-        private Logger Logger;
         private string EnvironmentName;
 
         public Startup(IHostingEnvironment env)
         {
-            Logger = new LoggerConfiguration()
-                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information).CreateLogger();
-
-            Logger.Information("Logger created");
+      
             string configFilePath = string.Empty;
             EnvironmentName = env.EnvironmentName;
 
@@ -54,7 +50,21 @@ namespace Blog.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            Logger.Information("ConfigureServices started");
+            // Create Logger
+            // Add write permission for <Machine>\IIS_USRS to log directory.
+
+            // Note:  dont use string interpolation when logging. Example:
+            // string userName = "sam";
+            // Log.Information($"My name is {userName}");               // WRONG:  serilog cannot generate a variable for username
+            // Log.Information("My name is {userName}", userName);      // Correct: userName:"sam" can optionally be generated in the log file as a searchable variable
+            // Log.Information("User is: {@user}", user);               // Will serialize user
+            //
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File(Configuration["Data:LogDir"], rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
+                .CreateLogger();
+            Log.Information("Logger created");
+            Log.Information("ConfigureServices started");
 
             // Add framework services.
             services.AddMemoryCache();
@@ -75,7 +85,7 @@ namespace Blog.API
 
             // Autofac
             string filePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            Logger.Information("filePath is {0}",filePath);
+            Log.Information("filePath is {0}",filePath);
             IEnumerable<IEndPointConfiguration> EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(filePath, "EndPoints.json"));
 
             if(EnvironmentName == "Development" && EndPoints.Any(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL))
@@ -106,7 +116,7 @@ namespace Blog.API
 
             // Make sure the database exists
             //container.Resolve<IDatabaseUtilities>().VerifyDatabase(ep);
-            Logger.Information("ConfigureServices ended");
+            Log.Information("ConfigureServices ended");
             return container.Resolve<IServiceProvider>();
         }
 
@@ -133,7 +143,7 @@ namespace Blog.API
                         {
                             var err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace }";
                             await context.Response.WriteAsync(err).ConfigureAwait(false);
-                            Logger.Error(ex.ToString());
+                            Log.Error(ex.ToString());
                         }
                     });
             });

@@ -7,6 +7,7 @@ using Blog.Core;
 using Blog.Domain;
 using Blog.Model;
 using Blog.Services.Database;
+using Serilog;
 
 namespace Blog.Services.MSSQL
 {
@@ -45,12 +46,10 @@ namespace Blog.Services.MSSQL
         public async Task<List<ContentItem>> GetContentItems(int siteID, int menuID, int? groupID, DateTime? dateFilter)
         {
             string cacheKey = siteID.ToString() + menuID.ToString() + (groupID?.ToString() ?? "") + (dateFilter?.ToString() ?? "");
-
             List<ContentItem> list = Cache.ContentItemListCache.Get(cacheKey);
 
             if (list != null)
                 return list;
-
 
             var query = from item in db.ContentItems
                         from mi in item.MenuContentItems

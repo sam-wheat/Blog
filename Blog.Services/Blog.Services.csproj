@@ -21,6 +21,7 @@
   <ItemGroup>
     <PackageReference Include="AdaptiveClient" Version="0.31.2" />
     <PackageReference Include="AdaptiveClient.Utilities" Version="0.1.6" />
+    <PackageReference Include="Serilog" Version="2.7.1" />
   </ItemGroup>
 
   <ItemGroup>

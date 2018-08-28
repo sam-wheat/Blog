@@ -20,7 +20,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Update="Views;logs\**\*">
+    <None Update="Views;serilog\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
