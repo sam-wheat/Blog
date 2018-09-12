@@ -28,7 +28,7 @@ Symptoms the application is distressed include:
 
 As a contractor or new employee you may be tasked with stabilizing an application with the characteristics and symptoms described above.  It is possible you will have not have a good understanding of the business domain and certainly you will not have a full understanding of the more complex business logic.  You will probably be asking yourself "How do I solve this problem?  Where do I begin?"
 
-If you walk around the company and talk to the developers who wrote the code you might hear some of them say things like "We need to implement SOLID design principals".  Others might say "We should create Microservices".  You might also hear "We need to write testable code and unit tests".  All of these suggestions will most likely be true to some to extent.  However, all of these objectives are a step removed from your immediate goal which is to stabilize the code base and assure the company can use the program for their immediate day-to-day needs.  To get to the heart of the matter you need to first target two primary enemies: _Garbage data and redundant code_.  
+If you walk around the company and talk to the developers who wrote the code you might hear some of them say things like "We need to implement SOLID design principals".  Others might say "We should create Microservices".  You might also hear "We need to write testable code and unit tests."  All of these suggestions will most likely be true to some to extent.  However, all of these objectives are a step removed from your immediate goal which is to stabilize the code base and assure the company can use the program for their immediate day-to-day needs.  To get to the heart of the matter you need to first target two primary enemies: _Garbage data and redundant code_.  
 
 To be clear, re-architecting, implementing SOLID principals, and writing unit/integration tests are great ways to clean up and renew an application. Your __first pass__ however, should be focused on closing the door on bad data and removing redundant code.  These types of deficiencies are almost always root causes and pointers to where further attention should be directed. 
 
@@ -59,7 +59,7 @@ It is worth noting that it is possible to build a large enterprise application w
 
 ## Check your database schema
 
-Your first mission is to analyze your database schema - not from the perspective of a DBA, but as a user of the application.  You have a single objective:  to verify the schema implements every possible safeguard to ensure data is always in a valid state.
+Your first mission is to analyze your database schema - not from the perspective of a DBA, but as a user of the application.  You have a single objective: to verify the schema implements every possible safeguard to ensure data is always in a valid state.
 
 
 <div style="background-color:lightblue;padding:12px;margin:10px;">
@@ -69,16 +69,16 @@ Tip: If your database platform is Microsoft SQL Server, you can generate a scrip
 
 #### Check for invalid data types, primary keys, foreign keys, and unique constraints
 
-This may seem obvious but you should be using primary keys and foreign keys correctly.  If your primary key does not capture the unique characteristics of a row consider using a unique constraint.  Scan each column in each table and make sure the data type is correct.  
+This may seem obvious but you should be using primary keys and foreign keys correctly.  If your primary key does not capture the unique characteristics of a row consider using a unique constraint.  Scan each column in each table and make sure the data type is correct.  The constraint checks done by your DBMS are a powerful weapon against a wide variety bugs.  Keep your DBMS working for you to the greatest extent possible at all times.
 
 #### Check for improperly nullable columns
 This is one of the most important exorcises you can undertake to repair a broken or poorly maintained schema.  If your application suffers from data integrity problems you should plan to spend some time here.  The goal is to check each column that allows a null value and determine if the column should actually be nullable.  
 
-Nullable columns should be avoided if at all possible.  With that said, there is nothing inherently wrong with nullable columns - certain data elements are not always mandatory and thats just the way it is. 
+Nullable columns should be avoided if at all possible.  One of the problems with nullable columns is that they bypass required value checking done by the DBMS.  As mentioned previously you want to keep the DBMS working for you at all times.  With that said, there is nothing inherently wrong with nullable columns - certain data elements are not always mandatory and thats just the way it is.  
 
-If you find a nullable column in your database, check to see if the column is used in the WHERE, GROUP BY, or ORDER BY clause of any query.  If it is, that is a strong sign that the column should not be nullable.
+If you find a nullable column in your database, check to see if the column is used in the WHERE, GROUP BY, or ORDER BY clause of any query.  If it is, that is a good sign that the column should not be nullable.
 
-If you conclude a column MUST be nullable you should look carefully at the reasoning behind your conclusion as it may give you some valuable insight.  This is best explained with an illustration.  Suppose you have a table called ORDERS that has a schema that looks like this:
+When you check nullable columns on your database you get some very valuable information as a free byproduct of your analysis.  While this information may not be directly tied to the validity of your data you should take notes for future work you may want to do.  If you conclude a column MUST be nullable you should look carefully at the reasoning behind your conclusion as it may be a sign that you can better normalize or restructure your database.  This is best explained with an illustration.  Suppose you have a table called ORDERS that has a schema that looks like this:
 
 ````
 [ID] [int] IDENTITY(1,1) NOT NULL,
@@ -98,7 +98,7 @@ Tip: If you created a script file of your database you can use <a href="https://
 
 ## Clean up your data
 
-#### Guard the perimiter not the mess hall
+#### Guard the perimiter
 
 As a developer your ongoing objective is to make sure your database has valid, current, and complete data at all times.  One of the best ways to do this is to establish a single point of entry for each of your domain entities and enforce your validation rules at that point.  For example a method to insert or update a Customer object may look like this:
 
@@ -168,9 +168,47 @@ The correct approach to error handling is embodied in a pattern called Fail Fast
 
 * Fewer `try`/`catch` blocks are better.  Exceptions should flow up to a global exception handler.
 * `try`/`catch` blocks should only be used to catch specific errors that are actually handled in some way.
-* Exceptions should be logged and execution should stop.
-* An Exception should be thrown immediately when internal low-level code encounters unexpected or invalid business logic.
+* Unhandled Exceptions should be logged and execution should stop.
+* An Exception should be thrown immediately when internal low-level code encounters unexpected or invalid business logic. 
 
+With regard to the last point above - don't be afraid to throw Exceptions when there is an EXPECTATION OF COMPLIANCE in your code.  Consider the following two methods:
+
+````
+public Customer GetCustomerByID(int id)
+{
+    Customer c db.Customers.FirstOrDefault(x => x.ID == id);
+}
+````
+In the code above you should not throw if the passed id is not found.  This is a public method.  There is no expectation the user knows a valid ID from an invalid one.
+
+````
+private void ProcessOrder(Order order)
+{
+  Customer c = GetCustomerByID(order.CustomerID);
+
+  if(c == null)
+    throw new Exception($"Invalid customer ID: {order.CustomerID}"); 
+
+  c.YTDOrders += order.Amount;
+}
+````
+In the code above there is an expectation the customer ID on the order is correct.  Definitely throw if `order.CustomerID` is not found!  If an upstream change causes order.CustomerID to become invalid this code will likely catch that error in QA.
+
+The code shown below is the wrong way to do it.  This error is common because developers are afraid to throw exceptions.  If an upstream change causes order.CustomerID to become invalid the error will most likely be discovered by the end user - after data corruption has occurred.  
+
+
+````
+private void ProcessOrder(Order order)
+{
+  Customer c = GetCustomerByID(order.CustomerID);
+
+  // Horror
+  if(c != null)
+    c.YTDOrders += order.Amount;
+  else
+    Log.Error($"Invalid customer ID: {order.CustomerID}"); 
+}
+````
 
 #### Use the compiler, Luke 
  
