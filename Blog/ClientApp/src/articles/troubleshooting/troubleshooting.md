@@ -1,10 +1,10 @@
 <article>
 
-Those who have played the game DOOM will recognize the BFG9000 as an enormous weapon that delivers a highly destructive round.  In the war on software defects there is no single analogy for the BFG9000.  There are, however, a variety of "big gun" techniques for dispatching bugs and defects.  Almost all of these techniques center around identifying and fixing root cause issues.  Fixing a root cause issue can have a beneficial impact as a result of the fix itself, or, as is often the case, it will bring to light other deficiencies that exist as a result of the root cause.  In either case, fixing a root cause issue can deliver a massively beneficial result - often with relatively little effort or risk.  
+Those who have played the game DOOM will recognize the BFG9000 as an enormous weapon that delivers a highly destructive round.  In the war on software defects there is no single analogy for the BFG9000.  There are, however, a variety of "big gun" techniques for dispatching bugs and defects.  Almost all of these techniques center around identifying and fixing high-value issues.  Fixing a high-value issue can have a beneficial impact as a result of the fix itself, or, as is often the case, it will bring to light other deficiencies that exist as a result of the high-value cause.  In either case, fixing a high-value issue can deliver a massively beneficial result - often with relatively little effort or risk.  
 
 ## Go big and get lucky
 
-From a purely statistical standpoint, hunting down root cause issues puts the odds on your side.  The [Pareto Principle](https://www.investopedia.com/terms/p/paretoprinciple.asp) states that eighty percent of consequences come from twenty percent of causes.  Pareto's principal is highly applicable in the domain of troubleshooting software defects.  This is good news for most software developers because it means that for a given application, correcting a few critical deficiencies will result in a cascade of beneficial results.  
+From a purely statistical standpoint, hunting down high-value issues puts the odds on your side.  The [Pareto Principle](https://www.investopedia.com/terms/p/paretoprinciple.asp) states that eighty percent of consequences come from twenty percent of causes.  Pareto's principal is highly applicable in the domain of troubleshooting software defects.  This is good news for most software developers because it means that for a given application, correcting a few critical deficiencies will result in a cascade of beneficial results.  
 
 ## Where to find trouble
 
@@ -21,22 +21,24 @@ Symptoms the application is distressed include:
 
 * Slow execution
 * Incorrect data
-* Constantly encounters exceptions
+* Numerous exceptions
 * Unusually complex or verbose code
 * Fragile code i.e. implementing minor changes causes breakage elsewhere in the application.
 * Difficult to work on - small improvements are often blocked by deficiencies in code that is only remotely related.
 
 As a contractor or new employee you may be tasked with stabilizing an application with the characteristics and symptoms described above.  It is possible you will have not have a good understanding of the business domain and certainly you will not have a full understanding of the more complex business logic.  You will probably be asking yourself "How do I solve this problem?  Where do I begin?"
 
-If you walk around the company and talk to the developers who wrote the code you might hear some of them say things like "We need to implement SOLID design principals".  Others might say "We should create Microservices".  You might also hear "We need to write testable code and unit tests."  All of these suggestions will most likely be true to some to extent.  However, all of these objectives are a step removed from your immediate goal which is to stabilize the code base and assure the company can use the program for their immediate day-to-day needs.  To get to the heart of the matter you need to first target two primary enemies: _Garbage data and redundant code_.  
+If you walk around the company and talk to the developers who wrote the code you might hear some of them say things like "We need to implement SOLID design principals."  Others might say "We should create Microservices."  You might also hear "We need to write testable code and unit tests."  All of these suggestions will most likely be true to some to extent.  However, all of these objectives are a step removed from your immediate goal which is to stabilize the code base and ensure the application is usable for the company's daily needs.  To get to the heart of the matter you need to first target two primary enemies: *Garbage data and redundant code*.  The reasons for this are twofold:
 
-To be clear, re-architecting, implementing SOLID principals, and writing unit/integration tests are great ways to clean up and renew an application. Your __first pass__ however, should be focused on closing the door on bad data and removing redundant code.  These types of deficiencies are almost always root causes and pointers to where further attention should be directed. 
+The first reason is that these types of deficiencies are often root causes and/or pointers to where further attention should be directed. 
+
+The second reason has to do with practicality.  Using the methods described below you can spot high-value targets with little or no domain knowledge and no special tools.  If you know how to use "Find All" in your text editor you are good to go.
 
 ## Know your enemy
 
 #### Garbage in, garbage out
 
-Garbage in, garbage out (GIGO) is one of the oldest axioms in computing.  By preventing garbage data from ever entering your database you can avoid validating it again and again throughout application layers.
+Garbage in, garbage out (GIGO) is one of the oldest axioms in computing.  By preventing garbage data from ever entering your database you can avoid validating it and cleansing it again and again throughout application layers.
 
 Sources of garbage data include:
 
@@ -44,18 +46,50 @@ Sources of garbage data include:
 * Duplicate data.
 * Multiple entry points for data.
 * Swallowing exceptions.
-* Missing validation rules.
+* Missing or conflicting validation rules.
 * Not programming defensively - making assumptions on behalf of the user, open ended if and case statements.
 
 #### Don't repeat yourself
 
-Don't Repeat Yourself (DRY) is the mother of all architectural principals.  Redundant code is caused by failing to factor code correctly and/or failing to place code in the correct application layer.  Redundant code is often found in:
+Don't Repeat Yourself (DRY) is the mother of all architectural principals. DRY literally means that every responsibility within your system is represented exactly once.  
+ 
+Redundant code is caused by copy/pasting code or writing it twice.  Primary drivers of DRY violations are failing to factor code correctly and failing to place code in the correct application layer.  Redundant code is often found in:
 * Controllers
 * WCF .svc files
 * Stored procedures
 * Report definition files
 
-It is worth noting that it is possible to build a large enterprise application with no knowledge or regard for SOLID principals.  There are thousands of such applications in use today.  Building an enterprise application with no regard for DRY is much more difficult because the application begins to work against itself almost immediately.  The size of the code base begins to grow exponentially as the application grows and it soon becomes impossible to scale.
+These days it is common to code for style points rather than practicality or usefulness.  Whoever can cite a cool acronym or architectural fad in support of their code will win favor from the group.  Unfortunately, the glitter has long ago faded for DRY. It receives little attention in the headlines yet it remains the single most important driver of application design.  Some developers may be surprised to learn that building an enterprise application with no regard for DRY is a difficult if not impossible task, whereas building an enterprise application with no regard for SOLID is far more achievable.  Repeated DRY violations will quickly cause an application to begin to work against itself.  The size of the code base will grow exponentially as the application grows and it will soon become impossible to scale.  SOLID violations, while by no means desirable or benign, are not nearly as destructive.  In fact there are thousands of applications in use today that were written long before SOLID was popularized.  
+
+The above paragraph is meant only to underscore the importance of DRY - not to compare DRY versus SOLID.  Such a comparison is not a valid concept at all.  DRY and SOLID are distinct yet complimentary principals.  Writing SOLID code does not in any way guarantee that the code is also DRY and vice versa.  To make a naively simple example say we have the following class:
+
+````csharp
+public class DRY_but_not_SOLID
+{
+  public void ResponsibilityA()
+  {
+    //...
+    ResponsibilityB();
+  }
+
+  private void ResponsibilityB()
+  {
+    //...
+  }
+}
+````
+The above code violates the Single Responsibility Principle however it is DRY as long as it is represented only once within a system.  Eventually the developer may need code that performs ResponsibilityA only.  If the developer creates a copy of the above class than a DRY violation occurs even if the code is modified to be SOLID compliant:
+
+````csharp
+public class SOLID_but_not_DRY
+{
+  public void ResponsibilityA()
+  {
+    //...
+  }
+}
+````
+
 
 ## Check your database schema
 
@@ -76,11 +110,11 @@ This is one of the most important exorcises you can undertake to repair a broken
 
 Nullable columns should be avoided if at all possible.  One of the problems with nullable columns is that they bypass required value checking done by the DBMS.  As mentioned previously you want to keep the DBMS working for you at all times.  With that said, there is nothing inherently wrong with nullable columns - certain data elements are not always mandatory and thats just the way it is.  
 
-If you find a nullable column in your database, check to see if the column is used in the WHERE, GROUP BY, or ORDER BY clause of any query.  If it is, that is a good sign that the column should not be nullable.
+If you find a nullable column in your database, check to see if the column is used in the WHERE, GROUP BY, or ORDER BY clause of any query.  If it is, that is a good sign that the column should not be nullable.  If you are casting the value to a non-nullable type in your code that is another sign the column should not be nullable.
 
-When you check nullable columns on your database you get some very valuable information as a free byproduct of your analysis.  While this information may not be directly tied to the validity of your data you should take notes for future work you may want to do.  If you conclude a column MUST be nullable you should look carefully at the reasoning behind your conclusion as it may be a sign that you can better normalize or restructure your database.  This is best explained with an illustration.  Suppose you have a table called ORDERS that has a schema that looks like this:
+When you check nullable columns on your database you get some very valuable information as a free byproduct of your analysis.  While this information may not be directly tied to the validity of your data you should take notes for future work you may want to do.  If you conclude a column MUST be nullable you should look carefully at the reasoning behind your conclusion as it may be a sign that you can better normalize or restructure your database.  This is best explained with an example.  Suppose you have a table called ORDERS that has a schema that looks like this:
 
-````
+````sql
 [ID] [int] IDENTITY(1,1) NOT NULL,
 [CustomerID] [int] NOT NULL,
 [OrderDate] [datetime2](0) NOT NULL,
@@ -90,7 +124,7 @@ When you check nullable columns on your database you get some very valuable info
 // More columns...
 ````
 
-In the table above the ShipDate column is nullable.  An argument can be made that the column should be nullable because at the time an order is placed the ship date does not yet exist and cannot be known with certainty.  That argument is entirely correct and would seem to support the column being nullable.  But there is a deeper issue here, and that is that the ShipDate column does not belong on the ORDERS table.  It belongs on the SHIPMENTS table and it should not be nullable.  That is how you use a nullable column check to find a design error in your database.
+In the table above the ShipDate column is nullable.  An argument can be made that the column should be nullable because at the time an order is placed the ship date does not yet exist and cannot be known with certainty.  That argument is entirely correct and would seem to support the column being nullable.  But there is a deeper issue here, and that is that the ShipDate column does not belong on the ORDERS table.  It belongs on a SHIPMENTS table and it should not be nullable.  The only flag that calls for further investigation is the fact that the ShipDate column is nullable.
 
 <div style="background-color:lightblue;padding:12px;margin:10px;">
 Tip: If you created a script file of your database you can use <a href="https://notepad-plus-plus.org">Notepad++</a> to quickly find NULL columns.  Open your file in Notepad++ and press Ctrl+F. Paste this into the "Find what" box: <code>(\) NULL)|(\] NULL)</code>. Set Search Mode to Regualar expression, then click "Find All in Current Document".
@@ -102,7 +136,7 @@ Tip: If you created a script file of your database you can use <a href="https://
 
 As a developer your ongoing objective is to make sure your database has valid, current, and complete data at all times.  One of the best ways to do this is to establish a single point of entry for each of your domain entities and enforce your validation rules at that point.  For example a method to insert or update a Customer object may look like this:
 
-````
+````csharp
 // This is the only method that inserts or updates the customer table.
 public string SaveCustomer(Customer customer)
 {
@@ -173,15 +207,16 @@ The correct approach to error handling is embodied in a pattern called Fail Fast
 
 With regard to the last point above - don't be afraid to throw Exceptions when there is an EXPECTATION OF COMPLIANCE in your code.  Consider the following two methods:
 
-````
+````csharp
 public Customer GetCustomerByID(int id)
 {
-    Customer c db.Customers.FirstOrDefault(x => x.ID == id);
+    Customer c = db.Customers.FirstOrDefault(x => x.ID == id);
+    return c;
 }
 ````
 In the code above you should not throw if the passed id is not found.  This is a public method.  There is no expectation the user knows a valid ID from an invalid one.
 
-````
+````csharp
 private void ProcessOrder(Order order)
 {
   Customer c = GetCustomerByID(order.CustomerID);
@@ -197,7 +232,7 @@ In the code above there is an expectation the customer ID on the order is correc
 The code shown below is the wrong way to do it.  This error is common because developers are afraid to throw exceptions.  If an upstream change causes order.CustomerID to become invalid the error will most likely be discovered by the end user - after data corruption has occurred.  
 
 
-````
+````csharp
 private void ProcessOrder(Order order)
 {
   Customer c = GetCustomerByID(order.CustomerID);
