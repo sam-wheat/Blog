@@ -9,3 +9,19 @@ Run the publish, which will not copy the files.
 Open C:\Git\Blog\Blog\obj\Release\netcoreapp2.1\win-x64\PubTmp\Out
 
 Manually copy/paste to ftp.samwheat.com
+
+
+Web config as it exists in root dir on winhost:
+
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <location path="." inheritInChildApplications="false">
+    <system.webServer>
+      <handlers>
+        <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModule" resourceType="Unspecified" />
+      </handlers>
+      <aspNetCore processPath=".\Blog.exe" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" />
+    </system.webServer>
+  </location>
+</configuration>
+<!--ProjectGuid: ab18ba01-0a7c-442a-944f-b81a8ff8369f-->
