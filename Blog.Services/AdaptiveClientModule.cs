@@ -42,8 +42,8 @@ namespace Blog.Services
             .RegisterMigrationContext<DbMySQL>(API_Name.Blog, ProviderName.MySQL)
 
             // Database Initializers
-            .RegisterDatabaseInitializer<DatabaseInitializer>(API_Name.Blog, ProviderName.MSSQL)
-            .RegisterDatabaseInitializer<DatabaseInitializer>(API_Name.Blog, ProviderName.MySQL)
+            .RegisterDatabaseInitializer<Database.DataInitalizers.SiteDataInitalizer>(API_Name.Blog, ProviderName.MSSQL)
+            .RegisterDatabaseInitializer<Database.DataInitalizers.SiteDataInitalizer>(API_Name.Blog, ProviderName.MySQL)
 
             // Service Manifests
             .RegisterServiceManifest<ServiceManifest, IServiceManifest>(EndPointType.DBMS, API_Name.Blog, ProviderName.MSSQL)

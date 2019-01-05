@@ -1,26 +1,33 @@
-﻿Ftp publish does not work.
+﻿Publish using SamWheatWeb - Web Deploy
+Nothing else to do.
 
-Delete bin and obj folders.
+---------
+SSLForFree.com
+https://www.sslforfree.com/tutorial/iis.html
+The steps below show you how to convert the SSL certificate files into a PFX file that can install into Microsoft IIS and Azure:
+1) Create your SSL certificate using https://www.sslforfree.com
+2) After you have all 3 certificate files go to https://decoder.link/converter and input all files. You can enter any "Password" you want for the PFX file. Make sure it is set to convert "PEM TO PKCS#12". This tool is provided by Namecheap, we are not responsible for this tool.
+3) This will generate a PFX file that you can use in Microsoft IIS, Microsoft Azure, and any other web servers that require a PFX file for SSL installation.
+-----------
+Instructions for adding ssl cert to Azure
+https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-SSL
 
-Stop IIS on the winhost server.
 
-Run the publish, which will not copy the files.
-
-Open C:\Git\Blog\Blog\obj\Release\netcoreapp2.1\win-x64\PubTmp\Out
-
-Manually copy/paste to ftp.samwheat.com
+--------
+Lets Encrypt Azure Extension
+https://codehollow.com/2017/10/lets-encrypt-azure-webapps/
 
 
-Web config as it exists in root dir on winhost:
+Web config as it exists in root dir on azure:
 
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <location path="." inheritInChildApplications="false">
     <system.webServer>
       <handlers>
-        <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModule" resourceType="Unspecified" />
+        <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModuleV2" resourceType="Unspecified" />
       </handlers>
-      <aspNetCore processPath=".\Blog.exe" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" />
+      <aspNetCore processPath=".\Blog.exe" stdoutLogEnabled="false" stdoutLogFile="\\?\%home%\LogFiles\stdout" />
     </system.webServer>
   </location>
 </configuration>

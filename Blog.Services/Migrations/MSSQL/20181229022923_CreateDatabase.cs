@@ -8,8 +8,12 @@ namespace Blog.Services.Migrations.MSSQL
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Blog");
+
             migrationBuilder.CreateTable(
                 name: "Sites",
+                schema: "Blog",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -25,6 +29,7 @@ namespace Blog.Services.Migrations.MSSQL
 
             migrationBuilder.CreateTable(
                 name: "ContentGroups",
+                schema: "Blog",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -40,6 +45,7 @@ namespace Blog.Services.Migrations.MSSQL
                     table.ForeignKey(
                         name: "FK_ContentGroups_Sites_SiteID",
                         column: x => x.SiteID,
+                        principalSchema: "Blog",
                         principalTable: "Sites",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -47,6 +53,7 @@ namespace Blog.Services.Migrations.MSSQL
 
             migrationBuilder.CreateTable(
                 name: "Menus",
+                schema: "Blog",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -60,6 +67,7 @@ namespace Blog.Services.Migrations.MSSQL
                     table.ForeignKey(
                         name: "FK_Menus_Sites_SiteID",
                         column: x => x.SiteID,
+                        principalSchema: "Blog",
                         principalTable: "Sites",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -67,6 +75,7 @@ namespace Blog.Services.Migrations.MSSQL
 
             migrationBuilder.CreateTable(
                 name: "ContentItems",
+                schema: "Blog",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -93,6 +102,7 @@ namespace Blog.Services.Migrations.MSSQL
                     table.ForeignKey(
                         name: "FK_ContentItems_ContentGroups_ContentGroupID",
                         column: x => x.ContentGroupID,
+                        principalSchema: "Blog",
                         principalTable: "ContentGroups",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -100,6 +110,7 @@ namespace Blog.Services.Migrations.MSSQL
 
             migrationBuilder.CreateTable(
                 name: "Comments",
+                schema: "Blog",
                 columns: table => new
                 {
                     ID = table.Column<long>(nullable: false)
@@ -120,12 +131,14 @@ namespace Blog.Services.Migrations.MSSQL
                     table.ForeignKey(
                         name: "FK_Comments_ContentItems_ContentItemID",
                         column: x => x.ContentItemID,
+                        principalSchema: "Blog",
                         principalTable: "ContentItems",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Comments_ParentID",
                         column: x => x.ParentID,
+                        principalSchema: "Blog",
                         principalTable: "Comments",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -133,6 +146,7 @@ namespace Blog.Services.Migrations.MSSQL
 
             migrationBuilder.CreateTable(
                 name: "MenuContentItems",
+                schema: "Blog",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -147,12 +161,14 @@ namespace Blog.Services.Migrations.MSSQL
                     table.ForeignKey(
                         name: "FK_MenuContentItems_ContentItems_ContentItemID",
                         column: x => x.ContentItemID,
+                        principalSchema: "Blog",
                         principalTable: "ContentItems",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MenuContentItems_Menus_MenuID",
                         column: x => x.MenuID,
+                        principalSchema: "Blog",
                         principalTable: "Menus",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -160,36 +176,43 @@ namespace Blog.Services.Migrations.MSSQL
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ContentItemID",
+                schema: "Blog",
                 table: "Comments",
                 column: "ContentItemID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ParentID",
+                schema: "Blog",
                 table: "Comments",
                 column: "ParentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContentGroups_SiteID",
+                schema: "Blog",
                 table: "ContentGroups",
                 column: "SiteID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContentItems_ContentGroupID",
+                schema: "Blog",
                 table: "ContentItems",
                 column: "ContentGroupID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuContentItems_ContentItemID",
+                schema: "Blog",
                 table: "MenuContentItems",
                 column: "ContentItemID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuContentItems_MenuID",
+                schema: "Blog",
                 table: "MenuContentItems",
                 column: "MenuID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Menus_SiteID",
+                schema: "Blog",
                 table: "Menus",
                 column: "SiteID");
         }
@@ -197,22 +220,28 @@ namespace Blog.Services.Migrations.MSSQL
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "Comments",
+                schema: "Blog");
 
             migrationBuilder.DropTable(
-                name: "MenuContentItems");
+                name: "MenuContentItems",
+                schema: "Blog");
 
             migrationBuilder.DropTable(
-                name: "ContentItems");
+                name: "ContentItems",
+                schema: "Blog");
 
             migrationBuilder.DropTable(
-                name: "Menus");
+                name: "Menus",
+                schema: "Blog");
 
             migrationBuilder.DropTable(
-                name: "ContentGroups");
+                name: "ContentGroups",
+                schema: "Blog");
 
             migrationBuilder.DropTable(
-                name: "Sites");
+                name: "Sites",
+                schema: "Blog");
         }
     }
 }

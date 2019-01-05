@@ -3,13 +3,14 @@ using System;
 using Blog.Services.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Blog.Services.Migrations.MySQL
+namespace Blog.Services.Migrations.MSSQL
 {
-    [DbContext(typeof(DbMySQL))]
-    [Migration("20180715034119_CreateDatabase")]
+    [DbContext(typeof(DbMSSQL))]
+    [Migration("20181229022923_CreateDatabase")]
     partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,12 +18,14 @@ namespace Blog.Services.Migrations.MySQL
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Blog.Model.Comment", b =>
                 {
                     b.Property<long>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Approved");
 
@@ -53,13 +56,14 @@ namespace Blog.Services.Migrations.MySQL
 
                     b.HasIndex("ParentID");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.ContentGroup", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active");
 
@@ -75,13 +79,14 @@ namespace Blog.Services.Migrations.MySQL
 
                     b.HasIndex("SiteID");
 
-                    b.ToTable("ContentGroups");
+                    b.ToTable("ContentGroups","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.ContentItem", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Abstract");
 
@@ -120,13 +125,14 @@ namespace Blog.Services.Migrations.MySQL
 
                     b.HasIndex("ContentGroupID");
 
-                    b.ToTable("ContentItems");
+                    b.ToTable("ContentItems","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.Menu", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("MenuName");
 
@@ -136,13 +142,14 @@ namespace Blog.Services.Migrations.MySQL
 
                     b.HasIndex("SiteID");
 
-                    b.ToTable("Menus");
+                    b.ToTable("Menus","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.MenuContentItem", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ContentItemID");
 
@@ -156,13 +163,14 @@ namespace Blog.Services.Migrations.MySQL
 
                     b.HasIndex("MenuID");
 
-                    b.ToTable("MenuContentItems");
+                    b.ToTable("MenuContentItems","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.Site", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active");
 
@@ -174,7 +182,7 @@ namespace Blog.Services.Migrations.MySQL
 
                     b.HasKey("ID");
 
-                    b.ToTable("Sites");
+                    b.ToTable("Sites","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.Comment", b =>

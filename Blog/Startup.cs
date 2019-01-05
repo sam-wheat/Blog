@@ -81,7 +81,7 @@ namespace Blog
 
             try
             {
-                string dummy = httpClient.GetStringAsync(new Uri("http://www.samwheat.com/api/api/blog/GetContentItemBySlug?slug=ZZZ&siteID=999")).Result;
+                string dummy = httpClient.GetStringAsync(new Uri("https://www.samwheat.com/api/api/blog/GetContentItemBySlug?slug=ZZZ&siteID=999")).Result;
             }
             catch (Exception)
             {

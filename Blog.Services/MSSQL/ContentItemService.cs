@@ -63,7 +63,7 @@ namespace Blog.Services.MSSQL
             if (dateFilter.HasValue)
                 query = query.Where(item => item.PublishDate.HasValue && item.PublishDate.Value.Month == dateFilter.Value.Month && item.PublishDate.Value.Year == dateFilter.Value.Year);
 
-            query = query.Include(x => x.ContentGroup);
+            query = query.Include(x => x.ContentGroup).OrderByDescending(x => x.MenuContentItems.First(y => y.MenuID == menuID).Sequence);
             list = await query.ToListAsync();
             Cache.ContentItemListCache.Set(cacheKey, list);
             return list;

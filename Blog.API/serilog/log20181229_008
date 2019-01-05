@@ -1,0 +1,5 @@
+2018-12-29 13:50:20.796 -08:00 [INF] Logger created
+2018-12-29 13:50:20.806 -08:00 [INF] EnvironmentName is Development
+2018-12-29 13:50:20.811 -08:00 [INF] ConfigureServices started
+2018-12-29 13:50:21.134 -08:00 [INF] filePath is C:\Git\Blog\Blog.API\bin\Debug\netcoreapp2.2
+2018-12-29 13:50:23.312 -08:00 [INF] ConfigureServices ended

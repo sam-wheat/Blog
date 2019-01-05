@@ -15,7 +15,7 @@ namespace Blog.MigrationFactories
     {
         public DbMSSQL CreateDbContext(string[] args)
         {
-            string connectionString = ConnectionstringUtility.GetConnectionString("bin\\debug\\netcoreapp2.0\\EndPoints.json", API_Name.Blog, ProviderName.MSSQL);
+            string connectionString = ConnectionstringUtility.BuildConnectionString(ConnectionstringUtility.GetConnectionString("bin\\debug\\netcoreapp2.0\\EndPoints.json", API_Name.Blog, ProviderName.MSSQL), ConnectionstringUtility.Environment.Prod, ConnectionstringUtility.Provider.MSSQL);
             DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
             dbOptions.UseSqlServer(connectionString);
             DbMSSQL db = new DbMSSQL(dbOptions.Options);
@@ -28,7 +28,7 @@ namespace Blog.MigrationFactories
     {
         public DbMySQL CreateDbContext(string[] args)
         {
-            string connectionString = ConnectionstringUtility.BuildConnectionString(ConnectionstringUtility.GetConnectionString("bin\\debug\\netcoreapp2.0\\EndPoints.json", API_Name.Blog, ProviderName.MySQL), "Development");
+            string connectionString = ConnectionstringUtility.BuildConnectionString(ConnectionstringUtility.GetConnectionString("bin\\debug\\netcoreapp2.0\\EndPoints.json", API_Name.Blog, ProviderName.MySQL), ConnectionstringUtility.Environment.Prod, ConnectionstringUtility.Provider.MySQL);
             DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
             dbOptions.UseMySql(connectionString);
             DbMySQL db = new DbMySQL(dbOptions.Options);

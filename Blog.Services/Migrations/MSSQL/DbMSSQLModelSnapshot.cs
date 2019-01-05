@@ -54,7 +54,7 @@ namespace Blog.Services.Migrations.MSSQL
 
                     b.HasIndex("ParentID");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.ContentGroup", b =>
@@ -77,7 +77,7 @@ namespace Blog.Services.Migrations.MSSQL
 
                     b.HasIndex("SiteID");
 
-                    b.ToTable("ContentGroups");
+                    b.ToTable("ContentGroups","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.ContentItem", b =>
@@ -123,7 +123,7 @@ namespace Blog.Services.Migrations.MSSQL
 
                     b.HasIndex("ContentGroupID");
 
-                    b.ToTable("ContentItems");
+                    b.ToTable("ContentItems","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.Menu", b =>
@@ -140,7 +140,7 @@ namespace Blog.Services.Migrations.MSSQL
 
                     b.HasIndex("SiteID");
 
-                    b.ToTable("Menus");
+                    b.ToTable("Menus","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.MenuContentItem", b =>
@@ -161,7 +161,7 @@ namespace Blog.Services.Migrations.MSSQL
 
                     b.HasIndex("MenuID");
 
-                    b.ToTable("MenuContentItems");
+                    b.ToTable("MenuContentItems","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.Site", b =>
@@ -180,7 +180,7 @@ namespace Blog.Services.Migrations.MSSQL
 
                     b.HasKey("ID");
 
-                    b.ToTable("Sites");
+                    b.ToTable("Sites","Blog");
                 });
 
             modelBuilder.Entity("Blog.Model.Comment", b =>

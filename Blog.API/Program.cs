@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography.X509Certificates;
-
+using Serilog;
+using Serilog.Core;
 
 namespace Blog.API
 {
@@ -16,7 +17,20 @@ namespace Blog.API
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            Log.Logger = new LoggerConfiguration()
+               .WriteTo.File("serilog\\log", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
+               .CreateLogger();
+            Log.Information("Logger created");
+            Log.Information("ConfigureServices started");
+
+            try
+            {
+                CreateWebHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

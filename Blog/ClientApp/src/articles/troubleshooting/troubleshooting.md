@@ -176,7 +176,7 @@ A full discussion of how to design and maintain a database is beyond the scope o
 
 Loosely defined, business logic is any code that depends on or operates on a domain entity such as an Order, Client, Product, etc.  Business logic belongs in one place only - the business logic layer.  Business logic libraries are .dll files that can be referenced by higher level layers or wrapped by some transport-specific layer such as REST or WCF.  
 
-Factoring business logic out of the presentation layer and into the business logic layer is an essential first step if you want to scale your application.  Business logic that is incorrectly placed in the presentation layer - such as a controller or view model -  is unusable to other controllers or view models that may need to call it.  The way to mitigate that obstacle is to move business logic to the lower level business logic layer where is accessible to all presentation objects. 
+Factoring business logic out of the presentation layer and into the business logic layer is an essential first step if you want to scale your application.  Business logic that is incorrectly placed in the presentation layer - such as a controller or view model -  is unusable to other controllers or view models that may need to call it.  The presentation layer becomes a breeding grounds for DRY violations when business logic is placed there.  The way to mitigate that obstacle is to move business logic to the lower level business logic layer where is accessible to all presentation objects. 
 
 It is not uncommon to find seventy percent or more of your application's code in the business logic layer.  Controllers and view models should be very thin and serve little purpose other than to map presentation functions to the business logic layer.
 
@@ -185,9 +185,9 @@ If you have a large and complex business logic layer consider using a facade or 
 
 #### Don't juggle a live grenade - if your app throws stop processing
 
-One of the most flagrant and fragrant violations found in many code bases today is incorrect error handling.  The problem is rooted in a thought process called "Log and continue" that holds dear three deeply flawed beliefs:  
+A common problem found in many code bases today is incorrect error handling.  The problem is rooted in a thought process called "Log and continue" that holds dear three deeply flawed beliefs:  
 
-* More `try` / `catch` blocks are better.
+* More `try` / `catch` blocks somehow make code more resilient.
 * Exceptions should be logged and execution should continue.
 * Exceptions should not be thrown when internal low-level code encounters unexpected or invalid business logic.
 
@@ -202,10 +202,10 @@ The correct approach to error handling is embodied in a pattern called Fail Fast
 
 * Fewer `try`/`catch` blocks are better.  Exceptions should flow up to a global exception handler.
 * `try`/`catch` blocks should only be used to catch specific errors that are actually handled in some way.
-* Unhandled Exceptions should be logged and execution should stop.
-* An Exception should be thrown immediately when internal low-level code encounters unexpected or invalid business logic. 
+* Unhandled exceptions should be logged and execution should stop.
+* An exception should be thrown immediately when internal low-level code encounters unexpected or invalid business logic. 
 
-With regard to the last point above - don't be afraid to throw Exceptions when there is an EXPECTATION OF COMPLIANCE in your code.  Consider the following two methods:
+With regard to the last point above - don't be afraid to throw Exceptions when there is an expectation of compliance in your code.  Consider the following two methods:
 
 ````csharp
 public Customer GetCustomerByID(int id)
@@ -227,7 +227,7 @@ private void ProcessOrder(Order order)
   c.YTDOrders += order.Amount;
 }
 ````
-In the code above there is an expectation the customer ID on the order is correct.  Definitely throw if `order.CustomerID` is not found!  If an upstream change causes order.CustomerID to become invalid this code will likely catch that error in QA.
+In the code above there is an expectation the customer ID on the order is correct.  Definitely throw if order.CustomerID is not found!  If an upstream change causes order.CustomerID to become invalid this code will likely catch that error in QA.
 
 The code shown below is the wrong way to do it.  This error is common because developers are afraid to throw exceptions.  If an upstream change causes order.CustomerID to become invalid the error will most likely be discovered by the end user - after data corruption has occurred.  
 

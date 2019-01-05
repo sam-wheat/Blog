@@ -161,7 +161,7 @@ namespace Blog.Services.Database.DataInitalizers
 
             ContentItem post6 = new ContentItem
             {
-                Active = true,
+                Active = false,
                 Abstract = "Build a Business Logic layer that will expose services to desktop and web applications.  Automatically detect if client is connecting over a Local Area Network and transport data in-process using sqlClient. Transparently connect via WCF or REST if client is remote.",
                 AllowComments = true,
                 ContentGroup = netContentGroup,
@@ -192,6 +192,66 @@ namespace Blog.Services.Database.DataInitalizers
             ContentItem post8 = new ContentItem
             {
                 Active = true,
+                Abstract = "A ViewModel definition, a comparison to other types of models, and a brief introduction on how to construct and use them.   ",
+                AllowComments = true,
+                ContentGroup = netContentGroup,
+                PublishDate = new DateTime(2016, 10, 7),
+                Icon = "ggbridge.jpg",
+                Slug = "The-function-of-ViewModels-in-MVC-web-development",
+                URL = "viewModels/viewModels.html ",
+                Title = "The function of ViewModels in MVC web development",
+                ContentType = ContentItemType.Post,
+                MenuContentItems = new List<MenuContentItem>()
+            };
+
+            ContentItem post9 = new ContentItem
+            {
+                Active = false,
+                Abstract = "Library and pattern for consuming services across heterogeneous platforms and protocols.  Inject a single client that allows an application to transparently access APIs using SQL client, WebAPI, REST, WCF, ESB, etc. Gracefully fall back if preferred server or protocol becomes unavailable.",
+                AllowComments = true,
+                ContentGroup = netContentGroup,
+                PublishDate = new DateTime(2017, 1, 5),
+                Icon = "adaptive.jpg",
+                Slug = "Library-and-pattern-for-consuming-services-across-heterogeneous-platforms-and-protocols",
+                URL = "adaptiveClient/adaptiveClient.html",
+                Title = "AdaptiveClient - Library and pattern for consuming services across heterogeneous platforms and protocols",
+                ContentType = ContentItemType.Post,
+                MenuContentItems = new List<MenuContentItem>()
+            };
+
+            ContentItem post10 = new ContentItem
+            {
+                Active = true,
+                Abstract = "Library and pattern for consuming services across heterogeneous platforms and protocols.  Inject a single client that allows an application to transparently access APIs using SQL client, WebAPI, REST, WCF, ESB, etc. Gracefully fall back if preferred server or protocol becomes unavailable.",
+                AllowComments = true,
+                ContentGroup = netContentGroup,
+                PublishDate = new DateTime(2018, 6, 30),
+                Icon = "adaptive.jpg",
+                Slug = "Building-a-scalable-testable-service-layer-with-Entity-Framework-Core-Autofac-and-AdaptiveClient",
+                URL = "scalableServiceLayer/scalableServiceLayer.html",
+                Title = "Building a scalable, testable service layer with Entity Framework Core, Autofac, and AdaptiveClient",
+                ContentType = ContentItemType.Post,
+                MenuContentItems = new List<MenuContentItem>()
+            };
+
+            ContentItem post11 = new ContentItem
+            {
+                Active = true,
+                Abstract = "Renew your application by fixing high-value issues.  Maximize return on your debugging and enhancement efforts by focusing on problem areas first.",
+                AllowComments = true,
+                ContentGroup = netContentGroup,
+                PublishDate = new DateTime(2018, 9, 12),
+                Icon = "bfg9000.jpg",
+                Slug = "Troubleshooting-with-a-BFG9000",
+                URL = "troubleshooting/troubleshooting.html",
+                Title = "Troubleshooting with a BFG9000",
+                ContentType = ContentItemType.Post,
+                MenuContentItems = new List<MenuContentItem>()
+            };
+
+            ContentItem post12 = new ContentItem
+            {
+                Active = true,
                 Abstract = "",
                 AllowComments = true,
                 ContentGroup = netContentGroup,
@@ -211,6 +271,10 @@ namespace Blog.Services.Database.DataInitalizers
             db.ContentItems.Add(post5);
             db.ContentItems.Add(post6);
             db.ContentItems.Add(post7);
+            db.ContentItems.Add(post8);
+            db.ContentItems.Add(post9);
+            db.ContentItems.Add(post10);
+            db.ContentItems.Add(post11);
             await db.SaveChangesAsync();
 
 
@@ -221,6 +285,10 @@ namespace Blog.Services.Database.DataInitalizers
             netContentGroup.ContentItems.Add(post5);
             netContentGroup.ContentItems.Add(post6);
             fredContentGroup.ContentItems.Add(post7);
+            netContentGroup.ContentItems.Add(post8);
+            netContentGroup.ContentItems.Add(post8);
+            netContentGroup.ContentItems.Add(post10);
+            netContentGroup.ContentItems.Add(post11);
             MenuContentItem post1MCI = new MenuContentItem { Menu = blogIndex, Sequence = 1, ContentItem = post1 };
             MenuContentItem post2MCI = new MenuContentItem { Menu = blogIndex, Sequence = 2, ContentItem = post2 };
             MenuContentItem post3MCI = new MenuContentItem { Menu = blogIndex, Sequence = 3, ContentItem = post3 };
@@ -228,6 +296,10 @@ namespace Blog.Services.Database.DataInitalizers
             MenuContentItem post5MCI = new MenuContentItem { Menu = blogIndex, Sequence = 5, ContentItem = post5 };
             MenuContentItem post6MCI = new MenuContentItem { Menu = blogIndex, Sequence = 6, ContentItem = post6 };
             MenuContentItem post7MCI = new MenuContentItem { Menu = blogIndex, Sequence = 7, ContentItem = post7 };
+            MenuContentItem post8MCI = new MenuContentItem { Menu = blogIndex, Sequence = 8, ContentItem = post8 };
+            MenuContentItem post9MCI = new MenuContentItem { Menu = blogIndex, Sequence = 9, ContentItem = post9 };
+            MenuContentItem post10MCI = new MenuContentItem { Menu = blogIndex, Sequence = 10, ContentItem = post10 };
+            MenuContentItem post11MCI = new MenuContentItem { Menu = blogIndex, Sequence = 11, ContentItem = post11 };
 
             post1.MenuContentItems.Add(post1MCI);
             post2.MenuContentItems.Add(post2MCI);
@@ -236,6 +308,10 @@ namespace Blog.Services.Database.DataInitalizers
             post5.MenuContentItems.Add(post5MCI);
             post6.MenuContentItems.Add(post6MCI);
             post7.MenuContentItems.Add(post7MCI);
+            post8.MenuContentItems.Add(post8MCI);
+            post9.MenuContentItems.Add(post9MCI);
+            post10.MenuContentItems.Add(post10MCI);
+            post11.MenuContentItems.Add(post11MCI);
 
             db.MenuContentItems.Add(post1MCI);
             db.MenuContentItems.Add(post2MCI);
@@ -244,16 +320,20 @@ namespace Blog.Services.Database.DataInitalizers
             db.MenuContentItems.Add(post5MCI);
             db.MenuContentItems.Add(post6MCI);
             db.MenuContentItems.Add(post7MCI);
+            db.MenuContentItems.Add(post8MCI);
+            db.MenuContentItems.Add(post9MCI);
+            db.MenuContentItems.Add(post10MCI);
+            db.MenuContentItems.Add(post11MCI);
             await db.SaveChangesAsync();
 
-            post1.MenuContentItems.Add(post1MCI);
-            post2.MenuContentItems.Add(post2MCI);
-            post3.MenuContentItems.Add(post3MCI);
-            post4.MenuContentItems.Add(post4MCI);
-            post5.MenuContentItems.Add(post5MCI);
-            post6.MenuContentItems.Add(post6MCI);
-            post7.MenuContentItems.Add(post7MCI);
-            await db.SaveChangesAsync();
+            //post1.MenuContentItems.Add(post1MCI);
+            //post2.MenuContentItems.Add(post2MCI);
+            //post3.MenuContentItems.Add(post3MCI);
+            //post4.MenuContentItems.Add(post4MCI);
+            //post5.MenuContentItems.Add(post5MCI);
+            //post6.MenuContentItems.Add(post6MCI);
+            //post7.MenuContentItems.Add(post7MCI);
+            //await db.SaveChangesAsync();
         }
     }
 }

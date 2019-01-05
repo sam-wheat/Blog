@@ -61,9 +61,10 @@ namespace Blog.API
             //
 
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File(Configuration["Data:LogDir"], rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
-                .CreateLogger();
+                 .WriteTo.File(Configuration["Data:LogDir"], rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information)
+                 .CreateLogger();
             Log.Information("Logger created");
+            Log.Information("EnvironmentName is {EnvironmentName}", EnvironmentName);
             Log.Information("ConfigureServices started");
 
             // Add framework services.
@@ -88,8 +89,21 @@ namespace Blog.API
             Log.Information("filePath is {0}",filePath);
             IEnumerable<IEndPointConfiguration> EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(filePath, "EndPoints.json"));
 
-            if(EnvironmentName == "Development" && EndPoints.Any(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL))
-                EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString = ConnectionstringUtility.BuildConnectionString(EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString, EnvironmentName );
+            if (EnvironmentName == "Development")
+            {
+                string connectionString = null;
+
+                connectionString = EndPoints.FirstOrDefault(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MSSQL).ConnectionString;
+
+                if (!String.IsNullOrEmpty(connectionString))
+                {
+                    connectionString = ConnectionstringUtility.BuildConnectionString(connectionString, EnvironmentName, ConnectionstringUtility.Provider.MSSQL);
+                    EndPoints.FirstOrDefault(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MSSQL).ConnectionString = connectionString;
+                    
+                }
+            }
+            else
+                Log.Information("connectionString is {connectionString}", EndPoints.First().ConnectionString);
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -115,7 +129,11 @@ namespace Blog.API
                 throw new Exception("EmailPassword not found in appsettings file.");
 
             // Make sure the database exists
-            //container.Resolve<IDatabaseUtilities>().VerifyDatabase(ep);
+            IDatabaseUtilities databaseUtilities = container.Resolve<IDatabaseUtilities>();
+
+            foreach (IEndPointConfiguration ep in EndPoints.Where(x => x.EndPointType == EndPointType.DBMS))
+                Task.Run(() => databaseUtilities.CreateOrUpdateDatabase(ep)).Wait();
+
             Log.Information("ConfigureServices ended");
             return container.Resolve<IServiceProvider>();
         }
@@ -127,10 +145,19 @@ namespace Blog.API
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseSession();
-            app.UseCors(x => x.WithOrigins(new string[] { "http://www.samwheat.com", "https://www.samwheat.com", "http://samwheat.com", "https://samwheat.com",  "http://localhost:5004", "http://localhost:4200", "http://dev.samwheat.com" }).AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.WithOrigins(new string[] {
+                "http://www.samwheat.com",
+                "https://www.samwheat.com",
+                "http://samwheat.com",
+                "https://samwheat.com",
+                "http://localhost",
+                "http://localhost:80",
+                "http://localhost:5004",
+                "http://localhost:4200",
+                "http://dev.samwheat.com",
+                "http://samwheatweb.azurewebsites.net",
+                "https://samwheatweb.azurewebsites.net" }).AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
-            
-            
 
             app.UseExceptionHandler( options => {
                 options.Run(

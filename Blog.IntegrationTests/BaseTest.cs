@@ -32,7 +32,8 @@ namespace Blog.IntegrationTests
         protected void BuildContainer()
         {
             EndPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
-            EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString = ConnectionstringUtility.BuildConnectionString(EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString, "Development");
+            EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString = 
+                ConnectionstringUtility.BuildConnectionString(EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString, ConnectionstringUtility.Environment.Dev, ConnectionstringUtility.Provider.MySQL);
             var builder = new ContainerBuilder();
             builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             builder.RegisterModule(new Blog.Services.AutofacModule());

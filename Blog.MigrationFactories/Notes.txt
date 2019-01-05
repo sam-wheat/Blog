@@ -2,7 +2,7 @@
 
 	Blog:
 		
-		Change directory to C:\Git\Blog\src\Blog.Services
+		Change directory to C:\Git\Blog\Blog.Services
 
 		MSSQL:
 			dotnet ef migrations add CreateDatabase --context DbMSSQL  --startup-project ../Blog.MigrationFactories --output-dir Migrations/MSSQL

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API_URL: "http://www.samwheat.com/api/api/Blog/"
+  API_URL: "https://www.samwheat.com/api/api/Blog/"
 };

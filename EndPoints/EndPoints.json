@@ -2,7 +2,7 @@
   "EndPointConfigurations": [
     {
       "Name": "Blog_SQLServer",
-      "IsActive": "true",
+      "IsActive": "false",
       "API_Name": "Blog",
       "Preference": "10",
       "EndPointType": "DBMS",
@@ -11,13 +11,23 @@
     },
 
     {
-      "Name": "Blog_MySQL",
+      "Name": "Blog_SQLServer_Prod",
       "IsActive": "true",
       "API_Name": "Blog",
-      "Preference": "20",
+      "Preference": "10",
       "EndPointType": "DBMS",
-      "ProviderName": "MySQL",
-      "ConnectionString": "Server=localhost;Database=Blog;Uid={MySQL_UserName};Pwd={MySQL_Password};SslMode=none"
-    }
-  ]
+      "ProviderName": "MSSQL",
+      "ConnectionString": "Server=tcp:leaderanalytics.database.windows.net,1433;Initial Catalog=LeaderAnalytics;Persist Security Info=False;User ID={MSSQLUserName};Password={MSSQLPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    },
+
+      {
+        "Name": "Blog_MySQL",
+        "IsActive": "false",
+        "API_Name": "Blog",
+        "Preference": "20",
+        "EndPointType": "DBMS",
+        "ProviderName": "MySQL",
+        "ConnectionString": "Server=localhost;Database=Blog;Uid={MySQL_UserName};Pwd={MySQL_Password};SslMode=none"
+      }
+    ]
 }
