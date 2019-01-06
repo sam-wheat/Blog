@@ -198,7 +198,7 @@ namespace Blog.Services.Database.DataInitalizers
                 PublishDate = new DateTime(2016, 10, 7),
                 Icon = "ggbridge.jpg",
                 Slug = "The-function-of-ViewModels-in-MVC-web-development",
-                URL = "viewModels/viewModels.html ",
+                URL = "viewModels/viewModels.html",
                 Title = "The function of ViewModels in MVC web development",
                 ContentType = ContentItemType.Post,
                 MenuContentItems = new List<MenuContentItem>()
