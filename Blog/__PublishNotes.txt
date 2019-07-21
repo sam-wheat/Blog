@@ -15,6 +15,7 @@ https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-cust
 
 --------
 Lets Encrypt Azure Extension
+https://github.com/sjkp/letsencrypt-siteextension/wiki/How-to-install
 https://codehollow.com/2017/10/lets-encrypt-azure-webapps/
 
 
