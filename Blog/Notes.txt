@@ -2,7 +2,7 @@
 https://github.com/dotnet/dotnet-docker/tree/5e9b849a900c69edfe78f6e0f3519009de4ab471	dotnet-docker repo
 https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-3.1 Docker images for ASP.NET Core
 https://docs.microsoft.com/en-us/visualstudio/containers/container-msbuild-properties?view=vs-2019 Container Tools build properties
-
+https://docs.microsoft.com/en-us/visualstudio/containers/edit-and-refresh?view=vs-2019 Debug apps in local Docker container
 *----------------------------------------------------------------------------------------------------------------------------------------
 https://docs.microsoft.com/en-us/visualstudio/containers/container-build?view=vs-2019 How Visual Studio builds containerized apps
 So, when you modify your Dockerfile, such as to customize the container environment or install additional dependencies, 
@@ -12,6 +12,19 @@ you should put your modifications in the first stage.
 *** The entry point is tail -f /dev/null, which is an infinite wait to keep the container running. 
 *** If launched without debugging, the tooling runs a docker exec -i {containerId} dotnet webapp.dll to run the app.
 *----------------------------------------------------------------------------------------------------------------------------------------
+--- Angular ---
+https://angular.io/docs/
+npm install -g @angular/cli
+
+To delete Angular app and start over, delete the ClientApp folder and run 
+ng new ClientApp
+change start command line in package.json to this:
+"start": "echo Starting... && ng serve",
+
+
+*----------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 --- Docker ---
 docker build -f Dockerfile -t blog .. 
