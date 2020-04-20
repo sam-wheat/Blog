@@ -27,7 +27,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\model\model.ts" />
+    <None Remove="ClientApp\src\app\services\blogService.ts" />
+    <None Remove="ClientApp\src\app\services\httpErrorHandler.ts" />
+    <None Remove="ClientApp\src\app\services\messageService.ts" />
+    <None Remove="ClientApp\src\app\services\sessionService.ts" />
+    <None Remove="ClientApp\src\environments\environment.dev.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\dist\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\model\model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\blogService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\HttpErrorHandler.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\MessageService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\sessionService.ts" />
+    <TypeScriptCompile Include="ClientApp\src\environments\environment.dev.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

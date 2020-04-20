@@ -4,6 +4,8 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+@import url('../../../node_modules/@icon/icofont/icofont.css');
+
 
 /*--------------------------------------------------------------
 # General
@@ -230,7 +232,9 @@ h1, h2, h3, h4, h5, h6 {
   #hero .hero-container {
     position: relative;
     z-index: 2;
-    min-width: 300px;
+    min-width: 500px;
+    margin-bottom:200px;
+    margin-left:200px;
   }
 
   #hero h1 {
