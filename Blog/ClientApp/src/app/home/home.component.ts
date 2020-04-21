@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { BlogService } from '../services/blogService';
 import { Site } from '../model/model';
 import { SessionService } from '../services/sessionService';
-import { faCoffee, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faBars, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 declare var initJS: any;
 
@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit  {
   blogMode: number;
   faCoffee = faCoffee;
   faBars = faBars;
+  faArrowUp = faArrowUp;
 
   constructor(
     private blogService: BlogService,

@@ -22,15 +22,12 @@
         <li><a href="#technologies"><i class="bx bx-server"></i> Technologies</a></li>
         <li><a href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>-->
 
-        <li class="active"><a [routerLink]="['/home']" fragment="hero" href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
-        <li><a [routerLink]="['/home']" fragment="about" href="#about"><i class="bx bx-user"></i> <span>About</span></a></li>
-        <li><a [routerLink]="['/home']" fragment="resume" href="#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-        <li><a [routerLink]="['/blogIndex']" (click)="toggleBlogMode()"><i class="bx bx-book-content"></i> Blog</a></li>
-        <li><a [routerLink]="['/home']" fragment="technologies" href="#technologies"><i class="bx bx-server"></i> Technologies</a></li>
-        <li><a [routerLink]="['/home']" fragment="contact" href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>
-
-
-
+        <li class="active"><a [routerLink]="['/home']" fragment="hero" data-target="#hero"><i class="bx bx-home"></i> <span>Home</span></a></li>
+        <li><a [routerLink]="['/home']" fragment="about" data-target="#about"><i class="bx bx-user"></i> <span>About</span></a></li>
+        <li><a [routerLink]="['/home']" fragment="resume" data-target="#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+        <li><a [routerLink]="['/blogIndex']" (click)="toggleBlogMode()" data-target="#blogIndex"><i class="bx bx-book-content"></i> Blog</a></li>
+        <li><a [routerLink]="['/home']" fragment="technologies" data-target="#technologies"><i class="bx bx-server"></i> Technologies</a></li>
+        <li><a [routerLink]="['/home']" fragment="contact" data-target="#contact"><i class="bx bx-envelope"></i> Contact</a></li>
       </ul>
     </nav>
 
