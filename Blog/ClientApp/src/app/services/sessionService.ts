@@ -26,7 +26,7 @@ export class SessionService {
   private dateFilterAnnouncedSource = new Subject<Date>();
   public dateFilterAnnouncedSource$ = this.dateFilterAnnouncedSource.asObservable();
 
-  private blogModeAnnouncedSource = new Subject<number>();
+  private blogModeAnnouncedSource = new BehaviorSubject<number>(0);
   public blogModeAnnouncedSource$ = this.blogModeAnnouncedSource.asObservable();
 
   constructor() {

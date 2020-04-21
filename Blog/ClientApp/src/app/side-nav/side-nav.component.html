@@ -1,0 +1,50 @@
+<header id="header">
+  <div class="d-flex flex-column">
+
+    <div class="profile">
+      <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+      <h1 class="text-light"><a href="index.html">Sam Wheat</a></h1>
+      <div class="social-links mt-3 text-center">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+    </div>
+
+    <nav class="nav-menu" *ngIf="(sessionService.blogModeAnnouncedSource$ | async) === 0">
+      <ul>
+        <!--<li class="active"><a href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
+        <li><a href="#about"><i class="bx bx-user"></i> <span>About</span></a></li>
+        <li><a href="#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+        <li><a href="#blogdetail" (click)="toggleBlogMode()"><i class="bx bx-book-content"></i> Blog</a></li>
+        <li><a href="#technologies"><i class="bx bx-server"></i> Technologies</a></li>
+        <li><a href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>-->
+
+        <li class="active"><a [routerLink]="['/home']" fragment="hero" href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
+        <li><a [routerLink]="['/home']" fragment="about" href="#about"><i class="bx bx-user"></i> <span>About</span></a></li>
+        <li><a [routerLink]="['/home']" fragment="resume" href="#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+        <li><a [routerLink]="['/blogIndex']" (click)="toggleBlogMode()"><i class="bx bx-book-content"></i> Blog</a></li>
+        <li><a [routerLink]="['/home']" fragment="technologies" href="#technologies"><i class="bx bx-server"></i> Technologies</a></li>
+        <li><a [routerLink]="['/home']" fragment="contact" href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>
+
+
+
+      </ul>
+    </nav>
+
+
+
+    <nav class="nav-menu" *ngIf="(sessionService.blogModeAnnouncedSource$ | async) === 1">
+      <ul>
+        <li class="active"><a [routerLink]="['/home']" fragment="" href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
+
+      </ul>
+    </nav>
+
+
+    <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
+
+  </div>
+</header>

@@ -7,22 +7,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { BlogIndexComponent } from './blog-index/blog-index.component';
 import { HttpErrorHandler } from './services/HttpErrorHandler';
 import { MessageService } from './services/MessageService';
-import { SiteComponent } from './site/site.component';
-import { SideNavComponent } from './sideNav/sidenav.component';         
+import { SideNavComponent } from './side-nav/side-nav.component';
+import { HomeComponent } from './home/home.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
     AppComponent,
     BlogIndexComponent,
-    SiteComponent,
-    SideNavComponent
+    SideNavComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     // import HttpClientModule after BrowserModule.
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   providers: [
     HttpErrorHandler,
