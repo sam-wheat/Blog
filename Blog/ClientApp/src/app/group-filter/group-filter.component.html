@@ -6,13 +6,11 @@
   <i class='bx bx-calendar'></i><span>&nbsp;Publication Date</span>
 </div>
 
-<ul style="list-style-type:none">
+<ul style="list-style-type:none" class="groupFilter">
   <li *ngFor="let grp of Items">
-
-
-    <a (click)="onChangeGroup(grp)" href="#" [class.active]="isActive(grp.Key)">
+    <button type="button" (click)="onChangeGroup(grp)" [class.active]="isActive(grp.Key)">
       <span>{{grp.Value}}</span>
-    </a>
+    </button>
   </li>
 </ul>
 

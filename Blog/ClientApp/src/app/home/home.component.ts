@@ -12,7 +12,7 @@ declare var initJS: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit  {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
   sites: Site[];
   blogModeSubscription: Subscription;
   blogMode: number;
@@ -44,10 +44,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit, AfterCon
   }
 
   ngAfterViewInit() {
-  
+
   }
 
   ngAfterContentInit() {
-   // initJS();
+    // initJS();
   }
+ 
 }

@@ -28,6 +28,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Raleway", sans-serif;
 }
 
+[click],
+[data-ng-click],
+[x-ng-click] {
+  cursor: pointer;
+}
+
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
@@ -1083,7 +1089,7 @@ section {
   padding: 5px 15px;
   /*display: inline-block;*/
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
   .groupFilterHeader i {
     font-size: 24px;
@@ -1092,6 +1098,9 @@ section {
     color: #149ddd;
   }
 
+
+
+
 .groupFilter {
   
 }
@@ -1099,15 +1108,20 @@ section {
   
 
   .groupFilter li {
-    margin-bottom: 2vh;
   }
 
-    .groupFilter li a {
-      color: whitesmoke;
+    .groupFilter li button {
+      background-color: transparent;
+      color: lightgray;
+      font-size: 16px;
+      border: none;
+      margin-top: 3px;
+      margin-bottom: 3px;
+      pointer-events: auto !important;
     }
 
-      .groupFilter li a:active {
-        color: red;
+      .groupFilter li button:active {
+        color: green;
       }
 
 /*--------------------------------------------------------------
