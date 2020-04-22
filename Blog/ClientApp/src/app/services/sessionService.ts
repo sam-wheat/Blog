@@ -30,7 +30,7 @@ export class SessionService {
   public blogModeAnnouncedSource$ = this.blogModeAnnouncedSource.asObservable();
 
   constructor() {
-    this.ImageRoot = "/assets/images/";
+    this.ImageRoot = "/assets/img/";
     this.PostRoot = "/articles/";
     this.CurrentSite = null;
     this.CurrentMenuID = 0;

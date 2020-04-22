@@ -1,7 +1,30 @@
-  <p>this is blog index</p>
+<main id="main" >
+  <div class="postIndexOuterGrid">
 
+    <div class="postIndexItemsGrid">
 
+      <div class="gridContainer">
+        <a *ngFor="let item of ContentItems" class="postIndexContainer" [class.active]="item === SelectedItem" (click)="onClick(item)" href="#" [routerLink]="['/Post', item.Slug]">
+          <img src="{{ImageRoot + item.Icon}}" class="cell-image" />
 
-<div style="width:500px;height:500px;background-color:green">
-  <a [routerLink]="['/home']">Home</a>
-</div>
+          <div class="cell-title">{{item.Title}}</div>
+
+          <div class="cell-abstract">
+            <hr class="postIndexHR" />
+            <div>{{item.Abstract}}</div>
+          </div>
+
+          <div class="cell-pub">
+            <time [attr.datetime]="item.PublishDate">
+              {{item.PublishDate | date: 'longDate' }}
+            </time>
+          </div>
+          <div class="cell-category">
+            {{item.ContentGroup.Description}}
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+

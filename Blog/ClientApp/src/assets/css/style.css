@@ -77,7 +77,8 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 9997;
   transition: all 0.5s;
   padding: 0 15px;
-  background: #040b14;
+  /*background: #040b14;*/
+  background:#333337;
   overflow-y: auto;
 }
 
@@ -1063,7 +1064,7 @@ section {
 # Blog
 --------------------------------------------------------------*/
 
-. .postCategoryHeader {
+..postCategoryHeader {
   font-size: 16px;
   background: #e4edf9;
   padding: 5px 15px;
@@ -1078,6 +1079,171 @@ section {
   color: #6f7180;
 }
 
+/* -----------------------------------------------------
+    # Post Index
+-----------------------------------------------------  */
+
+.pageBackground {
+  background-color: #333337;
+  flex: 1 1 auto;
+  padding: 3vh 2vw 0 2vw;
+  min-height: 100%;
+}
+
+.compactMenu {
+  visibility: hidden;
+  grid-row: 1;
+  grid-column: 1;
+  justify-self: end;
+  align-self: flex-start;
+}
+
+.postIndexOuterGrid {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: 3fr;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  padding-bottom: 4vh;
+  align-self: stretch;
+}
+
+.postIndexItemsGrid {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.postIndexMenuGrid {
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 350px);
+  grid-gap: 2vw;
+  grid-auto-flow: row;
+  justify-content: center;
+}
+
+.postIndexContainer {
+  background-color: #d7d8db;
+  display: grid;
+  grid-template-columns: 175px 175px;
+  grid-template-rows: 200px auto auto 50px;
+  grid-template-areas: "image image" "title title" "abstract abstract" "pub category";
+  /*border: solid 1px silver;*/
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-decoration: none;
+  color: #525457;
+}
+
+  .postIndexContainer a {
+    text-decoration: none;
+  }
+
+  .postIndexContainer:hover {
+    box-shadow: 1.5vh 1.5vh 2vh black;
+    background-color: #f3f5fa;
+    text-decoration: none;
+    color: #525457;
+  }
+
+
+.cell-image {
+  grid-area: image;
+  height: 200px;
+  width: 350px;
+}
+
+.cell-title {
+  grid-area: title;
+  padding: 8px;
+  font-size: x-large;
+  line-height: 1.3em;
+}
+
+.cell-abstract {
+  grid-area: abstract;
+  padding: 8px;
+  overflow: auto;
+  line-height: 1.3em;
+}
+
+.cell-pub {
+  grid-area: pub;
+  padding-left: 8px;
+  padding-bottom: 8px;
+}
+
+.cell-category {
+  grid-area: category;
+  padding-right: 8px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.cell-category, .cell-pub {
+  padding-bottom: 8px;
+  align-self: flex-end;
+  font-size: small;
+}
+
+
+.postIndexImageContainer {
+  max-width: 15vw;
+  min-width: 80px;
+  margin: 1vw;
+}
+
+.postIndexTextContainer {
+  vertical-align: top;
+  padding: 1.5vh 1vw 1.5vh 1vw;
+  width: 100%;
+  overflow: auto;
+}
+
+.postIndexByLine {
+  font-size: .9vw;
+  text-align: right;
+  color: #35398b;
+  font-style: italic;
+  font-weight: bold;
+}
+
+
+/*Horizontal rule*/
+.postIndexHR {
+  margin-bottom: 0;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  height: 3px;
+}
+
+.postIndexTitle {
+  font-size: 1.4vw;
+  vertical-align: top;
+  color: #576210;
+}
+
+.postIndexAbstract {
+  margin-bottom: 1.5vh;
+  font-size: 1.3vmax;
+  color: #35398b;
+}
+
+.postIndexhref:hover {
+  text-decoration: none;
+}
+
+
+#fredWidget {
+  border: 1px solid #333333;
+  margin-top: 4vh;
+  width: 30vw;
+  height: 50vh;
+  box-shadow: 1.5vh 1.5vh 2vh black;
+}
 
 /*  ---------------------------------------------------
 # Group Filter
@@ -1085,12 +1251,16 @@ section {
 
 .groupFilterHeader {
   font-size: 16px;
-  background: #e4edf9;
+  background: transparent;
+  border:1px solid deepskyblue;
   padding: 5px 15px;
   /*display: inline-block;*/
   font-weight: 600;
   margin-top: 10px;
+  margin-bottom:5px;
+  color:white;
 }
+
   .groupFilterHeader i {
     font-size: 24px;
     padding-right: 8px;
@@ -1112,16 +1282,17 @@ section {
 
     .groupFilter li button {
       background-color: transparent;
-      color: lightgray;
+      color: #a8a9b4;
       font-size: 16px;
       border: none;
+      margin-left:15px;
       margin-top: 3px;
       margin-bottom: 3px;
       pointer-events: auto !important;
     }
 
-      .groupFilter li button:active {
-        color: green;
+      .groupFilter li button.active {
+        color: #fff;
       }
 
 /*--------------------------------------------------------------

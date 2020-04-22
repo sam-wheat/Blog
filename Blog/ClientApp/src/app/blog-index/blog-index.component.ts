@@ -15,8 +15,13 @@ export class BlogIndexComponent implements OnInit, OnDestroy {
   groupIDFilterSubscription: Subscription;
   dateFilterSubscription: Subscription;
   ContentItems: ContentItem[];
+  SelectedItem: ContentItem;
+  ImageRoot: string;
+  PostRoot: string;
 
   constructor(private router: Router, private blogService: BlogService, private sessionService: SessionService) {
+    this.ImageRoot = sessionService.ImageRoot;
+    this.PostRoot = sessionService.PostRoot;
     this.ContentItems = [];
   }
 
@@ -61,6 +66,7 @@ export class BlogIndexComponent implements OnInit, OnDestroy {
   }
 
   onClick(item: ContentItem) {
+    this.SelectedItem = item;
     this.router.navigate(['/Post', item.Slug]);
   }
 }
