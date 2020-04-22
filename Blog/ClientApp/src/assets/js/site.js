@@ -95,10 +95,12 @@
           if (thisDataTarget !== activeDataTarget) {
             $(activeNav).removeClass('active');
             $(thisNav).addClass('active');
+
           }
         }
         else if (thisNav.length) {
           $(thisNav).addClass('active');
+
         }
         else if (activeNav.length) {
           $(activeNav).removeClass('active');

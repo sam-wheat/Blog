@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BlogService } from '../services/blogService';
 import { Site } from '../model/model';
@@ -12,7 +12,7 @@ declare var initJS: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy, AfterViewInit  {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit  {
   sites: Site[];
   blogModeSubscription: Subscription;
   blogMode: number;
@@ -44,6 +44,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit  {
   }
 
   ngAfterViewInit() {
+  
+  }
+
+  ngAfterContentInit() {
     initJS();
   }
 }

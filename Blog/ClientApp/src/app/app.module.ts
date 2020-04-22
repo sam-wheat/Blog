@@ -10,13 +10,15 @@ import { MessageService } from './services/MessageService';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { HomeComponent } from './home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { GroupFilterComponent } from './group-filter/group-filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BlogIndexComponent,
     SideNavComponent,
-    HomeComponent
+    HomeComponent,
+    GroupFilterComponent
   ],
   imports: [
     BrowserModule,

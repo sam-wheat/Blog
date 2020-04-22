@@ -15,19 +15,14 @@
 
     <nav class="nav-menu" *ngIf="(sessionService.blogModeAnnouncedSource$ | async) === 0">
       <ul>
-        <!--<li class="active"><a href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
-        <li><a href="#about"><i class="bx bx-user"></i> <span>About</span></a></li>
-        <li><a href="#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-        <li><a href="#blogdetail" (click)="toggleBlogMode()"><i class="bx bx-book-content"></i> Blog</a></li>
-        <li><a href="#technologies"><i class="bx bx-server"></i> Technologies</a></li>
-        <li><a href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>-->
+
 
         <li class="active"><a [routerLink]="['/home']" fragment="hero" data-target="#hero"><i class="bx bx-home"></i> <span>Home</span></a></li>
-        <li><a [routerLink]="['/home']" fragment="about" data-target="#about"><i class="bx bx-user"></i> <span>About</span></a></li>
-        <li><a [routerLink]="['/home']" fragment="resume" data-target="#resume"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-        <li><a [routerLink]="['/blogIndex']" (click)="toggleBlogMode()" data-target="#blogIndex"><i class="bx bx-book-content"></i> Blog</a></li>
-        <li><a [routerLink]="['/home']" fragment="technologies" data-target="#technologies"><i class="bx bx-server"></i> Technologies</a></li>
-        <li><a [routerLink]="['/home']" fragment="contact" data-target="#contact"><i class="bx bx-envelope"></i> Contact</a></li>
+        <li><a [routerLink]="['/home']" fragment="about" data-target="#about"><i class="bx bx-user"></i> <span> About</span></a></li>
+        <li><a [routerLink]="['/home']" fragment="technologies" data-target="#technologies"><i class="bx bx-server"></i><span> Technologies</span></a></li>
+        <li><a [routerLink]="['/home']" fragment="resume" data-target="#resume"><i class="bx bx-file-blank"></i> <span> Clients</span></a></li>
+        <li><a [routerLink]="['/home']" fragment="contact" data-target="#contact"><i class="bx bx-envelope"></i><span> Contact</span></a></li>
+        <li><a [routerLink]="['/blogIndex']" (click)="toggleBlogMode()" data-target="#blogIndex"><i class="bx bx-book-content"></i><span> Blog</span></a></li>
       </ul>
     </nav>
 
@@ -35,9 +30,19 @@
 
     <nav class="nav-menu" *ngIf="(sessionService.blogModeAnnouncedSource$ | async) === 1">
       <ul>
-        <li class="active"><a [routerLink]="['/home']" fragment="" href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
-
+        <li class="active"><a [routerLink]="['/home']" fragment="hero" data-target="#hero"><i class="bx bx-home"></i> <span> Home</span></a></li>
       </ul>
+      <div>
+        <div class="groupFilter">
+          <div class="header">Topic</div>
+          <app-group-filter GroupColumn="GroupID"></app-group-filter>
+        </div>
+
+        <div class="groupFilter" style="margin-top:6vh;">
+          <div class="header">Publication Date</div>
+          <app-group-filter GroupColumn="PubDate"></app-group-filter>
+        </div>
+      </div>
     </nav>
 
 
