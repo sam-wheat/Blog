@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { SessionService } from '../services/sessionService';
 import { BlogService } from '../services/blogService';
 import { KeyValuePair } from '../model/model';
-
+import { faCalendar, faFlag } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-group-filter',
@@ -17,6 +17,8 @@ export class GroupFilterComponent implements OnInit, OnDestroy {
   Items: KeyValuePair[];
   menuIDSubscripton: Subscription;
   siteSubscription: Subscription;
+  faCalendar = faCalendar;
+  faFlag = faFlag;
 
   constructor(private blogService: BlogService, private sessionService: SessionService) {
 

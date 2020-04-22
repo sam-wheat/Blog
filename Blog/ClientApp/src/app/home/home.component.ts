@@ -48,6 +48,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit, AfterCon
   }
 
   ngAfterContentInit() {
-    initJS();
+   // initJS();
   }
 }

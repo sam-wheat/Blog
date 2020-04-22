@@ -30,23 +30,11 @@
 
     <nav class="nav-menu" *ngIf="(sessionService.blogModeAnnouncedSource$ | async) === 1">
       <ul>
-        <li class="active"><a [routerLink]="['/home']" fragment="hero" data-target="#hero"><i class="bx bx-home"></i> <span> Home</span></a></li>
+        <li class="active"><a href="/"><i class="bx bx-home"></i> <span> Home</span></a></li>
       </ul>
-      <div>
-        <div class="groupFilter">
-          <div class="header">Topic</div>
-          <app-group-filter GroupColumn="GroupID"></app-group-filter>
-        </div>
-
-        <div class="groupFilter" style="margin-top:6vh;">
-          <div class="header">Publication Date</div>
-          <app-group-filter GroupColumn="PubDate"></app-group-filter>
-        </div>
-      </div>
+      <app-group-filter GroupColumn="GroupID"></app-group-filter>
+      <app-group-filter GroupColumn="PubDate"></app-group-filter>
     </nav>
-
-
     <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
-
   </div>
 </header>

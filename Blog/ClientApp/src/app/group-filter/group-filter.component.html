@@ -1,15 +1,18 @@
-<!--<ul style="list-style-type:none">
-  <li *ngFor="let grp of Items">
-    <div class="menuLink" (click)="onChangeGroup(grp)" [class.active]="isActive(grp.Key)">{{grp.Value}}</div>
-  </li>
-</ul>-->
+<div *ngIf="GroupColumn==='GroupID'" class="groupFilterHeader">
+  <i class='bx bxs-flag-alt'></i><span>&nbsp;Topic</span>
+</div>
 
-
-
-
+<div *ngIf="GroupColumn==='PubDate'" class="groupFilterHeader">
+  <i class='bx bx-calendar'></i><span>&nbsp;Publication Date</span>
+</div>
 
 <ul style="list-style-type:none">
   <li *ngFor="let grp of Items">
-    <div (click)="onChangeGroup(grp)" [class.active]="isActive(grp.Key)">{{grp.Value}}</div>
+
+
+    <a (click)="onChangeGroup(grp)" href="#" [class.active]="isActive(grp.Key)">
+      <span>{{grp.Value}}</span>
+    </a>
   </li>
 </ul>
+

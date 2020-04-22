@@ -5,7 +5,12 @@
 * License: https://bootstrapmade.com/license/
 */
 
+(function (window) {
 
+  $(document).ready(function () {
+    window.initJS();
+  });
+})(window)
 
 !(function (window) {
   window.initJS = function () {
