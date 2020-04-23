@@ -1083,13 +1083,6 @@ section {
     # Post Index
 -----------------------------------------------------  */
 
-.pageBackground {
-  background-color: #333337;
-  flex: 1 1 auto;
-  padding: 3vh 2vw 0 2vw;
-  min-height: 100%;
-}
-
 .compactMenu {
   visibility: hidden;
   grid-row: 1;
@@ -1127,7 +1120,8 @@ section {
 }
 
 .postIndexContainer {
-  background-color: #d7d8db;
+  background-color: white;
+  border: solid 1px lightgrey;
   display: grid;
   grid-template-columns: 175px 175px;
   grid-template-rows: 200px auto auto 50px;
@@ -1143,8 +1137,8 @@ section {
   }
 
   .postIndexContainer:hover {
-    box-shadow: 1.5vh 1.5vh 2vh black;
-    background-color: #f3f5fa;
+    box-shadow: 1.5vh 1.5vh 2vh lightgrey;
+    background-color:#e4edf9;
     text-decoration: none;
     color: #525457;
   }
@@ -1161,6 +1155,7 @@ section {
   padding: 8px;
   font-size: x-large;
   line-height: 1.3em;
+  color:black;
 }
 
 .cell-abstract {
@@ -1294,6 +1289,132 @@ section {
       .groupFilter li button.active {
         color: #fff;
       }
+
+/* -----------------------------------------------------
+# Post
+-----------------------------------------------------  */
+
+.postContainer {
+  margin: 6vh 6vw 6vh 6vw;
+  padding: 6vh 4vw 6vh 4vw;
+  background-color: #fff;
+  flex: 1 1 auto;
+}
+
+.postTitle {
+  background: url("/assets/images/texture4.PNG");
+  background-size: cover;
+  height: 16vh;
+  padding: 2vh 2vw 2vh 2vw;
+  text-align: left;
+  color: #464646;
+  font-size: 2vw;
+  margin-bottom: 4vh;
+  position: relative;
+}
+
+
+article p, article li {
+  line-height: 1.6em;
+  margin-bottom: 16px;
+  font-size: 21px;
+  font-weight: lighter;
+  color: #464646;
+}
+
+article, .postTitle {
+  margin-left: 8vw;
+  margin-right: 8vw;
+}
+
+  article h1, article h2, article h3, article h4, article h5, article h6 {
+    margin: 20px 0 10px;
+    padding: 0;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+    cursor: text;
+    position: relative;
+  }
+
+  article h1 {
+  }
+
+  article h2 {
+    font-size: larger;
+    font-weight: bold;
+  }
+
+  article h3 {
+    font-weight: bold;
+  }
+
+  article h4 {
+    font-style: italic;
+  }
+
+  article ul li {
+    list-style-type: disc;
+    margin-left: 2vw;
+    margin-bottom: .8vh;
+  }
+
+.postByLine {
+  font-size: 1vw;
+  text-align: right;
+  font-style: italic;
+  font-weight: bold;
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+}
+
+pre code {
+  font-family: Consolas;
+  font-size: 90%;
+}
+
+pre {
+  margin: 12px 0px 12px 0px;
+  background-color: #DFDFDF;
+  padding: 1vw;
+}
+
+/* -----------------------------------------------------
+# Comment Control
+----------------------------------------------------- */
+
+.commentFormContainer {
+    max-width:800px;
+    margin:auto;
+}
+
+.commentBanner {
+  background-color: #149DDD;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+.commentContainer {
+  margin-bottom: 1vw;
+  padding: 10px;
+  color: black;
+}
+
+  .commentContainer:nth-child(odd) {
+    background-color: #ebecef;
+  }
+
+  .commentContainer:nth-child(even) {
+    background-color: #CACCD2;
+  }
+
+#captchaImage {
+  height: 60px;
+  width: auto;
+}
+
+
 
 /*--------------------------------------------------------------
 # Footer

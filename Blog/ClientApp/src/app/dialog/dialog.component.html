@@ -1,0 +1,67 @@
+<div *ngIf="(visibleDialog | async) === dialog.ErrorMsg" class="modal fade show in" id="errorMsgDialog" role="dialog" style="display:block">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title centered">Error</h4>
+        <button type="button" class="close" (click)="hideDialog()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>{{message}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="hideDialog()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="(visibleDialog | async) === dialog.Confirm" class="modal fade show in" id="confirmMsgDialog" role="dialog" style="display:block">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>{{message}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="hideConfirmDialog(true)">Yes</button>
+        <button type="button" class="btn btn-default" (click)="hideConfirmDialog(false)">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="(visibleDialog | async) === dialog.Wait" class="modal fade show in" id="waitMsgDialog" role="dialog" style="display:block">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">Working</span>
+      </div>
+      <div class="modal-body">
+        <img src="/assets/img/please_wait.gif" style="height:40px;width:40px;margin-left:30px;float:left;margin-right:40px;" />
+        <p style="font-size:18px;">Please wait...</p>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="(visibleDialog | async) === dialog.Info" class="modal fade show in" id="infoMsgDialog" role="dialog" style="display:block">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="hideDialog()">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>{{message}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="hideDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

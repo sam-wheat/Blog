@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <nav class="nav-menu" *ngIf="(sessionService.blogModeAnnouncedSource$ | async) === 0">
+    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource$ | async) === 0">
       <ul>
 
 
@@ -22,18 +22,29 @@
         <li><a [routerLink]="['/home']" fragment="technologies" data-target="#technologies"><i class="bx bx-server"></i><span> Technologies</span></a></li>
         <li><a [routerLink]="['/home']" fragment="resume" data-target="#resume"><i class="bx bx-file-blank"></i> <span> Clients</span></a></li>
         <li><a [routerLink]="['/home']" fragment="contact" data-target="#contact"><i class="bx bx-envelope"></i><span> Contact</span></a></li>
-        <li><a [routerLink]="['/blogIndex']" (click)="toggleBlogMode()" data-target="#blogIndex"><i class="bx bx-book-content"></i><span> Blog</span></a></li>
+        <li><a [routerLink]="['/blogIndex']" (click)="toggleSideNavMode(1)" data-target="#blogIndex"><i class="bx bx-book-content"></i><span> Blog</span></a></li>
       </ul>
     </nav>
 
 
 
-    <nav class="nav-menu" *ngIf="(sessionService.blogModeAnnouncedSource$ | async) === 1">
+    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource$ | async) === 1">
       <ul>
         <li class="active"><a href="/"><i class="bx bx-home"></i> <span> Home</span></a></li>
       </ul>
       <app-group-filter GroupColumn="GroupID"></app-group-filter>
       <app-group-filter GroupColumn="PubDate"></app-group-filter>
+    </nav>
+
+
+
+
+    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource$ | async) === 2">
+      <ul>
+        <li class="active"><a href="/"><i class="bx bx-home"></i> <span> Home</span></a></li>
+        <li class="active"><a [routerLink]="['/blogIndex']" (click)="toggleSideNavMode(1)"><i class="bx bx-book-content"></i> <span> Blog</span></a></li>
+      </ul>
+      
     </nav>
     <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
   </div>

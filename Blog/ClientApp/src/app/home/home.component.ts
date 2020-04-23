@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, AfterContentInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../services/blogService';
-import { Site } from '../model/model';
+import { Site, SideNavMode } from '../model/model';
 import { SessionService } from '../services/sessionService';
 import { faCoffee, faBars, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,9 +11,8 @@ declare var initJS: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
+export class HomeComponent implements OnInit {
   sites: Site[];
-  blogModeSubscription: Subscription;
   blogMode: number;
   faCoffee = faCoffee;
   faBars = faBars;
@@ -30,25 +28,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit, AfterCon
     this.blogService.GetActiveSites()
       .subscribe(sites => this.sites = sites);
 
-    this.blogModeSubscription = this.sessionService.blogModeAnnouncedSource$
-      .subscribe(x => {
-
-
-      });
-
-    this.sessionService.AnnounceBlogMode(0);
+    this.sessionService.AnnounceSideNavMode(SideNavMode.Site);
   }
-
-  ngOnDestroy() {
-    this.blogModeSubscription.unsubscribe();
-  }
-
-  ngAfterViewInit() {
-
-  }
-
-  ngAfterContentInit() {
-    // initJS();
-  }
- 
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from "rxjs/operators";
 import { Site, Comment, KeyValuePair, AsyncResult, ContentItem } from '../model/model';
@@ -63,7 +63,13 @@ export class BlogService {
   SaveComment(comment: Comment, captchaCode: string): Observable<AsyncResult> {
     let url = this.serviceURL + 'SaveComment?captcha=' + captchaCode;
     let commentString = JSON.stringify(comment);
-    return this.httpClient.post<AsyncResult>(this.noCache(url), commentString); //.pipe(tap(_ => this.log(`SaveComment`)), catchError(this.handleError<AsyncResult>('SaveComment', null)));
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post<AsyncResult>(this.noCache(url), commentString, options); //.pipe(tap(_ => this.log(`SaveComment`)), catchError(this.handleError<AsyncResult>('SaveComment', null)));
     //return this.http.post(this.noCache(url), commentString, { headers: headers }).pipe(map(response => this.extractData(response)));
     //.catch(this.handleError);
 

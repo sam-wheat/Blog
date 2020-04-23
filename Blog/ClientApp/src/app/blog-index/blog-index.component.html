@@ -1,9 +1,9 @@
 <main id="main" >
-  <div class="postIndexOuterGrid">
+  <div class="postIndexOuterGrid" *ngIf="IsRendered">
 
     <div class="postIndexItemsGrid">
 
-      <div class="gridContainer">
+      <div class="gridContainer" data-aos="fade-down">
         <a *ngFor="let item of ContentItems" class="postIndexContainer" [class.active]="item === SelectedItem" (click)="onClick(item)" href="#" [routerLink]="['/Post', item.Slug]">
           <img src="{{ImageRoot + item.Icon}}" class="cell-image" />
 

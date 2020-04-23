@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Subject, AsyncSubject, BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 import { Site } from '../model/model';
+import { SideNavMode } from '../model/model';
 
 @Injectable({ providedIn: 'root' })
 export class SessionService {
@@ -11,7 +12,7 @@ export class SessionService {
   public CurrentMenuID: number;
   public CurrentGroupID: number;
   public CurrentDateFilter: Date;
-  public CurrentBlogMode: number;
+  public CurrentSideNavMode: SideNavMode;
    
 
   public siteAnnouncedSource = new AsyncSubject<Site>();  // BehaviorSubject
@@ -26,8 +27,8 @@ export class SessionService {
   private dateFilterAnnouncedSource = new Subject<Date>();
   public dateFilterAnnouncedSource$ = this.dateFilterAnnouncedSource.asObservable();
 
-  private blogModeAnnouncedSource = new BehaviorSubject<number>(0);
-  public blogModeAnnouncedSource$ = this.blogModeAnnouncedSource.asObservable();
+  private sideNavModeAnnouncedSource = new BehaviorSubject<number>(SideNavMode.Site);
+  public sideNavModeAnnouncedSource$ = this.sideNavModeAnnouncedSource.asObservable();
 
   constructor() {
     this.ImageRoot = "/assets/img/";
@@ -36,7 +37,7 @@ export class SessionService {
     this.CurrentMenuID = 0;
     this.CurrentGroupID = 0;
     this.CurrentDateFilter = new Date('01/01/1901');
-    this.CurrentBlogMode = 0
+    this.CurrentSideNavMode = SideNavMode.Site;
   }
 
   AnnounceSite(site: Site) {
@@ -71,13 +72,13 @@ export class SessionService {
     this.dateFilterAnnouncedSource.next(dateFilter);
   }
 
-  AnnounceBlogMode(mode: number) {
+  AnnounceSideNavMode(mode: SideNavMode) {
 
-    if (this.CurrentBlogMode === mode)
+    if (this.CurrentSideNavMode === mode)
       return;
 
-    this.CurrentBlogMode = mode;
-    this.blogModeAnnouncedSource.next(mode);
+    this.CurrentSideNavMode = mode;
+    this.sideNavModeAnnouncedSource.next(mode);
   }
 
 

@@ -10,6 +10,15 @@
   $(document).ready(function () {
     window.initJS();
   });
+
+  window.highlight = function (hljs) {
+    var allPre, i, j;
+    allPre = document.getElementsByTagName("pre");
+
+    for (i = 0, j = allPre.length; i < j; i++) {
+      hljs.highlightBlock(allPre[i]);
+    }
+  }
 })(window)
 
 !(function (window) {

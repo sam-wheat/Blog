@@ -1,12 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GroupFilterComponent } from '../group-filter/group-filter.component';
-import { BlogService } from '../services/blogService';
 import { SessionService } from '../services/sessionService';
-import { ContentItem } from '../model/model';
 import { Menu } from '../model/model';
 import { MenuContentItem } from '../model/model';
 import { Router } from '@angular/router';
+import { SideNavMode } from '../model/model';
 
 @Component({
   selector: 'app-side-nav',
@@ -65,9 +63,8 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
   }
 
-  toggleBlogMode(): void {
-    const blogMode: number = this.sessionService.CurrentBlogMode === 0 ? 1 : 0;
-    this.sessionService.AnnounceBlogMode(blogMode);
+  toggleSideNavMode(mode: SideNavMode): void {
+    this.sessionService.AnnounceSideNavMode(mode);
   }
 
   

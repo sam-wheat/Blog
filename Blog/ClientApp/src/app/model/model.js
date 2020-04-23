@@ -58,4 +58,11 @@ var AsyncResult = /** @class */ (function () {
     return AsyncResult;
 }());
 exports.AsyncResult = AsyncResult;
+var SideNavMode;
+(function (SideNavMode) {
+    SideNavMode[SideNavMode["Site"] = 0] = "Site";
+    SideNavMode[SideNavMode["PostIndex"] = 1] = "PostIndex";
+    SideNavMode[SideNavMode["Post"] = 2] = "Post";
+})(SideNavMode = exports.SideNavMode || (exports.SideNavMode = {}));
+;
 //# sourceMappingURL=model.js.map

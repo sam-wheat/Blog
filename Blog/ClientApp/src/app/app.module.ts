@@ -11,6 +11,10 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { HomeComponent } from './home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GroupFilterComponent } from './group-filter/group-filter.component';
+import { BlogDetailComponent } from './blog-detail/blog-detail.component';
+import { CommentsComponent } from './comments/comments.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,10 @@ import { GroupFilterComponent } from './group-filter/group-filter.component';
     BlogIndexComponent,
     SideNavComponent,
     HomeComponent,
-    GroupFilterComponent
+    GroupFilterComponent,
+    BlogDetailComponent,
+    CommentsComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +33,7 @@ import { GroupFilterComponent } from './group-filter/group-filter.component';
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     FontAwesomeModule
   ],
   providers: [

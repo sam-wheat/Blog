@@ -33,7 +33,7 @@
     "jquery.easing": "^1.4.1",
     "lightweight-typewriter": "^2.0.8",
     "owl.carousel": "^2.3.4",
-    "rxjs": "~6.5.4",
+    "rxjs": "~6.5.5",
     "tslib": "^1.10.0",
     "typed.js": "^2.0.11",
     "venobox": "^1.8.9",

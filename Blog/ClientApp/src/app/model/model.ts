@@ -83,3 +83,5 @@ export class AsyncResult {
   public ResultCount: number;
   public Data: any;
 }
+
+export enum SideNavMode { Site, PostIndex, Post };

@@ -3,3 +3,8 @@
 2020-04-22 05:43:46.309 -07:00 [INF] ConfigureServices started
 2020-04-22 05:43:47.266 -07:00 [INF] filePath is C:\Temp\Blog Master Branch Before April 2020 Renewal\Blog.API\bin\Debug\netcoreapp2.2
 2020-04-22 05:43:49.296 -07:00 [INF] ConfigureServices ended
+2020-04-22 20:40:41.352 -07:00 [INF] Logger created
+2020-04-22 20:40:41.357 -07:00 [INF] EnvironmentName is Development
+2020-04-22 20:40:41.358 -07:00 [INF] ConfigureServices started
+2020-04-22 20:40:42.120 -07:00 [INF] filePath is C:\Temp\Blog Master Branch Before April 2020 Renewal\Blog.API\bin\Debug\netcoreapp2.2
+2020-04-22 20:40:43.938 -07:00 [INF] ConfigureServices ended

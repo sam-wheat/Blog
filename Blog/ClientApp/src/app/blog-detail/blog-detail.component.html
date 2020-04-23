@@ -1,0 +1,17 @@
+<main id="main">
+  <div class="postContainer" >
+    <div class="postTitle">
+      <p>{{Post.Title }}</p>
+      <div class="postByLine">
+        <time [attr.datetime]="Post.PublishDate">
+          {{Post.PublishDate | date: 'longDate' }}
+        </time>
+      </div>
+    </div>
+    <!--<div [innerHTML]="Content"></div>--> <!--uncomment this when workaround is removed-->
+    <div #contentContainer></div> <!--workaround-->
+    <div style="margin-top:2vh;">
+      <app-comments [ContentItem]="Post" *ngIf="IsRendered"></app-comments>
+    </div>
+  </div>
+</main>
