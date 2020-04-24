@@ -14,6 +14,7 @@ declare var initJS: any;
 export class HomeComponent implements OnInit {
   sites: Site[];
   blogMode: number;
+  ImageRoot: string;
   faCoffee = faCoffee;
   faBars = faBars;
   faArrowUp = faArrowUp;
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private blogService: BlogService,
     public sessionService: SessionService) {
-
+    this.ImageRoot = sessionService.ImageRoot;
   }
 
   ngOnInit(): void {

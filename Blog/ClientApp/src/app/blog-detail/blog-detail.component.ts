@@ -63,7 +63,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.blogService.GetPostHtml(this.sessionService.PostRoot + this.Post.URL).subscribe((h: string) => {
           // this is correct but does not work due to bug
-          //this.Content = this.sanitizer.bypassSecurityTrustHtml(h);
+          // this.Content = this.sanitizer.bypassSecurityTrustHtml(h);
 
 
           // workaround http://stackoverflow.com/questions/31548311/angular-2-html-binding

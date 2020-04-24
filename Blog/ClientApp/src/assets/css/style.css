@@ -1,11 +1,3 @@
-/**
-* Template Name: iPortfolio - v1.2.1
-* Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
-
 
 /*--------------------------------------------------------------
 # General
@@ -285,6 +277,9 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+
+
+
 /*--------------------------------------------------------------
 # Sections General
 --------------------------------------------------------------*/
@@ -328,15 +323,14 @@ section {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
-.about .content h3 {
-  font-weight: 700;
-  font-size: 26px;
-  color: #173b6c;
+.about .content {
+  margin-top: 35px;
+  margin-left: 35px;
+  padding: 10px;
+  min-height:400px;
 }
 
-.about .content ul {
-  list-style: none;
-  padding: 0;
+.about .content p {
 }
 
   .about .content ul li {
@@ -351,6 +345,16 @@ section {
 
 .about .content p:last-child {
   margin-bottom: 0;
+}
+
+#samImg {
+  width: 500px;
+  height: auto;
+  float: left;
+  margin-top: -35px;
+  margin-left: -35px;
+  margin-right:20px;
+  margin-bottom:3px;
 }
 
 /*--------------------------------------------------------------
@@ -600,10 +604,14 @@ section {
   }
 
 /*--------------------------------------------------------------
-# Services
+# Clients
 --------------------------------------------------------------*/
 .services .icon-box {
   margin-bottom: 20px;
+}
+.services .icon-box img {
+  width:200px;
+  height:auto;
 }
 
 .services .icon {
@@ -659,68 +667,30 @@ section {
 .testimonials .testimonial-item {
   box-sizing: content-box;
   text-align: center;
-  min-height: 320px;
+  border-radius: 6px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin: 15px;
+  justify-content:flex-end;
+  height:200px;
 }
 
-  .testimonials .testimonial-item .testimonial-img {
-    width: 90px;
-    border-radius: 50%;
-    margin: 0 auto;
+  .testimonials .testimonial-item img {
+    width: 150px;
+    height: auto;
+    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.5);
+    margin-bottom: auto;
+    justify-self: flex-start;
   }
 
-  .testimonials .testimonial-item h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 10px 0 5px 0;
-    color: #111;
+  .testimonials .testimonial-item h5 {
+  justify-self:flex-end;
+  margin-top:auto;
   }
 
-  .testimonials .testimonial-item h4 {
-    font-size: 14px;
-    color: #999;
-    margin: 0;
-  }
 
-  .testimonials .testimonial-item .quote-icon-left, .testimonials .testimonial-item .quote-icon-right {
-    color: #c3e8fa;
-    font-size: 26px;
-  }
-
-  .testimonials .testimonial-item .quote-icon-left {
-    display: inline-block;
-    left: -5px;
-    position: relative;
-  }
-
-  .testimonials .testimonial-item .quote-icon-right {
-    display: inline-block;
-    right: -5px;
-    position: relative;
-    top: 10px;
-  }
-
-  .testimonials .testimonial-item p {
-    font-style: italic;
-    margin: 0 15px 15px 15px;
-    padding: 20px;
-    background: #fff;
-    position: relative;
-    margin-bottom: 35px;
-    border-radius: 6px;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-  }
-
-    .testimonials .testimonial-item p::after {
-      content: "";
-      width: 0;
-      height: 0;
-      border-top: 20px solid #fff;
-      border-right: 20px solid transparent;
-      border-left: 20px solid transparent;
-      position: absolute;
-      bottom: -20px;
-      left: calc(50% - 20px);
-    }
+    
 
 .testimonials .owl-nav, .testimonials .owl-dots {
   margin-top: 5px;
@@ -1423,10 +1393,7 @@ pre {
   padding: 15px;
   color: #f4f6fd;
   font-size: 14px;
-  position: fixed;
-  left: 0;
   bottom: 0;
-  width: 300px;
   z-index: 9999;
   background: #040b14;
 }
