@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { BlogService } from '../services/blogService';
 import { Site, SideNavMode } from '../model/model';
 import { SessionService } from '../services/sessionService';
@@ -11,7 +11,7 @@ declare var initJS: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, AfterContentInit {
   sites: Site[];
   blogMode: number;
   ImageRoot: string;
@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.sessionService.AnnounceSideNavMode(SideNavMode.Site);
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     this.IsRendered = 1;
   }
 }

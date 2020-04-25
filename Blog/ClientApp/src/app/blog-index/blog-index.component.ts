@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BlogService } from './../services/blogService';
@@ -11,7 +11,7 @@ import { faCarSide } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './blog-index.component.html',
   styleUrls: ['./blog-index.component.css']
 })
-export class BlogIndexComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
   siteSubscription: Subscription;
   groupIDFilterSubscription: Subscription;
   dateFilterSubscription: Subscription;
@@ -74,7 +74,7 @@ export class BlogIndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['/post', item.Slug]);
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     this.IsRendered = 1;
   }
 }
