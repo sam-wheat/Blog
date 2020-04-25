@@ -1,0 +1,14 @@
+﻿To add Migrations:
+
+	Blog:
+		
+		Change directory to C:\Git\Blog\Blog.Services
+
+		MSSQL:
+			dotnet ef migrations add CreateDatabase --context DbMSSQL  --startup-project ../Blog.MigrationFactories --output-dir Migrations/MSSQL
+			dotnet ef database update --startup-project ../Blog.MigrationFactories --context DbMSSQL
+
+		MySQL:
+			dotnet ef migrations add CreateDatabase --context DbMySQL  --startup-project ../Blog.MigrationFactories --output-dir Migrations/MySQL
+			dotnet ef database update --startup-project ../Blog.MigrationFactories --context DbMySQL
+
