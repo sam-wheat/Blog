@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\dist\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>

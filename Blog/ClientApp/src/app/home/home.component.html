@@ -207,50 +207,11 @@
                 <a id="dirMapLink" target="_blank" href="https://www.bing.com/maps/directions?cp=33.606373779590605~-117.74767891983284&amp;sty=r&amp;lvl=11&amp;rtp=~pos.33.606373779590605_-117.74767891983284____&amp;FORM=MBEDLD">Get Directions</a>
               </div>
             </div>
-
-
-            <!--<iframe src="https://www.bing.com/maps/embed?h=400&w=500&cp=33.606373779590605~-117.74767891983284&lvl=11&typ=d&sty=r&src=SHELL&FORM=MBEDV8" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>-->
           </div>
-
         </div>
-
         <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="name">Your Name</label>
-                <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                <div class="validate"></div>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="name">Your Email</label>
-                <input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />
-                <div class="validate"></div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="name">Subject</label>
-              <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-              <div class="validate"></div>
-            </div>
-            <div class="form-group">
-              <label for="name">Message</label>
-              <textarea class="form-control" name="message" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
-              <div class="validate"></div>
-            </div>
-            <div class="mb-3">
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your message has been sent. Thank you!</div>
-            </div>
-            <div class="text-center">
-              <button type="submit">
-                <i class='bx bx-mail-send'></i><span> Send Message</span>
-              </button>
-            </div>
-          </form>
+          <app-comments *ngIf="IsRendered"></app-comments>
         </div>
-
       </div>
       <div style="height:400px;">&nbsp;</div>
     </div>
@@ -260,7 +221,7 @@
     <div class="container">
       <div class="copyright">
         <span>&copy; Copyright Sam Wheat</span>
-        <span></span>
+        <a href="https://github.com/sam-wheat/Blog" target="_blank"><i class='bx bxl-github'></i><span>Source code</span></a>
       </div>
       
     </div>
