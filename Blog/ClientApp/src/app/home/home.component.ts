@@ -2,7 +2,6 @@ import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { BlogService } from '../services/blogService';
 import { Site, SideNavMode } from '../model/model';
 import { SessionService } from '../services/sessionService';
-import { faCoffee, faBars, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 declare var initJS: any;
 
@@ -16,9 +15,6 @@ export class HomeComponent implements OnInit, AfterContentInit {
   blogMode: number;
   ImageRoot: string;
   IsRendered: number = 0;
-  faCoffee = faCoffee;
-  faBars = faBars;
-  faArrowUp = faArrowUp;
 
   constructor(
     private blogService: BlogService,

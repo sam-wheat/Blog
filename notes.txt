@@ -28,7 +28,7 @@ change start command line in package.json to this:
 
 --- Docker ---
 docker build -f Dockerfile -t blog .. 
-docker run -it imageName bash	// run the container and keep it open by running bash
+docker run -it blog bash --name blog -p 80:44444	// run the container and keep it open by running bash
 docker exec -it imageName bash  // command prompt inside running container
 docker run -p 8080:80 blog tail -f /dev/null
 docker system prune
@@ -40,4 +40,13 @@ cd \git\blog
 docker build -t blog .
 
 
+#-----------------
+FROM base AS final
+WORKDIR /app/Blog.API
+COPY --from=publish /app/Blog.API/publish .
+
+WORKDIR /app/Blog
+COPY --from=publish /app/Blog/publish .
+
+ENTRYPOINT ["dotnet", "Blog.dll"]
 

@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { BlogService } from './../services/blogService';
 import { SessionService } from './../services/sessionService';
 import { ContentItem, SideNavMode } from '../model/model';
-import { faCarSide } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-blog-index',

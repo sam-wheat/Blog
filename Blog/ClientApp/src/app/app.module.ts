@@ -9,7 +9,6 @@ import { HttpErrorHandler } from './services/http-error-handler';
 import { MessageService } from './services/MessageService';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { HomeComponent } from './home/home.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GroupFilterComponent } from './group-filter/group-filter.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { CommentsComponent } from './comments/comments.component';
@@ -33,8 +32,7 @@ import { FormsModule } from '@angular/forms';
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
     AppRoutingModule,
-    FormsModule,
-    FontAwesomeModule
+    FormsModule
   ],
   providers: [
     HttpErrorHandler,

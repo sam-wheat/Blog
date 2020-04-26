@@ -1269,19 +1269,21 @@ section {
   margin: 6vh 6vw 6vh 6vw;
   padding: 6vh 4vw 6vh 4vw;
   background-color: #fff;
+  display:flex;
+  flex-direction:column;
   flex: 1 1 auto;
 }
 
 .postTitle {
-  background: url("/assets/images/texture4.PNG");
-  background-size: cover;
+  background-color: #333337;
   height: 16vh;
   padding: 2vh 2vw 2vh 2vw;
   text-align: left;
-  color: #464646;
-  font-size: 2vw;
+  color: #fff;
+  font-size: 1.3vw;
   margin-bottom: 4vh;
   position: relative;
+  text-align: center;
 }
 
 
@@ -1330,7 +1332,7 @@ article, .postTitle {
   }
 
 .postByLine {
-  font-size: 1vw;
+  font-size: 14px;
   text-align: right;
   font-style: italic;
   font-weight: bold;
