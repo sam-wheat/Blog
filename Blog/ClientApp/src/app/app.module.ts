@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { BlogIndexComponent } from './blog-index/blog-index.component';
-import { HttpErrorHandler } from './services/HttpErrorHandler';
+import { HttpErrorHandler } from './services/http-error-handler';
 import { MessageService } from './services/MessageService';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { HomeComponent } from './home/home.component';

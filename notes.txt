@@ -31,3 +31,13 @@ docker build -f Dockerfile -t blog ..
 docker run -it imageName bash	// run the container and keep it open by running bash
 docker exec -it imageName bash  // command prompt inside running container
 docker run -p 8080:80 blog tail -f /dev/null
+docker system prune
+docker image rm repositoryName:tag
+
+// Using as of 2020/04/25
+delete package.lock.json
+cd \git\blog
+docker build -t blog .
+
+
+

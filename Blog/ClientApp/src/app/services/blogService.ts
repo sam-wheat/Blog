@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from "rxjs/operators";
 import { Site, Comment, KeyValuePair, AsyncResult, ContentItem } from '../model/model';
 import { environment } from '../../environments/environment';
-import { HttpErrorHandler, HandleError } from './HttpErrorHandler';
+import { HttpErrorHandler, HandleError } from './http-error-handler';
 
 
 @Injectable({ providedIn: 'root' })

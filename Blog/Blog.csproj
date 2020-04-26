@@ -29,8 +29,8 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\model\model.ts" />
     <None Remove="ClientApp\src\app\services\blogService.ts" />
-    <None Remove="ClientApp\src\app\services\httpErrorHandler.ts" />
-    <None Remove="ClientApp\src\app\services\messageService.ts" />
+    <None Remove="ClientApp\src\app\services\http-error-handler.ts" />
+    <None Remove="ClientApp\src\app\services\MessageService.ts" />
     <None Remove="ClientApp\src\app\services\sessionService.ts" />
     <None Remove="ClientApp\src\environments\environment.dev.ts" />
   </ItemGroup>
@@ -43,7 +43,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\model\model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\blogService.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\services\HttpErrorHandler.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\http-error-handler.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\MessageService.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\sessionService.ts" />
     <TypeScriptCompile Include="ClientApp\src\environments\environment.dev.ts" />
