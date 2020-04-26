@@ -15,6 +15,8 @@ RUN npm cache clean --force
 RUN npm install -g typescript@~3.8.3
 RUN npm install -g @angular/cli
 
+RUN rm -f Blog/ClientApp/package.lock.json
+
 WORKDIR /src
 #COPY ["Blog/Blog.csproj", "Blog/"]
 #RUN dotnet restore "Blog/Blog.csproj"
@@ -37,7 +39,13 @@ WORKDIR "/src/Blog.API"
 RUN dotnet publish "Blog.API.csproj" -c Release -o /app/Blog.API/publish
 
 
-WORKDIR /app/Blog/publish
+#-----------------
+FROM base AS final
+WORKDIR /app/Blog.API
+COPY --from=publish /app/Blog.API/publish .
 
+WORKDIR /app/Blog
+COPY --from=publish /app/Blog/publish .
 
-ENTRYPOINT ["dotnet", "Blog.dll"]
+WORKDIR /app
+ENTRYPOINT ["dotnet", "Blog/Blog.dll"]

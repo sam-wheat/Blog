@@ -12,6 +12,9 @@ you should put your modifications in the first stage.
 *** The entry point is tail -f /dev/null, which is an infinite wait to keep the container running. 
 *** If launched without debugging, the tooling runs a docker exec -i {containerId} dotnet webapp.dll to run the app.
 *----------------------------------------------------------------------------------------------------------------------------------------
+Developing ASP.NET Core Applications with Docker over HTTPS
+https://github.com/dotnet/dotnet-docker/blob/17c1eec582e84ba9cbea5641cd9cc13fe1a41c39/samples/run-aspnetcore-https-development.md#L85
+*----------------------------------------------------------------------------------------------------------------------------------------
 --- Angular ---
 https://angular.io/docs/
 npm install -g @angular/cli
@@ -28,7 +31,7 @@ change start command line in package.json to this:
 
 --- Docker ---
 docker build -f Dockerfile -t blog .. 
-docker run -it blog bash --name blog -p 80:44444	// run the container and keep it open by running bash
+docker run -it -p 8080:80 blog bash	// run the container and keep it open by running bash
 docker exec -it imageName bash  // command prompt inside running container
 docker run -p 8080:80 blog tail -f /dev/null
 docker system prune
@@ -39,14 +42,4 @@ delete package.lock.json
 cd \git\blog
 docker build -t blog .
 
-
-#-----------------
-FROM base AS final
-WORKDIR /app/Blog.API
-COPY --from=publish /app/Blog.API/publish .
-
-WORKDIR /app/Blog
-COPY --from=publish /app/Blog/publish .
-
-ENTRYPOINT ["dotnet", "Blog.dll"]
 
