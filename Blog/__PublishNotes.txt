@@ -1,0 +1,9 @@
+﻿Build Configuration and EnvironmentName are both set in the publish profile - The VS configuration manager setting is not used.
+In .pubxml file, EnvironmentName is manually added and is used in addition to BuildConfiguration.
+
+<EnvironmentName>Stag</EnvironmentName>
+<LastUsedBuildConfiguration>Stage</LastUsedBuildConfiguration>
+
+Use VS configuration manager to set the build config.  Check that the correct flag is passed to npm build:
+Stage -->>> <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod --configuration=stage" />
+Prod -->>> <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />

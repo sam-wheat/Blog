@@ -70,7 +70,8 @@ namespace Blog.API
             services.AddMemoryCache();
             services.AddSession();
             services.AddDistributedMemoryCache();
-            services.AddMvc(x => x.EnableEndpointRouting = false);
+            //services.AddMvc();
+            services.AddControllers();
             services.AddCors();
             services.AddControllers().AddNewtonsoftJson(options =>
             {
@@ -151,10 +152,17 @@ namespace Blog.API
                 "http://dev.samwheat.com",
                 "http://samwheatweb.azurewebsites.net",
                 "https://samwheatweb.azurewebsites.net",
-                "https://localhost:5001",}).AllowAnyMethod().AllowAnyHeader());
-            
-            app.UseMvc();
-            
+                "https://localhost:5001",
+                "https://samwheatweb-staging.azurewebsites.net"            
+            }).AllowAnyMethod().AllowAnyHeader());
+
+            //app.UseMvc();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
             app.UseExceptionHandler( options => {
                 options.Run(
                     async context =>

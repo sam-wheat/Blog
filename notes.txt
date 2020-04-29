@@ -1,21 +1,4 @@
-﻿https://docs.docker.com/develop/develop-images/multistage-build/
-https://github.com/dotnet/dotnet-docker/tree/5e9b849a900c69edfe78f6e0f3519009de4ab471	dotnet-docker repo
-https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-3.1 Docker images for ASP.NET Core
-https://docs.microsoft.com/en-us/visualstudio/containers/container-msbuild-properties?view=vs-2019 Container Tools build properties
-https://docs.microsoft.com/en-us/visualstudio/containers/edit-and-refresh?view=vs-2019 Debug apps in local Docker container
-*----------------------------------------------------------------------------------------------------------------------------------------
-https://docs.microsoft.com/en-us/visualstudio/containers/container-build?view=vs-2019 How Visual Studio builds containerized apps
-So, when you modify your Dockerfile, such as to customize the container environment or install additional dependencies, 
-you should put your modifications in the first stage. 
-*** Any custom steps placed in the Dockerfile's build, publish, or final stages will not be executed. ***
-*** When you start debugging (F5), a previously started container is reused, if possible. 
-*** The entry point is tail -f /dev/null, which is an infinite wait to keep the container running. 
-*** If launched without debugging, the tooling runs a docker exec -i {containerId} dotnet webapp.dll to run the app.
-*----------------------------------------------------------------------------------------------------------------------------------------
-Developing ASP.NET Core Applications with Docker over HTTPS
-https://github.com/dotnet/dotnet-docker/blob/17c1eec582e84ba9cbea5641cd9cc13fe1a41c39/samples/run-aspnetcore-https-development.md#L85
-*----------------------------------------------------------------------------------------------------------------------------------------
---- Angular ---
+﻿--- Angular ---
 https://angular.io/docs/
 npm install -g @angular/cli
 
@@ -25,21 +8,5 @@ change start command line in package.json to this:
 "start": "echo Starting... && ng serve",
 
 
-*----------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 --- Docker ---
-docker build -f Dockerfile -t blog .. 
-docker run -it -p 8080:80 blog bash	// run the container and keep it open by running bash
-docker exec -it imageName bash  // command prompt inside running container
-docker run -p 8080:80 blog tail -f /dev/null
-docker system prune
-docker image rm repositoryName:tag
-
-// Using as of 2020/04/25
-delete package.lock.json
-cd \git\blog
-docker build -t blog .
-
-
+See notes in Documents\Docker\DockerNotes.txt
