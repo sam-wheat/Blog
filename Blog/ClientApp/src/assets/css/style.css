@@ -148,6 +148,36 @@ h1, h2, h3, h4, h5, h6 {
     white-space: nowrap;
   }
 
+  /* buttons */
+  .nav-menu button {
+    display: flex;
+    align-items: center;
+    color: #a8a9b4;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    transition: 0.3s;
+    font-size: 15px;
+    background-color:transparent;
+    border:none;
+    outline:none;
+  }
+
+    .nav-menu button i {
+      font-size: 24px;
+      padding-right: 8px;
+      color: #6f7180;
+    }
+
+    .nav-menu button:hover, .nav-menu .active > button, .nav-menu li:hover > button {
+      text-decoration: none;
+      color: #fff;
+    }
+
+      .nav-menu button:hover i, .nav-menu .active > button i, .nav-menu li:hover > button i {
+        color: #149ddd;
+      }
+
+  /* links */
   .nav-menu a {
     display: flex;
     align-items: center;
@@ -172,6 +202,7 @@ h1, h2, h3, h4, h5, h6 {
       .nav-menu a:hover i, .nav-menu .active > a i, .nav-menu li:hover > a i {
         color: #149ddd;
       }
+
 
 /* Mobile Navigation */
 .mobile-nav-toggle {
@@ -409,7 +440,7 @@ section {
       }
 
 /*--------------------------------------------------------------
-# Akills
+# Skills
 --------------------------------------------------------------*/
 .skills .progress {
   height: 50px;

@@ -1,9 +1,3 @@
-/**
-* Template Name: iPortfolio - v1.2.1
-* Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 
 (function (window) {
 
@@ -24,6 +18,7 @@
 !(function (window) {
   window.initJS = function () {
     "use strict";
+     
 
     if ($('.typed').length) {
       var typed_strings = $(".typed").data('typed-items');
@@ -96,14 +91,14 @@
         }
         var thisDataTarget = null;
         var activeDataTarget = null;
-        var thisNav = main_nav.find('a[data-target="#' + $(this).attr('id') + '"]').parent('li').first();
+        var thisNav = main_nav.find('button[data-target="#' + $(this).attr('id') + '"]').parent('li').first();
         var activeNav = main_nav.find('li.active').first();
 
         if (thisNav.length)
-          thisDataTarget = $(thisNav).find('a').attr('data-target');
+          thisDataTarget = $(thisNav).find('button').attr('data-target');
 
         if (activeNav.length)
-          activeDataTarget = $(activeNav).find('a').attr('data-target');
+          activeDataTarget = $(activeNav).find('button').attr('data-target');
 
         if (thisNav.length && activeNav.length) {
           if (thisDataTarget !== activeDataTarget) {

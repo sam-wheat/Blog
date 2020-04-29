@@ -29,6 +29,7 @@ namespace Blog.API
     {
         public IConfigurationRoot Configuration { get; }
         private string EnvironmentName;
+        private IEnumerable<IEndPointConfiguration> EndPoints;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
@@ -47,7 +48,7 @@ namespace Blog.API
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             // Create Logger
             // Add write permission for <Machine>\IIS_USRS to log directory.
@@ -78,12 +79,21 @@ namespace Blog.API
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
             });
-        
+
+
+            
+
+            Log.Information("ConfigureServices ended");
+        }
+
+      
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
 
             // Autofac
             string filePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            Log.Information("filePath is {0}",filePath);
-            IEnumerable<IEndPointConfiguration> EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(filePath, "EndPoints.json"));
+            Log.Information("filePath is {0}", filePath);
+            EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(filePath, "EndPoints.json"));
 
             if (EnvironmentName == "Development")
             {
@@ -95,14 +105,13 @@ namespace Blog.API
                 {
                     connectionString = ConnectionstringUtility.BuildConnectionString(connectionString, EnvironmentName, ConnectionstringUtility.Provider.MSSQL);
                     EndPoints.FirstOrDefault(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MSSQL).ConnectionString = connectionString;
-                    
+
                 }
             }
             else
                 Log.Information("connectionString is {connectionString}", EndPoints.First().ConnectionString);
 
-            var builder = new ContainerBuilder();
-            builder.Populate(services);
+
             builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
             builder.RegisterModule(new Blog.Services.AutofacModule());
             builder.RegisterModule(new Blog.Core.AutofacModule());
@@ -113,31 +122,14 @@ namespace Blog.API
                 .RegisterEndPoints(EndPoints)
                 .RegisterModule(new Blog.Services.AdaptiveClientModule());
 
-            var container = builder.Build();
-            IMemoryCache cache = container.Resolve<IMemoryCache>();
-            cache.Set<string>(CacheKeyNames.EmailAccount, Configuration["Data:EmailAccount"]);
-            cache.Set<string>(CacheKeyNames.EmailPassword, Configuration["Data:EmailPassword"]);
-            
-            
-            if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailAccount)))
-                throw new Exception("EmailAccount not found in appsettings file.");
-            if(string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailPassword)))
-                throw new Exception("EmailPassword not found in appsettings file.");
-
-            // Make sure the database exists
-            IDatabaseUtilities databaseUtilities = container.Resolve<IDatabaseUtilities>();
-
-            foreach (IEndPointConfiguration ep in EndPoints.Where(x => x.EndPointType == EndPointType.DBMS))
-                Task.Run(() => databaseUtilities.CreateOrUpdateDatabase(ep)).Wait();
-
-            Log.Information("ConfigureServices ended");
-            return container.Resolve<IServiceProvider>();
+            // Don't build the container; that gets done for you.
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, ILifetimeScope container)
         {
-            
+
             app.UseDeveloperExceptionPage(); // must come before UseMvc.
             app.UseSession();
             app.UseCors(x => x.WithOrigins(new string[] {
@@ -153,17 +145,16 @@ namespace Blog.API
                 "http://samwheatweb.azurewebsites.net",
                 "https://samwheatweb.azurewebsites.net",
                 "https://localhost:5001",
-                "https://samwheatweb-staging.azurewebsites.net"            
+                "https://samwheatweb-staging.azurewebsites.net"
             }).AllowAnyMethod().AllowAnyHeader());
 
-            //app.UseMvc();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseExceptionHandler( options => {
+            app.UseExceptionHandler(options => {
                 options.Run(
                     async context =>
                     {
@@ -178,7 +169,25 @@ namespace Blog.API
                         }
                     });
             });
+           
             
+            IMemoryCache cache = container.Resolve<IMemoryCache>();
+            cache.Set<string>(CacheKeyNames.EmailAccount, Configuration["Data:EmailAccount"]);
+            cache.Set<string>(CacheKeyNames.EmailPassword, Configuration["Data:EmailPassword"]);
+
+
+            if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailAccount)))
+                throw new Exception("EmailAccount not found in appsettings file.");
+            if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailPassword)))
+                throw new Exception("EmailPassword not found in appsettings file.");
+
+            // Make sure the database exists
+            IDatabaseUtilities databaseUtilities = container.Resolve<IDatabaseUtilities>();
+
+            foreach (IEndPointConfiguration ep in EndPoints.Where(x => x.EndPointType == EndPointType.DBMS))
+                Task.Run(() => databaseUtilities.CreateOrUpdateDatabase(ep)).Wait();
+
         }
+
     }
 }

@@ -31,8 +31,8 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
-    AppRoutingModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [
     HttpErrorHandler,

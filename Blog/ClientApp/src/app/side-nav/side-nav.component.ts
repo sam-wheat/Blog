@@ -64,8 +64,13 @@ export class SideNavComponent implements OnInit, OnDestroy {
   }
 
   toggleSideNavMode(mode: SideNavMode): void {
+    this.router.navigateByUrl('//blogIndex');
     this.sessionService.AnnounceSideNavMode(mode);
   }
 
+
+  scroll(targetID: string) {
+    document.querySelector('#' + targetID).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
   
 }

@@ -15,14 +15,12 @@
 
     <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource$ | async) === 0">
       <ul>
-
-
-        <li class="active"><a [routerLink]="['/home']" fragment="hero" data-target="#hero"><i class="bx bx-home"></i> <span>Home</span></a></li>
-        <li><a [routerLink]="['/home']" fragment="about" data-target="#about"><i class="bx bx-user"></i> <span> About</span></a></li>
-        <li><a [routerLink]="['/home']" fragment="technologies" data-target="#technologies"><i class="bx bx-server"></i><span> Technologies</span></a></li>
-        <li><a [routerLink]="['/home']" fragment="clients" data-target="#clients"><i class="bx bx-file-blank"></i> <span> Clients</span></a></li>
-        <li><a [routerLink]="['/home']" fragment="contact" data-target="#contact"><i class="bx bx-envelope"></i><span> Contact</span></a></li>
-        <li><a [routerLink]="['/blogIndex']" (click)="toggleSideNavMode(1)" data-target="#blogIndex"><i class="bx bx-book-content"></i><span> Blog</span></a></li>
+        <li class="active"><button (click)="scroll('hero')" data-target="#hero"><i class="bx bx-home"></i> <span>Home</span></button></li>
+        <li><button (click)="scroll('about')" data-target="#about"><i class="bx bx-user"></i> <span> About</span></button></li>
+        <li><button (click)="scroll('technologies')" data-target="#technologies"><i class="bx bx-server"></i><span> Technologies</span></button></li>
+        <li><button (click)="scroll('clients')" data-target="#clients"><i class="bx bx-file-blank"></i> <span> Clients</span></button></li>
+        <li><button (click)="scroll('contact')" data-target="#contact"><i class="bx bx-envelope"></i><span> Contact</span></button></li>
+        <li><button (click)="toggleSideNavMode(1)" data-target="#blogIndex"><i class="bx bx-book-content"></i><span> Blog</span></button></li>
       </ul>
     </nav>
 
@@ -30,7 +28,7 @@
 
     <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource$ | async) === 1">
       <ul>
-        <li class="active"><a href="/"><i class="bx bx-home"></i> <span> Home</span></a></li>
+        <li class="active"><a href="/"><i class="bx bx-home"></i><span> Home</span></a></li>
       </ul>
       <app-group-filter GroupColumn="GroupID"></app-group-filter>
       <app-group-filter GroupColumn="PubDate"></app-group-filter>

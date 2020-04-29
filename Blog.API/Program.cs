@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Core;
 
 namespace Blog.API
 {
@@ -33,11 +31,16 @@ namespace Blog.API
             }
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>()
-            .UseContentRoot(Directory.GetCurrentDirectory())
-            .UseSetting("detailedErrors", "true")
-            .CaptureStartupErrors(true);
+        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args).ConfigureWebHost(webBuilder =>
+            {
+                webBuilder
+                .UseKestrel()
+                .UseStartup<Startup>()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseSetting("detailedErrors", "true")
+                .CaptureStartupErrors(true)
+                ;
+            }).UseServiceProviderFactory(new AutofacServiceProviderFactory());
     }
 }
