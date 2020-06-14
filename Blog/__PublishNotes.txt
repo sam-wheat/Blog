@@ -7,3 +7,39 @@ In .pubxml file, EnvironmentName is manually added and is used in addition to Bu
 Use VS configuration manager to set the build config.  Check that the correct flag is passed to npm build:
 Stage -->>> <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod --configuration=stage" />
 Prod -->>> <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+
+-------------------------------------
+Publish using SamWheatWeb - Web Deploy
+Nothing else to do.
+
+---------
+SSLForFree.com
+https://www.sslforfree.com/tutorial/iis.html
+The steps below show you how to convert the SSL certificate files into a PFX file that can install into Microsoft IIS and Azure:
+1) Create your SSL certificate using https://www.sslforfree.com
+
+SamWheat.com link: https://www.sslforfree.com/create?domains=samwheat.com%20www.samwheat.com
+leaderanalytics.com link https://www.sslforfree.com/create?domains=leaderanalytics.com%20www.leaderanalytics.com
+
+
+2) After you have all 3 certificate files go to https://decoder.link/converter and input all files. You can enter any "Password" you want for the PFX file. Make sure it is set to convert "PEM TO PKCS#12". This tool is provided by Namecheap, we are not responsible for this tool.
+3) This will generate a PFX file that you can use in Microsoft IIS, Microsoft Azure, and any other web servers that require a PFX file for SSL installation.
+-----------
+
+In the Azure portal, from the left menu, select App Services > <app-name>.
+Selecting TLS/SSL settings from the left navigation menu
+=======>>>>> CLICK ON THE Private Key Certificates (.pfx) TAB UNDER THE REFRESH BUTTON <<<<============
+Upload Certificate
+CLICK ON THE Bindings TAB UNDER THE REFRESH BUTTON 
+Click on the correct host name i.e. samwheat.com
+From the flyout on the right choose add binding
+Click on the Private Key Certificates (.pfx) tab
+
+--------
+Additional Instructions for adding ssl cert to Azure
+https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-SSL
+
+--------
+Lets Encrypt Azure Extension
+https://github.com/sjkp/letsencrypt-siteextension/wiki/How-to-install
+https://codehollow.com/2017/10/lets-encrypt-azure-webapps/
