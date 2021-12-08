@@ -1,7 +1,6 @@
-﻿namespace Blog.Core
+﻿namespace Blog.Core;
+
+public interface INamedConnectionString
 {
-    public interface INamedConnectionString
-    {
-        string ConnectionString { get; set; }
-    }
+    string ConnectionString { get; set; }
 }

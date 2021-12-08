@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Blog.Services</AssemblyName>
     <PackageId>Blog.Services</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -20,18 +21,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveClient" Version="1.0.0" />
-    <PackageReference Include="AdaptiveClient.Utilities" Version="1.0.0" />
-    <PackageReference Include="Serilog" Version="2.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\MySQL\" />
-    <Folder Include="Migrations\MSSQL\" />
-    <Folder Include="MySQL\" />
+    <PackageReference Include="AdaptiveClient" Version="3.0.3" />
+    <PackageReference Include="AdaptiveClient.Utilities" Version="3.0.1" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

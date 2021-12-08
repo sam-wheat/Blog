@@ -1,66 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-using Blog.Core;
+﻿using Blog.Core;
 using Blog.Domain;
-using Blog.Services;
 using Autofac;
-using Microsoft.EntityFrameworkCore;
 using LeaderAnalytics.AdaptiveClient;
 using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
-using Blog.Services.Database;
-using Blog.Services.Database.DataInitalizers;
 
-namespace Blog.IntegrationTests
+namespace Blog.IntegrationTests;
+
+public class BaseTest
 {
-    public class BaseTest
+    protected IContainer Container { get; private set; }
+    protected IAdaptiveClient<IServiceManifest> ServiceClient { get; set; }
+    protected IEnumerable<IEndPointConfiguration> EndPoints { get; set; }
+    protected IDatabaseUtilities DatabaseUtilities;
+
+
+    public BaseTest()
     {
-        protected IContainer Container { get; private set; }
-        protected IAdaptiveClient<IServiceManifest> ServiceClient { get;  set; }
-        protected IEnumerable<IEndPointConfiguration> EndPoints { get; set; }
-        protected IDatabaseUtilities DatabaseUtilities;
+        BuildContainer();
+    }
 
+    protected void BuildContainer()
+    {
+        EndPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
+        EndPoints.First(x =>  x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString =
+            ConnectionstringUtility.BuildConnectionString(EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString, ConnectionstringUtility.Environment.Dev, ConnectionstringUtility.Provider.MySQL);
+        var builder = new ContainerBuilder();
+        builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
+        builder.RegisterModule(new Blog.Services.AutofacModule());
+        builder.RegisterModule(new Blog.Core.AutofacModule());
+        RegistrationHelper registrationHelper = new RegistrationHelper(builder);
 
-        public BaseTest()
-        {
-            BuildContainer();
-        }
+        registrationHelper
+            .RegisterEndPoints(EndPoints)
+            .RegisterModule(new Blog.Services.AdaptiveClientModule());
 
-        protected void BuildContainer()
-        {
-            EndPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
-            EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString = 
-                ConnectionstringUtility.BuildConnectionString(EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString, ConnectionstringUtility.Environment.Dev, ConnectionstringUtility.Provider.MySQL);
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
-            builder.RegisterModule(new Blog.Services.AutofacModule());
-            builder.RegisterModule(new Blog.Core.AutofacModule());
-            RegistrationHelper registrationHelper = new RegistrationHelper(builder);
+        Container = builder.Build();
+        DatabaseUtilities = Container.Resolve<IDatabaseUtilities>();
+    }
 
-            registrationHelper
-                .RegisterEndPoints(EndPoints)
-                .RegisterModule(new Blog.Services.AdaptiveClientModule());
+    protected void InitializeAllDatabases()
+    {
+        foreach (IEndPointConfiguration ep in EndPoints.Where(x => x.IsActive && x.EndPointType == EndPointType.DBMS))
+            Task.Run(() => DropAndRecreateDatabase(ep)).Wait();
+    }
 
-            Container = builder.Build();
-            DatabaseUtilities = Container.Resolve<IDatabaseUtilities>();
-        }
+    protected async Task DropAndRecreateDatabase(IEndPointConfiguration ep)
+    {
+        if (ep.EndPointType != EndPointType.DBMS)
+            return;
 
-        protected void InitializeAllDatabases()
-        {
-            foreach (IEndPointConfiguration ep in EndPoints.Where(x => x.EndPointType == EndPointType.DBMS))
-                Task.Run(() => DropAndRecreateDatabase(ep)).Wait();
-        }
-
-        protected async Task DropAndRecreateDatabase(IEndPointConfiguration ep)
-        {
-            if (ep.EndPointType != EndPointType.DBMS)
-                return;
-
-            await DatabaseUtilities.DropDatabase(ep);
-            await DatabaseUtilities.ApplyMigrations(ep);
-        }
+        await DatabaseUtilities.DropDatabase(ep);
+        await DatabaseUtilities.ApplyMigrations(ep);
     }
 }

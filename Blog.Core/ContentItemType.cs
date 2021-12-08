@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿namespace Blog.Core;
 
-namespace Blog.Core
+public enum ContentItemType
 {
-    public enum ContentItemType
-    {
-        Post,
-        MenuItem
-    }
+    Post,
+    MenuItem
 }

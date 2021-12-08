@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
-using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
+﻿namespace Blog.Core;
 
-namespace Blog.Core
+public class AutofacModule : Module
 {
-    public class AutofacModule : Module
+    protected override void Load(ContainerBuilder builder)
     {
-        protected override void Load(ContainerBuilder builder)
-        {
-            base.Load(builder);
-        }
+        base.Load(builder);
     }
 }

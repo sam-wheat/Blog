@@ -1,38 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Blog.Services.Database;
 using Blog.Core;
 using Blog.Domain;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
-namespace Blog.MigrationFactories
+namespace Blog.MigrationFactories;
+
+public class MSSQLContextFactory : IDesignTimeDbContextFactory<DbMSSQL>
 {
-    
-    public class MSSQLContextFactory : IDesignTimeDbContextFactory<DbMSSQL>
+    private const string configFilePath = "C:\\Users\\sam\\AppData\\Roaming\\Blog";
+
+    public DbMSSQL CreateDbContext(string[] args)
     {
-        public DbMSSQL CreateDbContext(string[] args)
-        {
-            string connectionString = ConnectionstringUtility.BuildConnectionString(ConnectionstringUtility.GetConnectionString("bin\\debug\\netcoreapp2.0\\EndPoints.json", API_Name.Blog, ProviderName.MSSQL), ConnectionstringUtility.Environment.Prod, ConnectionstringUtility.Provider.MSSQL);
-            DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
-            dbOptions.UseSqlServer(connectionString);
-            DbMSSQL db = new DbMSSQL(dbOptions.Options);
-            return db;
-        }
+        string appPath = Path.Combine(configFilePath, "endpoints.development.json");
+        string connectionString = ConnectionstringUtility.GetConnectionString(appPath, API_Name.Blog, ProviderName.MSSQL);
+        DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
+        dbOptions.UseSqlServer(connectionString);
+        DbMSSQL db = new DbMSSQL(dbOptions.Options);
+        return db;
     }
+}
 
 
-    public class MySQLContextFactory : IDesignTimeDbContextFactory<DbMySQL>
+public class MySQLContextFactory : IDesignTimeDbContextFactory<DbMySQL>
+{
+    private const string configFilePath = "C:\\Users\\sam\\AppData\\Roaming\\Blog";
+
+    public DbMySQL CreateDbContext(string[] args)
     {
-        public DbMySQL CreateDbContext(string[] args)
-        {
-            string connectionString = ConnectionstringUtility.BuildConnectionString(ConnectionstringUtility.GetConnectionString("bin\\debug\\netcoreapp2.0\\EndPoints.json", API_Name.Blog, ProviderName.MySQL), ConnectionstringUtility.Environment.Prod, ConnectionstringUtility.Provider.MySQL);
-            DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
-            dbOptions.UseMySql(connectionString);
-            DbMySQL db = new DbMySQL(dbOptions.Options);
-            return db;
-        }
+        string appPath = Path.Combine(configFilePath, "endpoints.development.json");
+        string connectionString = ConnectionstringUtility.GetConnectionString(appPath, API_Name.Blog, ProviderName.MySQL);
+        DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
+        dbOptions.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore));
+        DbMySQL db = new DbMySQL(dbOptions.Options);
+        return db;
     }
 }

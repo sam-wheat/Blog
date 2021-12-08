@@ -1,6 +1,7 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
 
 namespace Blog.Services.Migrations.MSSQL
 {
@@ -16,11 +17,11 @@ namespace Blog.Services.Migrations.MSSQL
                 schema: "Blog",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SiteName = table.Column<string>(nullable: false),
-                    URL = table.Column<string>(nullable: false),
-                    Active = table.Column<bool>(nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SiteName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    URL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,12 +33,12 @@ namespace Blog.Services.Migrations.MSSQL
                 schema: "Blog",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SiteID = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(maxLength: 150, nullable: false),
-                    Sequence = table.Column<int>(nullable: false),
-                    Active = table.Column<bool>(nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SiteID = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Sequence = table.Column<int>(type: "int", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,10 +57,10 @@ namespace Blog.Services.Migrations.MSSQL
                 schema: "Blog",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SiteID = table.Column<int>(nullable: false),
-                    MenuName = table.Column<string>(nullable: true)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SiteID = table.Column<int>(type: "int", nullable: false),
+                    MenuName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,23 +79,23 @@ namespace Blog.Services.Migrations.MSSQL
                 schema: "Blog",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContentType = table.Column<int>(maxLength: 100, nullable: false),
-                    ContentGroupID = table.Column<int>(nullable: true),
-                    PublishDate = table.Column<DateTime>(nullable: true),
-                    LastModifyDate = table.Column<DateTime>(nullable: true),
-                    ChangeFrequency = table.Column<string>(maxLength: 100, nullable: true),
-                    Priority = table.Column<decimal>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
-                    Slug = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    MenuText = table.Column<string>(nullable: true),
-                    URL = table.Column<string>(nullable: true),
-                    Abstract = table.Column<string>(nullable: true),
-                    Icon = table.Column<string>(maxLength: 200, nullable: true),
-                    Tags = table.Column<string>(nullable: true),
-                    AllowComments = table.Column<bool>(nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ContentType = table.Column<int>(type: "int", maxLength: 100, nullable: false),
+                    ContentGroupID = table.Column<int>(type: "int", nullable: true),
+                    PublishDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ChangeFrequency = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Priority = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MenuText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Abstract = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Icon = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AllowComments = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,8 +105,7 @@ namespace Blog.Services.Migrations.MSSQL
                         column: x => x.ContentGroupID,
                         principalSchema: "Blog",
                         principalTable: "ContentGroups",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -113,35 +113,33 @@ namespace Blog.Services.Migrations.MSSQL
                 schema: "Blog",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ParentID = table.Column<long>(nullable: true),
-                    ContentItemID = table.Column<int>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false),
-                    SenderName = table.Column<string>(maxLength: 100, nullable: true),
-                    SenderEMail = table.Column<string>(maxLength: 100, nullable: true),
-                    SenderWebsite = table.Column<string>(maxLength: 100, nullable: true),
-                    SenderIPAddress = table.Column<string>(maxLength: 50, nullable: true),
-                    CommentText = table.Column<string>(nullable: false),
-                    Approved = table.Column<bool>(nullable: false)
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ParentID = table.Column<long>(type: "bigint", nullable: true),
+                    ContentItemID = table.Column<int>(type: "int", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SenderName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    SenderEMail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    SenderWebsite = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    SenderIPAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    CommentText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Approved = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Comments_ContentItems_ContentItemID",
-                        column: x => x.ContentItemID,
-                        principalSchema: "Blog",
-                        principalTable: "ContentItems",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Comments_Comments_ParentID",
                         column: x => x.ParentID,
                         principalSchema: "Blog",
                         principalTable: "Comments",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Comments_ContentItems_ContentItemID",
+                        column: x => x.ContentItemID,
+                        principalSchema: "Blog",
+                        principalTable: "ContentItems",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -149,11 +147,11 @@ namespace Blog.Services.Migrations.MSSQL
                 schema: "Blog",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    MenuID = table.Column<int>(nullable: false),
-                    ContentItemID = table.Column<int>(nullable: false),
-                    Sequence = table.Column<int>(nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MenuID = table.Column<int>(type: "int", nullable: false),
+                    ContentItemID = table.Column<int>(type: "int", nullable: false),
+                    Sequence = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
