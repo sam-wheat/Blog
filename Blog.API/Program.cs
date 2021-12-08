@@ -1,6 +1,4 @@
 ﻿// https://gist.github.com/davidfowl/0e0372c3c1d895c3ce195ba983b1e03d
-
-
 namespace Blog.API;
 
 public class Program
