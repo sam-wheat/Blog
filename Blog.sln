@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog", "Blog\Blog.csproj", "{5879FA9E-75DB-435B-B381-C29ED0E6CC73}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.API", "Blog.API\Blog.API.csproj", "{57BC48D4-29FA-4E90-84FE-F4899B95DB9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Core", "Blog.Core\Blog.Core.csproj", "{6B8DFBDA-A492-4015-AE5B-1B51F8ED5BE9}"
@@ -36,12 +34,6 @@ Global
 		Stage|Any CPU = Stage|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5879FA9E-75DB-435B-B381-C29ED0E6CC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5879FA9E-75DB-435B-B381-C29ED0E6CC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5879FA9E-75DB-435B-B381-C29ED0E6CC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5879FA9E-75DB-435B-B381-C29ED0E6CC73}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5879FA9E-75DB-435B-B381-C29ED0E6CC73}.Stage|Any CPU.ActiveCfg = Stage|Any CPU
-		{5879FA9E-75DB-435B-B381-C29ED0E6CC73}.Stage|Any CPU.Build.0 = Stage|Any CPU
 		{57BC48D4-29FA-4E90-84FE-F4899B95DB9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{57BC48D4-29FA-4E90-84FE-F4899B95DB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57BC48D4-29FA-4E90-84FE-F4899B95DB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
