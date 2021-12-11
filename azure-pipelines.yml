@@ -2,7 +2,10 @@
 # Build and test ASP.NET Core projects targeting the full .NET Framework.
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+# https://joeblogs.technology/2020/07/multi-stage-pipelines-and-yaml-for-continuous-delivery-azure-devops/
+# https://dev.to/mcklmt/build-and-deploy-angular-app-with-azure-devops-3nnf
 
+# stage / job / step / task
 trigger:
 - master
 
@@ -14,21 +17,116 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+- stage: Setup
+  displayName: Install externals
+  
+  jobs:
+    - job: InstallNode
+      displayName: Install Node and Angular
+      
+      steps:
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+      - task: NodeTool@0
+        displayName: Install Node
+        inputs:
+          versionSpec: '14.x'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+      - script: |
+          npm install -g @angular/cli
+        displayName: Install Angular CLI
+
+      - task: NuGetToolInstaller@1
+        displayName: 'Install NuGet'
+
+
+
+- stage: BuildWebApp
+  displayName: Build Web Application
+  
+  jobs:
+    - job: InstallPackages
+      displayName: Install NPM packages
+
+      steps:
+
+      - script: |
+          cd '$(System.DefaultWorkingDirectory)/Blog/ClientApp'
+          npm install
+          ng build --prod
+        displayName: 'npm install and build'
+     
+      - task: ArchiveFiles@2
+        displayName: 'Archive files'
+        inputs:
+          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
+          includeRootFolder: false
+          archiveType: zip
+          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+          replaceExistingArchive: true
+
+      - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        artifact: WebApp
+        
+      
+
+- stage: Build API
+  displayName: Buid API
+
+  jobs:
+
+    - job: Configuration
+      displayName: Configuration
+
+      steps:
+        - task: UseDotNet@2
+          displayName: 'Use dotnet 6'
+          inputs:
+            version: '6.x'
+
+        - task: DotNetCoreCLI@2
+          displayName: 'DotNet Restore NuGet packages'
+          inputs:
+            command: 'restore'
+            feedsToUse: 'select'
+            vstsFeed: 'LeaderAnalyticsFeed'
+            includeNuGetOrg: true
+ 
+        - task: VSBuild@1
+          displayName: 'Build solution'
+          inputs:
+            solution: '$(solution)'
+            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.ArtifactStagingDirectory)\\"    /p:UseWPP_CopyWebApplication=true  /p:OutDir="$(build.ArtifactStagingDirectory)"'
+            platform: '$(buildPlatform)'
+            configuration: '$(buildConfiguration)'
+            
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifacts'
+
+        - task: DotNetCoreCLI@2
+          displayName: 'DotNet publish'
+          inputs:
+            command: publish
+            publishWebProjects: true
+            arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingdirectory) --self-contained'
+            zipAfterPublish: true
+
+        - task: AzureRmWebAppDeployment@4
+          displayName: 'AzureRmWebAppDeployment@4'
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: 'All Azure Services'
+            appType: webApp
+            WebAppName: 'SamWheatWeb'
+            UseWebDeploy: true
+            packageforLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
+
+- stage: Deploy Web App
+
+  - task: AzureWebApp@1
+    displayName: 'Deploy Azure Web App : $(webAppName)'
+    inputs:
+      azureSubscription: $(azureSubscription)
+      appName: SamWheatWeb
+      package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
