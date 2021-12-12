@@ -21,9 +21,7 @@ public class BaseTest
 
     protected void BuildContainer()
     {
-        EndPoints = EndPointUtilities.LoadEndPoints("EndPoints.json");
-        EndPoints.First(x =>  x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString =
-            ConnectionstringUtility.BuildConnectionString(EndPoints.First(x => x.API_Name == API_Name.Blog && x.ProviderName == ProviderName.MySQL).ConnectionString, ConnectionstringUtility.Environment.Dev, ConnectionstringUtility.Provider.MySQL);
+        EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(ConfigFileLocation.Folder, "EndPoints.development.json"));
         var builder = new ContainerBuilder();
         builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
         builder.RegisterModule(new Blog.Services.AutofacModule());
@@ -38,10 +36,10 @@ public class BaseTest
         DatabaseUtilities = Container.Resolve<IDatabaseUtilities>();
     }
 
-    protected void InitializeAllDatabases()
+    protected async Task InitializeAllDatabases()
     {
         foreach (IEndPointConfiguration ep in EndPoints.Where(x => x.IsActive && x.EndPointType == EndPointType.DBMS))
-            Task.Run(() => DropAndRecreateDatabase(ep)).Wait();
+            await DropAndRecreateDatabase(ep);
     }
 
     protected async Task DropAndRecreateDatabase(IEndPointConfiguration ep)

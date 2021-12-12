@@ -3,17 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>Blog.Core</AssemblyName>
-    <PackageId>Blog.Core</PackageId>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <Configurations>Debug;Release;Stage</Configurations>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="AdaptiveClient.EntityFrameworkCore" Version="3.0.1" />
     <PackageReference Include="Autofac" Version="6.3.0" />

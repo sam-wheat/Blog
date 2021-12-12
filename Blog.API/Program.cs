@@ -71,7 +71,11 @@ public class Program
             builder.Services.AddMemoryCache();
             builder.Services.AddSession();
             builder.Services.AddDistributedMemoryCache();
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
             builder.Services.AddCors();
             WebApplication app = builder.Build();
 
@@ -125,22 +129,14 @@ public class Program
                     });
             });
 
-
             IMemoryCache cache = app.Services.GetService<IMemoryCache>();
             cache.Set<string>(CacheKeyNames.EmailAccount, appConfig["Data:EmailAccount"]);
             cache.Set<string>(CacheKeyNames.EmailPassword, appConfig["Data:EmailPassword"]);
-
 
             if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailAccount)))
                 throw new Exception("EmailAccount not found in appsettings file.");
             if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailPassword)))
                 throw new Exception("EmailPassword not found in appsettings file.");
-
-            // Make sure the database exists
-            IDatabaseUtilities databaseUtilities = app.Services.GetService<IDatabaseUtilities>();
-            
-            foreach (IEndPointConfiguration ep in EndPoints.Where(x => x.IsActive && x.EndPointType == EndPointType.DBMS))
-                await databaseUtilities.CreateOrUpdateDatabase(ep);
 
             app.Run();
 
@@ -161,7 +157,7 @@ public class Program
         string configFilePath = string.Empty;
 
         if (envName == LeaderAnalytics.Core.EnvironmentName.local || envName == LeaderAnalytics.Core.EnvironmentName.development)
-            configFilePath = "C:\\Users\\sam\\AppData\\Roaming\\Blog";
+            configFilePath = ConfigFileLocation.Folder; 
 
         var cfg = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json", optional: true)

@@ -4,10 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>  
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
-    <AssemblyName>Blog.API</AssemblyName>
-    <PackageId>Blog.API</PackageId>
     <UserSecretsId>6cb2cbef-1eb5-4450-9338-8f4b029a6b29</UserSecretsId>
-    <Configurations>Debug;Release;Stage</Configurations>
   </PropertyGroup>
  
   <ItemGroup>

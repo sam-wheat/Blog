@@ -4,7 +4,7 @@
     "anonymousAuthentication": false,
     "iisExpress": {
       "applicationUrl": "http://localhost:53389/",
-      "sslPort": 0
+      "sslPort": 7220
     }
   },
   "profiles": {
@@ -18,11 +18,10 @@
     },
     "Blog.API": {
       "commandName": "Project",
-      "commandLineArgs": "server.urls=http://localhost:5000/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:53389"
+      "applicationUrl": "https://localhost:7220;http://localhost:53389"
     }
   }
 }

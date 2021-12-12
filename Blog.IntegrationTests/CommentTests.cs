@@ -19,9 +19,9 @@ public class CommentTests : BaseTest
 
 
     [Test]
-    public void CommentTest2()
+    public async Task CommentTest2()
     {
         //List<Comment> comments = ServiceClient.OfType<ICommentService>().TryAsync(x => x.GetCommentsForContentItem(1)).Result;
-        InitializeAllDatabases();
+        await InitializeAllDatabases();
     }
 }

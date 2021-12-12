@@ -17,3 +17,4 @@ global using System.Drawing;
 global using System.Drawing.Imaging;
 global using System.IO;
 global using System.Net;
+global using System.Text.Json.Serialization;

@@ -3,21 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>Blog.IntegrationTests</AssemblyName>
     <OutputType>Library</OutputType>
-    <PackageId>Blog.IntegrationTests</PackageId>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <ApplicationIcon />
-    <StartupObject />
-    <Configurations>Debug;Release;Stage</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\EndPoints\EndPoints.json" Link="EndPoints.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,11 +35,6 @@
  
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-  </ItemGroup>
-
- 
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
