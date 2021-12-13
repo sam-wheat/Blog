@@ -122,11 +122,15 @@ stages:
             UseWebDeploy: true
             packageforLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
 
-- stage: Deploy Web App
-
-  - task: AzureWebApp@1
-    displayName: 'Deploy Azure Web App : $(webAppName)'
-    inputs:
-      azureSubscription: $(azureSubscription)
-      appName: SamWheatWeb
-      package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+- stage: Deploy Web App and API
+  jobs:
+    - job: DeployWebApp
+      displayName: D
+      
+      steps:
+        - task: AzureWebApp@1
+          displayName: 'Deploy Azure Web App : $(webAppName)'
+          inputs:
+            azureSubscription: $(azureSubscription)
+            appName: SamWheatWeb
+            package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
