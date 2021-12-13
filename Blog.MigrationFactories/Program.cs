@@ -53,7 +53,7 @@ public class Program
 
         try
         {
-            Log.Information("Program Blog.API started");
+            Log.Information("Program Blog.MigrationFactories started");
             Log.Information("Environment is: {env}", environmentName);
             Log.Information("Log files will be written to {logRoot}", logFolder);
             IEnumerable<EndPointConfiguration> EndPoints = null;
@@ -81,10 +81,11 @@ public class Program
 
             foreach (IEndPointConfiguration ep in EndPoints.Where(x => x.IsActive && x.EndPointType == EndPointType.DBMS))
             {
-                Log.Information("Starting update for EndPoint {}", ep.Name);
+                Log.Information("Starting update for EndPoint {ep}", ep.Name);
                 await databaseUtilities.CreateOrUpdateDatabase(ep);
-                Log.Information("Update for EndPoint {} completed.", ep.Name);
+                Log.Information("Update for EndPoint {ep} completed.", ep.Name);
             }
+            Log.Information("All Migrations completed.");
         }
         catch (Exception ex)
         {
@@ -92,10 +93,11 @@ public class Program
         }
         finally
         {
+            Log.Information("Blog.MigrationFactories is shutting down.");
             Log.CloseAndFlush();
             await Task.Delay(2000);
         }
-        Log.Information("Migrations completed.");
+        
     }
 
     private static IConfigurationRoot BuildConfig(LeaderAnalytics.Core.EnvironmentName envName)
