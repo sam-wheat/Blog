@@ -116,7 +116,7 @@ stages:
           displayName: 'AzureRmWebAppDeployment@4'
           inputs:
             ConnectionType: 'AzureRM'
-            azureSubscription: 'All Azure Services'
+            azureSubscription: 'Pay as you go subscription'
             appType: webApp
             WebAppName: 'SamWheatWeb'
             UseWebDeploy: true
