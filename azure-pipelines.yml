@@ -55,7 +55,7 @@ stages:
 
       - script: |
           cd
-          cd '$(System.DefaultWorkingDirectory)\Blog\ClientApp'
+          cd '$(System.DefaultWorkingDirectory)\Blog\Blog\ClientApp'
           npm install
           ng build --prod
         displayName: 'npm install and build'
