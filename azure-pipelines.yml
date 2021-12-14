@@ -16,6 +16,8 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  azureSubscription: 'Pay as you go subscription'
+
 
 stages:
 
@@ -116,7 +118,7 @@ stages:
           displayName: 'AzureRmWebAppDeployment@4'
           inputs:
             ConnectionType: 'AzureRM'
-            azureSubscription: 'Pay as you go subscription'
+            azureSubscription: $(azureSubscription)
             appType: webApp
             WebAppName: 'SamWheatWeb'
             UseWebDeploy: true
