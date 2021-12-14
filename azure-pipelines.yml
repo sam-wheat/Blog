@@ -56,7 +56,7 @@ stages:
       - script: |
           cd
           dir
-          cd Blog/ClientApp'
+          cd Blog/ClientApp
           cd
           dir
           npm install
