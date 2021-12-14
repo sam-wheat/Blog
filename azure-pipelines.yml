@@ -71,7 +71,7 @@ stages:
         
       
 
-- stage: Build API
+- stage: BuildAPI
   displayName: Buid API
 
   jobs:
@@ -122,7 +122,7 @@ stages:
             UseWebDeploy: true
             packageforLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
 
-- stage: Deploy Web App and API
+- stage: DeployWebAppAndAPI
   jobs:
     - job: DeployWebApp
       displayName: D
