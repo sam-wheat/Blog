@@ -35,9 +35,9 @@ stages:
         inputs:
           versionSpec: '14.x'
 
-      - script: |
-          npm install -g @angular/cli
-        displayName: Install Angular CLI
+      #- script: |
+      #    npm install -g @angular/cli
+      #  displayName: Install Angular CLI
 
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet'
