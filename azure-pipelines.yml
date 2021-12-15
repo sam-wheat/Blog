@@ -54,11 +54,7 @@ stages:
       steps:
 
       - script: |
-          cd
-          dir
           cd Blog/ClientApp
-          cd
-          dir
           npm install
           ng build --prod
         displayName: 'npm install and build'
@@ -66,7 +62,7 @@ stages:
       - task: ArchiveFiles@2
         displayName: 'Archive files'
         inputs:
-          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
+          rootFolderOrFile: Blog/ClientApp/dist/
           includeRootFolder: false
           archiveType: zip
           archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
