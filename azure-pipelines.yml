@@ -63,6 +63,8 @@ stages:
         displayName: 'npm install'
      
       - script: |
+          cd
+          dir
           cd Blog/ClientApp
           npm run build:prod
         displayName: 'npm build'
