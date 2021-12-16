@@ -60,9 +60,13 @@ stages:
       - script: |
           cd Blog/ClientApp
           npm install
-          npm run build:prod
-        displayName: 'npm install and build'
+        displayName: 'npm install'
      
+      - script: |
+          cd Blog/ClientApp
+          npm run build:prod
+        displayName: 'npm build'
+
       - task: ArchiveFiles@2
         displayName: 'Archive files'
         inputs:
