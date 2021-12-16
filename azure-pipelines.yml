@@ -65,13 +65,12 @@ stages:
       - script: |
           cd Blog/ClientApp
           npm run build:prod
-          dir
         displayName: 'npm build'
 
       - task: ArchiveFiles@2
         displayName: 'Archive files'
         inputs:
-          rootFolderOrFile: $(Build.ArtifactStagingDirectory)/Blog/ClientApp/dist/
+          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
           includeRootFolder: false
           archiveType: zip
           archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
