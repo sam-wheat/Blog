@@ -69,10 +69,7 @@ export class BlogService {
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post<AsyncResult>(this.noCache(url), commentString, options); //.pipe(tap(_ => this.log(`SaveComment`)), catchError(this.handleError<AsyncResult>('SaveComment', null)));
-    //return this.http.post(this.noCache(url), commentString, { headers: headers }).pipe(map(response => this.extractData(response)));
-    //.catch(this.handleError);
-
+    return this.httpClient.post<AsyncResult>(this.noCache(url), commentString, options); 
   }
 
   CaptchaImageURL(): string {
@@ -93,12 +90,6 @@ export class BlogService {
       this.log('${operation} failed: ${error.message}');
       return of(result as T);
     };
-  }
-
-  private xhandleError(error: any) {
-    let errorMsg = error.message || 'Server error';
-    console.error(errorMsg);
-    return Observable.throw(errorMsg);
   }
 
   private log(message: string) {
