@@ -64,9 +64,8 @@ stages:
      
       - script: |
           cd Blog/ClientApp
-          dir
-          dir node_modules
           npm run build:prod
+          dir
         displayName: 'npm build'
 
       - task: ArchiveFiles@2
