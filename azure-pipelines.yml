@@ -60,7 +60,7 @@ stages:
       - script: |
           cd Blog/ClientApp
           npm install
-          ng build --prod
+          npm run build:prod
         displayName: 'npm install and build'
      
       - task: ArchiveFiles@2
