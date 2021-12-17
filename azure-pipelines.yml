@@ -14,6 +14,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
+  project: '**/Blog.API/Blog.API.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   azureSubscription: 'Pay as you go subscription'
@@ -104,13 +105,12 @@ stages:
             vstsFeed: 'LeaderAnalyticsFeed'
             includeNuGetOrg: true
  
-        - task: VSBuild@1
-          displayName: 'Build solution'
+        - task: DotNetCoreCLI@2
+          displayName: 'dotnet build'
           inputs:
-            solution: '$(solution)'
-            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.ArtifactStagingDirectory)\\"    /p:UseWPP_CopyWebApplication=true  /p:OutDir="$(build.ArtifactStagingDirectory)"'
-            platform: '$(buildPlatform)'
-            configuration: '$(buildConfiguration)'
+            command: 'build'
+            arguments: '--configuration $(buildConfiguration)'
+            projects: $(project)
             
         - task: PublishBuildArtifacts@1
           displayName: 'Publish Artifacts'
