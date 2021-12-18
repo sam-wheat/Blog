@@ -106,14 +106,17 @@ stages:
             includeNuGetOrg: true
  
         - task: DotNetCoreCLI@2
-          displayName: 'dotnet build'
+          displayName: 'Build API'
           inputs:
             command: 'build'
             arguments: '--configuration $(buildConfiguration)'
             projects: $(project)
             
-        - publish: $(Build.ArtifactStagingDirectory)/API/$(Build.BuildId).zip
-          artifact: WebAPI
+        - task: DotNetCoreCLI@2
+          displayName: 'Publish API'
+          inputs:
+            command: 'publish'
+            publishWebProjects: true
 
         
 
@@ -126,7 +129,7 @@ stages:
       steps:
 
         - task: AzureRmWebAppDeployment@4
-          displayName: 'AzureRmWebAppDeployment@4'
+          displayName: 'Deploy API'
           inputs:
             ConnectionType: 'AzureRM'
             azureSubscription: $(azureSubscription)
@@ -134,7 +137,7 @@ stages:
             UseWebDeploy: true
             WebAppName: 'SamWheatWeb'
             VirtualApplication: '/api'
-            Package: $(Build.ArtifactStagingDirectory)/API/$(Build.BuildId).zip
+        
 
     - job: DeployWebApp
       displayName: Deploy Web App
