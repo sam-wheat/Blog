@@ -145,6 +145,6 @@ stages:
             azureSubscription: $(azureSubscription)
             appType: webApp
             appName: $(appName)
-            packageForLinux: : $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+            packageForLinux: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             
             
