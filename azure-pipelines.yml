@@ -132,7 +132,7 @@ stages:
             UseWebDeploy: true
             WebAppName: 'SamWheatWeb'
             VirtualApplication: '/api'
-            Package: '$(Build.ArtifactStagingDirectory)/API/'
+            Package: '$(Build.ArtifactStagingDirectory)/API/**'
         
 
     - job: DeployWebApp
@@ -145,4 +145,4 @@ stages:
           inputs:
             azureSubscription: $(azureSubscription)
             appName: SamWheatWeb
-            package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+            package: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
