@@ -106,16 +106,11 @@ stages:
             includeNuGetOrg: true
  
         - task: DotNetCoreCLI@2
-          displayName: 'Build API'
-          inputs:
-            command: 'build'
-            arguments: '--configuration $(buildConfiguration)'
-            projects: $(project)
-            
-        - task: DotNetCoreCLI@2
           displayName: 'Publish API'
           inputs:
             command: 'publish'
+            arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/API/'
+            project: $(project)
             publishWebProjects: true
 
         
@@ -137,6 +132,7 @@ stages:
             UseWebDeploy: true
             WebAppName: 'SamWheatWeb'
             VirtualApplication: '/api'
+            Package: '$(Build.ArtifactStagingDirectory)/API/'
         
 
     - job: DeployWebApp
