@@ -1,6 +1,3 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 # https://joeblogs.technology/2020/07/multi-stage-pipelines-and-yaml-for-continuous-delivery-azure-devops/
 # https://dev.to/mcklmt/build-and-deploy-angular-app-with-azure-devops-3nnf
@@ -18,7 +15,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   azureSubscription: 'Pay as you go subscription'
-
+  appName: 'SamWheatWeb'
 
 stages:
 
@@ -109,8 +106,9 @@ stages:
           displayName: 'Publish API'
           inputs:
             command: 'publish'
-            arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/API/'
             project: $(project)
+            configuration: $(buildConfiguration)
+            outputdir: $(Build.ArtifactStagingDirectory)/API/
             publishWebProjects: true
 
         
@@ -130,9 +128,10 @@ stages:
             azureSubscription: $(azureSubscription)
             appType: webApp
             UseWebDeploy: true
-            WebAppName: 'SamWheatWeb'
+            WebAppName: $(appName)
             VirtualApplication: '/api'
             Package: '$(Build.ArtifactStagingDirectory)/API/**'
+            artifactsDir: 
         
 
     - job: DeployWebApp
@@ -140,9 +139,12 @@ stages:
       
       steps:
       
-        - task: AzureWebApp@1
+        - task: AzureRmWebAppDeployment@4
           displayName: 'Deploy Azure Web App : $(webAppName)'
           inputs:
             azureSubscription: $(azureSubscription)
-            appName: SamWheatWeb
-            package: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+            appType: webApp
+            appName: $(appName)
+            packageForLinux: : $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+            
+            
