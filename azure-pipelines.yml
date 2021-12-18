@@ -130,7 +130,7 @@ stages:
             UseWebDeploy: true
             WebAppName: $(appName)
             VirtualApplication: '/api'
-            Package: '$(Build.ArtifactStagingDirectory)/API/**'
+            Package: $(Build.ArtifactStagingDirectory)/API/**
             artifactsDir: 
         
 
@@ -144,7 +144,7 @@ stages:
           inputs:
             azureSubscription: $(azureSubscription)
             appType: webApp
-            appName: $(appName)
+            WebAppName: $(appName)
             packageForLinux: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
             
             
