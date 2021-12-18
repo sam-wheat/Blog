@@ -112,16 +112,18 @@ stages:
             arguments: '--configuration $(buildConfiguration)'
             projects: $(project)
             
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifacts'
+        - publish: $(Build.ArtifactStagingDirectory)/API/$(Build.BuildId).zip
+          artifact: WebAPI
 
-        - task: DotNetCoreCLI@2
-          displayName: 'DotNet publish'
-          inputs:
-            command: publish
-            publishWebProjects: true
-            arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingdirectory) --self-contained'
-            zipAfterPublish: true
+        
+
+- stage: DeployWebAppAndAPI
+  jobs:
+    
+    - job: DeployAPI
+      displayName: Deploy API
+
+      steps:
 
         - task: AzureRmWebAppDeployment@4
           displayName: 'AzureRmWebAppDeployment@4'
@@ -129,16 +131,16 @@ stages:
             ConnectionType: 'AzureRM'
             azureSubscription: $(azureSubscription)
             appType: webApp
-            WebAppName: 'SamWheatWeb'
             UseWebDeploy: true
-            packageforLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
+            WebAppName: 'SamWheatWeb'
+            VirtualApplication: '/api'
+            Package: $(Build.ArtifactStagingDirectory)/API/$(Build.BuildId).zip
 
-- stage: DeployWebAppAndAPI
-  jobs:
     - job: DeployWebApp
-      displayName: D
+      displayName: Deploy Web App
       
       steps:
+      
         - task: AzureWebApp@1
           displayName: 'Deploy Azure Web App : $(webAppName)'
           inputs:
