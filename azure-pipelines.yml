@@ -19,6 +19,7 @@ variables:
   appName: 'SamWheatWeb'
   system.debug: true
 
+steps:
 
 # Install dependencies
 
