@@ -80,6 +80,9 @@ steps:
     vstsFeed: 'LeaderAnalyticsFeed'
     includeNuGetOrg: true
  
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish API'
   inputs:
@@ -88,8 +91,7 @@ steps:
     project: $(project)
     configuration: $(buildConfiguration)
   #  arguments: '-o $(Build.ArtifactStagingDirectory)/API/'
-    zipAfterPublish: true
-    modifyOutputPath: true
+    
 
 - task: AzureWebApp@1
   displayName: 'Deploy API'
@@ -98,4 +100,4 @@ steps:
     appType: webApp
     appName: $(appName)
     virtualApplication: '/api'
-    package: $(Build.ArtifactStagingDirectory)/**/*.zip
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
