@@ -17,6 +17,7 @@ variables:
   buildConfiguration: 'Release'
   azureSubscription: 'Pay as you go subscription'
   appName: 'SamWheatWeb'
+  system.debug: true
 
 stages:
 
@@ -127,7 +128,7 @@ stages:
             azureSubscription: $(azureSubscription)
             appType: webApp
             UseWebDeploy: true
-            WebAppName: SamWheatWeb
+            appName: $(appName)
             VirtualApplication: '/api'
             Package: $(Build.ArtifactStagingDirectory)/API/**
         
@@ -139,11 +140,11 @@ stages:
       steps:
       
         - task: AzureWebApp@1
-          displayName: 'Deploy Azure Web App : $(webAppName)'
+          displayName: 'Deploy Azure Web App'
           inputs:
             azureSubscription: $(azureSubscription)
             appType: webApp
-            WebAppName: SamWheatWeb
+            appName: $(appName)
             ArtifactName: WebApp
             
             
