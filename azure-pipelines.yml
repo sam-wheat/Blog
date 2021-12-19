@@ -84,10 +84,12 @@ steps:
   displayName: 'Publish API'
   inputs:
     command: 'publish'
+    publishWebProjects: false
     project: $(project)
     configuration: $(buildConfiguration)
-    outputdir: $(Build.ArtifactStagingDirectory)/API/
-    publishWebProjects: true
+    arguments: '-o $(Build.ArtifactStagingDirectory)/API/'
+    zipAfterPublish: true
+    modifyOutputPath: true
 
 - task: AzureWebApp@1
   displayName: 'Deploy API'
