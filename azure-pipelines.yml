@@ -89,7 +89,7 @@ steps:
   inputs:
     command: 'publish'
     configuration: $(buildConfiguration)
-  #  arguments: '-o $(Build.ArtifactStagingDirectory)/API/'
+    arguments: '-o $(System.DefaultWorkingDirectory)/webapi.zip'
     
 
 - task: AzureWebApp@1
@@ -99,4 +99,4 @@ steps:
     appType: webApp
     appName: $(appName)
     virtualApplication: '/api'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(System.DefaultWorkingDirectory)/**/webapi.zip'
