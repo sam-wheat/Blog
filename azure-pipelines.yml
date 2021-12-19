@@ -1,6 +1,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 # https://joeblogs.technology/2020/07/multi-stage-pipelines-and-yaml-for-continuous-delivery-azure-devops/
 # https://dev.to/mcklmt/build-and-deploy-angular-app-with-azure-devops-3nnf
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/javascript?view=azure-devops&tabs=code
 
 # stage / job / step / task
 trigger:
@@ -64,18 +65,16 @@ stages:
           cd Blog/ClientApp
           npm run build:prod
         displayName: 'npm build'
-
-      - task: ArchiveFiles@2
-        displayName: 'Archive files'
+      
+      - task: CopyFiles@2
+        displayName: "Copy files"
         inputs:
-          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
-          includeRootFolder: false
-          archiveType: zip
-          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-          replaceExistingArchive: true
+            Contents: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)/WebApp'
 
-      - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      - publish: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
         artifact: WebApp
+        
         
       
 
@@ -121,7 +120,7 @@ stages:
 
       steps:
 
-        - task: AzureRmWebAppDeployment@4
+        - task: AzureWebApp@1
           displayName: 'Deploy API'
           inputs:
             ConnectionType: 'AzureRM'
@@ -131,7 +130,7 @@ stages:
             WebAppName: $(appName)
             VirtualApplication: '/api'
             Package: $(Build.ArtifactStagingDirectory)/API/**
-            artifactsDir: 
+        
         
 
     - job: DeployWebApp
@@ -139,12 +138,12 @@ stages:
       
       steps:
       
-        - task: AzureRmWebAppDeployment@4
+        - task: AzureWebApp@1
           displayName: 'Deploy Azure Web App : $(webAppName)'
           inputs:
             azureSubscription: $(azureSubscription)
             appType: webApp
             WebAppName: $(appName)
-            packageForLinux: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+            ArtifactName: WebApp
             
             
