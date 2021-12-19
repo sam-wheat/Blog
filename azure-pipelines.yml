@@ -61,7 +61,7 @@ steps:
 #  artifact: WebApp
 
  - task: CopyFiles@2
-  inputs:
+   inputs:
     Contents: 'Blog/ClientApp/dist/**' 
     TargetFolder: '$(Build.ArtifactStagingDirectory)/web'
 
