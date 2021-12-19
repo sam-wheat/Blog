@@ -17,7 +17,7 @@ variables:
   buildConfiguration: 'Release'
   azureSubscription: 'Pay as you go subscription'
   appName: 'SamWheatWeb'
-  system.debug: true
+  system.debug: false
 
 steps:
 
@@ -61,7 +61,7 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: webApp
     appName: $(appName)
-    ArtifactName: WebApp
+    artifactName: WebApp
 
 # Build and deploy API        
       
@@ -92,10 +92,8 @@ steps:
 - task: AzureWebApp@1
   displayName: 'Deploy API'
   inputs:
-    ConnectionType: 'AzureRM'
     azureSubscription: $(azureSubscription)
     appType: webApp
-    UseWebDeploy: true
     appName: $(appName)
-    VirtualApplication: '/api'
-    Package: $(Build.ArtifactStagingDirectory)/API/**
+    virtualApplication: '/api'
+    package: $(Build.ArtifactStagingDirectory)/API/**/*.zip
