@@ -1,8 +1,12 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 # https://joeblogs.technology/2020/07/multi-stage-pipelines-and-yaml-for-continuous-delivery-azure-devops/
 # https://dev.to/mcklmt/build-and-deploy-angular-app-with-azure-devops-3nnf
+# Build, test, and deploy JavaScript and Node.js apps
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/javascript?view=azure-devops&tabs=code
+# Deploy an Azure Web App
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?view=azure-devops&tabs=windows%2Cyaml
+# Support ticket
+# https://docs.microsoft.com/en-us/answers/questions/668872/azure-pipeline-cannot-find-published-artifact.html
 
 # stage / job / step / task
 trigger:
@@ -53,8 +57,18 @@ steps:
     npm run build:prod
   displayName: 'npm build'
       
-- publish: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
-  artifact: WebApp
+#- publish: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
+#  artifact: WebApp
+
+ - task: CopyFiles@2
+  inputs:
+    Contents: 'Blog/ClientApp/dist/**' 
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/web'
+
+- task: PublishBuildArtifacts@1
+  inputs: 
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/web 
+    ArtifactName: 'www' # output artifact named www
         
 - task: AzureWebApp@1
   displayName: 'Deploy Azure Web App'
