@@ -89,6 +89,7 @@ steps:
   inputs:
     command: 'publish'
     configuration: $(buildConfiguration)
+    projects: $(project)
     arguments: '-o $(System.DefaultWorkingDirectory)/webapi.zip'
     
 
