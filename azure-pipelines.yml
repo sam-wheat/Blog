@@ -19,132 +19,82 @@ variables:
   appName: 'SamWheatWeb'
   system.debug: true
 
-stages:
 
-- stage: Setup
-  displayName: Install externals
-  
-  jobs:
-    - job: InstallNode
-      displayName: Install Node and Angular
-      
-      steps:
+# Install dependencies
 
-      - task: NodeTool@0
-        displayName: Install Node
-        inputs:
-          versionSpec: '16.13.1'
+- task: NodeTool@0
+  displayName: Install Node
+  inputs:
+    versionSpec: '16.13.1'
 
-      - script: |
-          npm install -g npm@8.3.0
-        displayName: Update NPM
+- script: |
+    npm install -g npm@8.3.0
+  displayName: Update NPM
 
-      - script: |
-          npm install -g @angular/cli
-        displayName: Install Angular CLI
+- script: |
+    npm install -g @angular/cli
+  displayName: Install Angular CLI
 
-      - task: NuGetToolInstaller@1
-        displayName: 'Install NuGet'
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
 
 
+# Build and deploy WebApp
 
-- stage: BuildWebApp
-  displayName: Build Web Application
-  
-  jobs:
-    - job: InstallPackages
-      displayName: Install NPM packages
-
-      steps:
-
-      - script: |
-          cd Blog/ClientApp
-          npm install
-        displayName: 'npm install'
+- script: |
+    cd Blog/ClientApp
+    npm install
+  displayName: 'npm install'
      
-      - script: |
-          cd Blog/ClientApp
-          npm run build:prod
-        displayName: 'npm build'
+- script: |
+    cd Blog/ClientApp
+    npm run build:prod
+  displayName: 'npm build'
       
-      - task: CopyFiles@2
-        displayName: "Copy files"
-        inputs:
-            Contents: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
-            TargetFolder: '$(Build.ArtifactStagingDirectory)/WebApp'
+- publish: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
+  artifact: WebApp
+        
+- task: AzureWebApp@1
+    displayName: 'Deploy Azure Web App'
+    inputs:
+    azureSubscription: $(azureSubscription)
+    appType: webApp
+    appName: $(appName)
+    ArtifactName: WebApp
 
-      - publish: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
-        artifact: WebApp
-        
-        
+# Build and deploy API        
       
 
-- stage: BuildAPI
-  displayName: Buid API
+- task: UseDotNet@2
+    displayName: 'Use dotnet 6'
+    inputs:
+    packageType: 'sdk'
+    version: '6.x'
 
-  jobs:
-
-    - job: Configuration
-      displayName: Configuration
-
-      steps:
-        - task: UseDotNet@2
-          displayName: 'Use dotnet 6'
-          inputs:
-            packageType: 'sdk'
-            version: '6.x'
-
-        - task: DotNetCoreCLI@2
-          displayName: 'DotNet Restore NuGet packages'
-          inputs:
-            command: 'restore'
-            feedsToUse: 'select'
-            vstsFeed: 'LeaderAnalyticsFeed'
-            includeNuGetOrg: true
+- task: DotNetCoreCLI@2
+    displayName: 'DotNet Restore NuGet packages'
+    inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: 'LeaderAnalyticsFeed'
+    includeNuGetOrg: true
  
-        - task: DotNetCoreCLI@2
-          displayName: 'Publish API'
-          inputs:
-            command: 'publish'
-            project: $(project)
-            configuration: $(buildConfiguration)
-            outputdir: $(Build.ArtifactStagingDirectory)/API/
-            publishWebProjects: true
+- task: DotNetCoreCLI@2
+    displayName: 'Publish API'
+    inputs:
+    command: 'publish'
+    project: $(project)
+    configuration: $(buildConfiguration)
+    outputdir: $(Build.ArtifactStagingDirectory)/API/
+    publishWebProjects: true
 
-        
-
-- stage: DeployWebAppAndAPI
-  jobs:
-    
-    - job: DeployAPI
-      displayName: Deploy API
-
-      steps:
-
-        - task: AzureWebApp@1
-          displayName: 'Deploy API'
-          inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: $(azureSubscription)
-            appType: webApp
-            UseWebDeploy: true
-            appName: $(appName)
-            VirtualApplication: '/api'
-            Package: $(Build.ArtifactStagingDirectory)/API/**
-        
-        
-
-    - job: DeployWebApp
-      displayName: Deploy Web App
-      
-      steps:
-      
-        - task: AzureWebApp@1
-          displayName: 'Deploy Azure Web App'
-          inputs:
-            azureSubscription: $(azureSubscription)
-            appType: webApp
-            appName: $(appName)
-            ArtifactName: WebApp
-            
-            
+- task: AzureWebApp@1
+    displayName: 'Deploy API'
+    inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: $(azureSubscription)
+    appType: webApp
+    UseWebDeploy: true
+    appName: $(appName)
+    VirtualApplication: '/api'
+    Package: $(Build.ArtifactStagingDirectory)/API/**
