@@ -60,8 +60,8 @@ steps:
 #- publish: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
 #  artifact: WebApp
 
- - task: CopyFiles@2
-   inputs:
+- task: CopyFiles@2
+  inputs:
     Contents: 'Blog/ClientApp/dist/**' 
     TargetFolder: '$(Build.ArtifactStagingDirectory)/web'
 
