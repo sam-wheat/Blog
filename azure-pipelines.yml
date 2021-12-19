@@ -87,7 +87,7 @@ steps:
     publishWebProjects: false
     project: $(project)
     configuration: $(buildConfiguration)
-    arguments: '-o $(Build.ArtifactStagingDirectory)/API/'
+    arguments: '--o $(Build.ArtifactStagingDirectory)/API/'
     zipAfterPublish: true
     modifyOutputPath: true
 
