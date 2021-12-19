@@ -2,6 +2,7 @@
 # https://joeblogs.technology/2020/07/multi-stage-pipelines-and-yaml-for-continuous-delivery-azure-devops/
 # https://dev.to/mcklmt/build-and-deploy-angular-app-with-azure-devops-3nnf
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/javascript?view=azure-devops&tabs=code
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?view=azure-devops&tabs=windows%2Cyaml
 
 # stage / job / step / task
 trigger:
@@ -87,8 +88,6 @@ steps:
   displayName: 'Publish API'
   inputs:
     command: 'publish'
-    publishWebProjects: false
-    project: $(project)
     configuration: $(buildConfiguration)
   #  arguments: '-o $(Build.ArtifactStagingDirectory)/API/'
     
