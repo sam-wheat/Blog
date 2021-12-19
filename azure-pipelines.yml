@@ -56,8 +56,8 @@ steps:
   artifact: WebApp
         
 - task: AzureWebApp@1
-    displayName: 'Deploy Azure Web App'
-    inputs:
+  displayName: 'Deploy Azure Web App'
+  inputs:
     azureSubscription: $(azureSubscription)
     appType: webApp
     appName: $(appName)
@@ -67,22 +67,22 @@ steps:
       
 
 - task: UseDotNet@2
-    displayName: 'Use dotnet 6'
-    inputs:
+  displayName: 'Use dotnet 6'
+  inputs:
     packageType: 'sdk'
     version: '6.x'
 
 - task: DotNetCoreCLI@2
-    displayName: 'DotNet Restore NuGet packages'
-    inputs:
+  displayName: 'DotNet Restore NuGet packages'
+  inputs:
     command: 'restore'
     feedsToUse: 'select'
     vstsFeed: 'LeaderAnalyticsFeed'
     includeNuGetOrg: true
  
 - task: DotNetCoreCLI@2
-    displayName: 'Publish API'
-    inputs:
+  displayName: 'Publish API'
+  inputs:
     command: 'publish'
     project: $(project)
     configuration: $(buildConfiguration)
@@ -90,8 +90,8 @@ steps:
     publishWebProjects: true
 
 - task: AzureWebApp@1
-    displayName: 'Deploy API'
-    inputs:
+  displayName: 'Deploy API'
+  inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: $(azureSubscription)
     appType: webApp
