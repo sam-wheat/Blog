@@ -17,7 +17,7 @@ variables:
   buildConfiguration: 'Release'
   azureSubscription: 'Pay as you go subscription'
   appName: 'SamWheatWeb'
-  system.debug:true
+  system.debug: true
 
 stages:
 
