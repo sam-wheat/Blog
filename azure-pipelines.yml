@@ -128,7 +128,7 @@ stages:
             azureSubscription: $(azureSubscription)
             appType: webApp
             UseWebDeploy: true
-            WebAppName: 'SamWheatWeb'
+            appName: $(appName)
             VirtualApplication: '/api'
             Package: $(Build.ArtifactStagingDirectory)/API/**
         
@@ -144,7 +144,7 @@ stages:
           inputs:
             azureSubscription: $(azureSubscription)
             appType: webApp
-            WebAppName: 'SamWheatWeb'
+            appName: $(appName)
             ArtifactName: WebApp
             
             
