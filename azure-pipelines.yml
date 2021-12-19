@@ -87,7 +87,7 @@ steps:
     publishWebProjects: false
     project: $(project)
     configuration: $(buildConfiguration)
-    arguments: '--o $(Build.ArtifactStagingDirectory)/API/'
+  #  arguments: '-o $(Build.ArtifactStagingDirectory)/API/'
     zipAfterPublish: true
     modifyOutputPath: true
 
@@ -98,4 +98,4 @@ steps:
     appType: webApp
     appName: $(appName)
     virtualApplication: '/api'
-    package: $(Build.ArtifactStagingDirectory)/API/**/*.zip
+    package: $(Build.ArtifactStagingDirectory)/**/*.zip
