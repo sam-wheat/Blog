@@ -6,8 +6,7 @@
 # Deploy an Azure Web App
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?view=azure-devops&tabs=windows%2Cyaml
 # Support ticket
-# https://docs.microsoft.com/en-us/answers/questions/668872/azure-pipeline-cannot-find-published-artifact.html
-
+# https://developercommunity.visualstudio.com/t/Azure-pipeline-cannot-find-published-art/1618079?space=22&entry=myfeedback
 # stage / job / step / task
 trigger:
 - master
@@ -76,7 +75,7 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: webApp
     appName: $(appName)
-    artifactName: WebApp
+    artifactName: www
 
 # Build and deploy API        
       
