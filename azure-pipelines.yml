@@ -22,7 +22,7 @@ variables:
   buildConfiguration: 'Release'
   azureSubscription: 'Pay as you go subscription'
   appName: 'SamWheatWeb'
-  system.debug: true
+  system.debug: false
 
 steps:
 
@@ -76,7 +76,7 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: webApp
     appName: $(appName)
-    package: '$(Build.ArtifactStagingDirectory)/web/**/*.zip'
+    package: '$(Build.ArtifactStagingDirectory)/web/'
 
 # Build and deploy API        
       
