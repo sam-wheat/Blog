@@ -73,7 +73,8 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: webApp
     appName: $(appName)
-    package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
+    package: '$(Build.ArtifactStagingDirectory)/web/'
+    ##package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
 
 # Build and deploy API        
       
