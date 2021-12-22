@@ -57,9 +57,6 @@ steps:
     npm run build:prod
   displayName: 'npm build'
       
-#- publish: '$(System.DefaultWorkingDirectory)/Blog/ClientApp/dist/'
-#  artifact: WebApp
-
 - task: CopyFiles@2
   inputs:
     Contents: 'Blog/ClientApp/dist/**' 
@@ -76,7 +73,7 @@ steps:
     azureSubscription: $(azureSubscription)
     appType: webApp
     appName: $(appName)
-    package: '$(Build.ArtifactStagingDirectory)/web/'
+    package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
 
 # Build and deploy API        
       
