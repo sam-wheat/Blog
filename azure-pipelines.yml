@@ -62,10 +62,10 @@ steps:
     Contents: 'Blog/ClientApp/dist/**' 
     TargetFolder: '$(Build.ArtifactStagingDirectory)/web'
 
-- task: PublishBuildArtifacts@1
-  inputs: 
-    PathtoPublish: $(Build.ArtifactStagingDirectory)/web 
-    ArtifactName: 'www' # output artifact named www
+#- task: PublishBuildArtifacts@1
+#  inputs: 
+#    PathtoPublish: $(Build.ArtifactStagingDirectory)/web 
+#    ArtifactName: 'www' # output artifact named www
         
 - task: AzureWebApp@1
   displayName: 'Deploy Azure Web App'
