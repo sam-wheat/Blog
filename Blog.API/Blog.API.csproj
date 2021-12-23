@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>  
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	<RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <UserSecretsId>6cb2cbef-1eb5-4450-9338-8f4b029a6b29</UserSecretsId>
   </PropertyGroup>
  
