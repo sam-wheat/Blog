@@ -1,13 +1,3 @@
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-# https://joeblogs.technology/2020/07/multi-stage-pipelines-and-yaml-for-continuous-delivery-azure-devops/
-# https://dev.to/mcklmt/build-and-deploy-angular-app-with-azure-devops-3nnf
-# Build, test, and deploy JavaScript and Node.js apps
-# https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/javascript?view=azure-devops&tabs=code
-# Deploy an Azure Web App
-# https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?view=azure-devops&tabs=windows%2Cyaml
-# Support ticket
-# https://developercommunity.visualstudio.com/t/Azure-pipeline-cannot-find-published-art/1618079?space=22&entry=myfeedback
-
 # stage / job / step / task
 trigger:
 - master
@@ -47,31 +37,30 @@ steps:
 
 # Build and deploy WebApp
 
-#- script: |
-#    cd Blog/ClientApp
-#    npm install
-#  displayName: 'npm install'
+- script: |
+    cd Blog/ClientApp
+    npm install
+  displayName: 'npm install'
      
-#- script: |
-#    cd Blog/ClientApp
-#    npm run build:prod
-#  displayName: 'npm build'
+- script: |
+    cd Blog/ClientApp
+    npm run build:prod
+  displayName: 'npm build'
       
-#- task: CopyFiles@2
-#  inputs:
-#    Contents: 'Blog/ClientApp/dist/**' 
-#    TargetFolder: '$(Build.ArtifactStagingDirectory)/web'
+- task: CopyFiles@2
+  inputs:
+    Contents: 'Blog/ClientApp/dist/**' 
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/web'
         
-#- task: AzureWebApp@1
-#  displayName: 'Deploy Azure Web App'
-#  inputs:
-#    azureSubscription: $(azureSubscription)
-#    appType: webApp
-#    appName: $(appName)
-#    package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
+- task: AzureWebApp@1
+  displayName: 'Deploy Azure Web App'
+  inputs:
+    azureSubscription: $(azureSubscription)
+    appType: webApp
+    appName: $(appName)
+    package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
 
 # Build and deploy API        
-      
 
 - task: UseDotNet@2
   displayName: 'Use dotnet 6'
