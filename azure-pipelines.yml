@@ -88,11 +88,11 @@ steps:
     arguments: '-o $(System.DefaultWorkingDirectory)/webapi/'
     
 
-- task: AzureRmWebAppDeployment@3
+- task: AzureWebApp@1
   displayName: 'Deploy API'
   inputs:
     azureSubscription: $(azureSubscription)
     appType: webApp
-    webAppName: $(appName)
+    appName: $(appName)
     virtualApplication: '/api'
     package: '$(System.DefaultWorkingDirectory)/webapi/'
