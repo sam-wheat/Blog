@@ -106,7 +106,7 @@ steps:
     zipAfterPublish: true
 
 - task: AzureRmWebAppDeployment@4
-  displayName: 'AzureRmWebAppDeployment@4'
+  displayName: 'AzureRmWebAppDeployment@3'
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: $(azureSubscription)
