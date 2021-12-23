@@ -12,7 +12,7 @@ variables:
   buildConfiguration: 'Release'
   azureSubscription: 'Pay as you go subscription'
   appName: 'SamWheatWeb'
-  system.debug: true
+  system.debug: false
 
 steps:
 
@@ -79,20 +79,38 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish API'
-  inputs:
-    command: 'publish'
-    configuration: $(buildConfiguration)
-    projects: $(project)
-    arguments: '-o $(System.DefaultWorkingDirectory)/webapi/'
+#- task: DotNetCoreCLI@2
+#  displayName: 'Publish API'
+#  inputs:
+#    command: 'publish'
+#    configuration: $(buildConfiguration)
+#    projects: $(project)
+#    arguments: '-o $(System.DefaultWorkingDirectory)/webapi/'
     
 
-- task: AzureWebApp@1
-  displayName: 'Deploy API'
+#- task: AzureRmWebAppDeployment@3
+#  displayName: 'Deploy API'
+#  inputs:
+#    azureSubscription: $(azureSubscription)
+#    appType: webApp
+#    webAppName: $(appName)
+#    virtualApplication: '/api'
+#    package: '$(System.DefaultWorkingDirectory)/webapi/'
+
+- task: DotNetCoreCLI@2
+  displayName: 'DotNet publish'
   inputs:
+    command: publish
+    publishWebProjects: true
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingdirectory) --self-contained'
+    zipAfterPublish: true
+
+- task: AzureRmWebAppDeployment@4
+  displayName: 'AzureRmWebAppDeployment@4'
+  inputs:
+    ConnectionType: 'AzureRM'
     azureSubscription: $(azureSubscription)
     appType: webApp
-    appName: $(appName)
-    virtualApplication: '/api'
-    package: '$(System.DefaultWorkingDirectory)/webapi/'
+    WebAppName: $(appName)
+    UseWebDeploy: true
+    packageforLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
