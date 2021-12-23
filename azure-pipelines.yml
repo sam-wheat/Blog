@@ -113,4 +113,5 @@ steps:
     appType: webApp
     WebAppName: $(appName)
     UseWebDeploy: true
+    virtualApplication: '/api'
     packageforLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
