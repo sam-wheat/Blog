@@ -104,6 +104,6 @@ steps:
   inputs:
     azureSubscription: $(azureSubscription)
     appType: webApp
-    appName: $(appName)
+    webAppName: $(appName)
     virtualApplication: '/api'
     package: '$(System.DefaultWorkingDirectory)/webapi/'
