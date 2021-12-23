@@ -47,69 +47,63 @@ steps:
 
 # Build and deploy WebApp
 
-- script: |
-    cd Blog/ClientApp
-    npm install
-  displayName: 'npm install'
+#- script: |
+#    cd Blog/ClientApp
+#    npm install
+#  displayName: 'npm install'
      
-- script: |
-    cd Blog/ClientApp
-    npm run build:prod
-  displayName: 'npm build'
+#- script: |
+#    cd Blog/ClientApp
+#    npm run build:prod
+#  displayName: 'npm build'
       
-- task: CopyFiles@2
-  inputs:
-    Contents: 'Blog/ClientApp/dist/**' 
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/web'
-
-#- task: PublishBuildArtifacts@1
-#  inputs: 
-#    PathtoPublish: $(Build.ArtifactStagingDirectory)/web 
-#    ArtifactName: 'www' # output artifact named www
+#- task: CopyFiles@2
+#  inputs:
+#    Contents: 'Blog/ClientApp/dist/**' 
+#    TargetFolder: '$(Build.ArtifactStagingDirectory)/web'
         
-- task: AzureWebApp@1
-  displayName: 'Deploy Azure Web App'
-  inputs:
-    azureSubscription: $(azureSubscription)
-    appType: webApp
-    appName: $(appName)
-    ## package: '$(Build.ArtifactStagingDirectory)/web/'
-    package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
-
-# Build and deploy API        
-      
-
-#- task: UseDotNet@2
-#  displayName: 'Use dotnet 6'
-#  inputs:
-#    packageType: 'sdk'
-#    version: '6.x'
-
-#- task: DotNetCoreCLI@2
-#  displayName: 'DotNet Restore NuGet packages'
-#  inputs:
-#    command: 'restore'
-#    feedsToUse: 'select'
-#    vstsFeed: 'LeaderAnalyticsFeed'
-#    includeNuGetOrg: true
- 
-#- script: dotnet build --configuration $(buildConfiguration)
-#  displayName: 'dotnet build $(buildConfiguration)'
-
-#- task: DotNetCoreCLI@2
-#  displayName: 'Publish API'
-#  inputs:
-#    command: 'publish'
-#    configuration: $(buildConfiguration)
-#    projects: $(project)
-#    arguments: '-o $(System.DefaultWorkingDirectory)/webapi.zip'
-    
-
 #- task: AzureWebApp@1
-#  displayName: 'Deploy API'
+#  displayName: 'Deploy Azure Web App'
 #  inputs:
 #    azureSubscription: $(azureSubscription)
 #    appType: webApp
 #    appName: $(appName)
-#    virtualApplication: '/api'
-#    package: '$(System.DefaultWorkingDirectory)/**/webapi.zip'
+#    package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
+
+# Build and deploy API        
+      
+
+- task: UseDotNet@2
+  displayName: 'Use dotnet 6'
+  inputs:
+    packageType: 'sdk'
+    version: '6.x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'DotNet Restore NuGet packages'
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: 'LeaderAnalyticsFeed'
+    includeNuGetOrg: true
+ 
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish API'
+  inputs:
+    command: 'publish'
+    configuration: $(buildConfiguration)
+    projects: $(project)
+    arguments: '-o $(System.DefaultWorkingDirectory)/webapi.zip'
+    
+
+- task: AzureWebApp@1
+  displayName: 'Deploy API'
+  inputs:
+    azureSubscription: $(azureSubscription)
+    appType: webApp
+    appName: $(appName)
+    virtualApplication: '/api'
+    package: '$(System.DefaultWorkingDirectory)/webapi.zip'
