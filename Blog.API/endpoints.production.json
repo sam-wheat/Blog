@@ -2,7 +2,7 @@
   "EndPoints": [
     {
       "Name": "Blog_SQLServer",
-      "IsActive": "false",
+      "IsActive": "true",
       "API_Name": "Blog",
       "Preference": "10",
       "EndPointType": "DBMS",
