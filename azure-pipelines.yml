@@ -98,4 +98,3 @@ steps:
 #    appType: webApp
 #    appName: $(appName)
 #    package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
-

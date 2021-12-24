@@ -1,6 +1,7 @@
 ﻿// https://gist.github.com/davidfowl/0e0372c3c1d895c3ce195ba983b1e03d
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using System.Text.Json;
 
 namespace Blog.API;
 
@@ -181,7 +182,7 @@ public class Program
             await Task.WhenAll(emailAccountTask, emailPasswordTask, blogDBPasswordTask);
             cfg["Data:EmailAccount"] = cfg["Data:EmailAccount"].Replace("{EmailAccount}", emailAccountTask.Result.Value.Value);
             cfg["Data:EmailPassword"] = cfg["Data:EmailPassword"].Replace("{EmailPassword}", emailPasswordTask.Result.Value.Value);
-            cfg["EndPoints:ConnectionString"] = cfg["EndPoints:ConnectionString"].Replace("{BlogDBPassword}", emailPasswordTask.Result.Value.Value);
+            cfg["EndPoints:0:ConnectionString"] = cfg["EndPoints:0:ConnectionString"].Replace("{BlogDBPassword}", blogDBPasswordTask.Result.Value.Value);
         }
         
         return cfg;
