@@ -1,4 +1,7 @@
 ﻿// https://gist.github.com/davidfowl/0e0372c3c1d895c3ce195ba983b1e03d
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+
 namespace Blog.API;
 
 public class Program
@@ -13,7 +16,7 @@ public class Program
 
         try
         {
-            appConfig = BuildConfig(environmentName);
+            appConfig = await BuildConfig(environmentName);
             logFolder = appConfig["Logging:LogFolder"];
         }
         catch (Exception ex)
@@ -61,7 +64,7 @@ public class Program
                     .RegisterModule(new Blog.Services.AdaptiveClientModule());
 
                 // Don't build the container; that gets done for you.
-
+                Log.Information(EndPoints.First().ConnectionString);
             });
 
             builder.WebHost.CaptureStartupErrors(true);                                             // WebHost
@@ -152,8 +155,12 @@ public class Program
         }
     }
 
-    private static IConfigurationRoot BuildConfig(LeaderAnalytics.Core.EnvironmentName envName)
+    private async static Task<IConfigurationRoot> BuildConfig(LeaderAnalytics.Core.EnvironmentName envName)
     {
+        // if we are in development, load the appsettings file in the out-of-repo location.
+        // if we are in prod, load appsettings.production.json and populate the secrets 
+        // from the azure vault.
+
         string configFilePath = string.Empty;
 
         if (envName == LeaderAnalytics.Core.EnvironmentName.local || envName == LeaderAnalytics.Core.EnvironmentName.development)
@@ -164,6 +171,19 @@ public class Program
                     .AddJsonFile(Path.Combine(configFilePath, $"appsettings.{envName}.json"), optional: false)
                     .AddJsonFile(Path.Combine(configFilePath, $"endpoints.{envName}.json"), optional: false)
                     .AddEnvironmentVariables().Build();
+
+        if (envName == LeaderAnalytics.Core.EnvironmentName.production)
+        {
+            var client = new SecretClient(new Uri("https://leaderanalyticsvault.vault.azure.net/"), new DefaultAzureCredential());
+            Task<Azure.Response<KeyVaultSecret>> emailAccountTask = client.GetSecretAsync("EmailAccount");
+            Task<Azure.Response<KeyVaultSecret>> emailPasswordTask = client.GetSecretAsync("EmailPassword");
+            Task<Azure.Response<KeyVaultSecret>> blogDBPasswordTask = client.GetSecretAsync("BlogDBPassword");
+            await Task.WhenAll(emailAccountTask, emailPasswordTask, blogDBPasswordTask);
+            cfg["Data:EmailAccount"] = cfg["Data:EmailAccount"].Replace("{EmailAccount}", emailAccountTask.Result.Value.Value);
+            cfg["Data:EmailPassword"] = cfg["Data:EmailPassword"].Replace("{EmailPassword}", emailPasswordTask.Result.Value.Value);
+            cfg["EndPoints:ConnectionString"] = cfg["EndPoints:ConnectionString"].Replace("{BlogDBPassword}", emailPasswordTask.Result.Value.Value);
+        }
+        
         return cfg;
     }
 }

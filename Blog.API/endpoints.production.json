@@ -1,0 +1,13 @@
+﻿{
+  "EndPoints": [
+    {
+      "Name": "Blog_SQLServer",
+      "IsActive": "false",
+      "API_Name": "Blog",
+      "Preference": "10",
+      "EndPointType": "DBMS",
+      "ProviderName": "MSSQL",
+      "ConnectionString": "Server=tcp:leaderanalytics.database.windows.net,1433;Initial Catalog=LeaderAnalytics;Persist Security Info=False;User ID=sqladmin;Password={BlogDBPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    }
+  ]
+}
