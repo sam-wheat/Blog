@@ -58,6 +58,7 @@ public class Program
                     .RegisterModule(new Blog.Services.AdaptiveClientModule());
 
                 containerBuilder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
+                containerBuilder.RegisterModule(new Blog.Services.AutofacModule());
                 containerBuilder.RegisterModule(new Blog.Core.AutofacModule());
                 containerBuilder.RegisterType<MemoryCache>().As<IMemoryCache>().SingleInstance();
                 // Don't build the container; that gets done for you.
