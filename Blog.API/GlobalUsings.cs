@@ -1,11 +1,12 @@
 ﻿global using Autofac;
 global using Autofac.Extensions.DependencyInjection;
+global using Azure.Identity;
+global using Azure.Security.KeyVault.Secrets;
 global using Blog.Core;
 global using Blog.Domain;
 global using Blog.Model;
-global using LeaderAnalytics.Core;
 global using LeaderAnalytics.AdaptiveClient;
-global using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
+global using LeaderAnalytics.Core;
 global using Microsoft.AspNetCore.Diagnostics;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Mvc;

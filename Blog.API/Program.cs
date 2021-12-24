@@ -1,13 +1,9 @@
 ﻿// https://gist.github.com/davidfowl/0e0372c3c1d895c3ce195ba983b1e03d
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
-using System.Text.Json;
 
 namespace Blog.API;
 
 public class Program
 {
-
     public static async Task Main(string[] args)
     {
         LeaderAnalytics.Core.EnvironmentName environmentName = RuntimeEnvironment.GetEnvironmentName();
@@ -54,15 +50,18 @@ public class Program
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());            // Host
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
-                containerBuilder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
-                containerBuilder.RegisterModule(new Blog.Services.AutofacModule());
-                containerBuilder.RegisterModule(new Blog.Core.AutofacModule());
-                containerBuilder.RegisterType<MemoryCache>().As<IMemoryCache>().SingleInstance();
                 RegistrationHelper registrationHelper = new RegistrationHelper(containerBuilder);
                 EndPoints = appConfig.GetSection("EndPoints").Get<IEnumerable<EndPointConfiguration>>();
+
                 registrationHelper
                     .RegisterEndPoints(EndPoints)
                     .RegisterModule(new Blog.Services.AdaptiveClientModule());
+
+                containerBuilder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
+                containerBuilder.RegisterModule(new Blog.Core.AutofacModule());
+                containerBuilder.RegisterType<MemoryCache>().As<IMemoryCache>().SingleInstance();
+                
+                
 
                 // Don't build the container; that gets done for you.
                 Log.Information(EndPoints.First().ConnectionString);
