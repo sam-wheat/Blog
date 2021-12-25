@@ -96,7 +96,7 @@ steps:
   displayName: 'DotNet publish'
   inputs:
     command: publish
-    projects: **/Blog.MigrationFactories.csproj
+    projects: '**/Blog.MigrationFactories.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingdirectory) --self-contained'
     zipAfterPublish: true
 
