@@ -138,8 +138,6 @@ public class Program
             if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailPassword)))
                 throw new Exception("EmailPassword not found in appsettings file.");
 
-            Log.Information(cache.Get<string>(CacheKeyNames.EmailAccount));
-            Log.Information(cache.Get<string>(CacheKeyNames.EmailPassword));
             app.Run();
 
         }
