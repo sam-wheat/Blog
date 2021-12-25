@@ -10,11 +10,9 @@ import { HttpErrorHandler, HandleError } from './http-error-handler';
 @Injectable({ providedIn: 'root' })
 export class BlogService {
   private serviceURL: string;
-  //private handleError: HandleError;
 
   constructor(private httpClient: HttpClient, private httpErrorHandler: HttpErrorHandler) {
     this.serviceURL = environment.API_URL;
-    //this.handleError = httpErrorHandler.createHandleError('BlogService');
   }
 
   GetActiveSites(): Observable<Site[]> {
@@ -25,8 +23,8 @@ export class BlogService {
   GetContentItems(siteID: number, menuID: number, groupID: number, dateFilter: Date): Observable<ContentItem[]> {
     let stringDate = "";
 
-    // date.tolocalString() leaves embeded chars that cause .net to fail when attempting to convert the date.
-    if (dateFilter !== null)
+    // date.tolocalString() leaves embedded chars that cause .net to fail when attempting to convert the date.
+    if (dateFilter)
       stringDate = dateFilter.getUTCFullYear() + '-' + (+dateFilter.getUTCMonth() + 1) + '-' + dateFilter.getUTCDate();
 
     let url = this.serviceURL + 'GetContentItems?siteID=' + siteID.toString() + '&menuID=' + menuID.toString() + '&groupID=' + groupID + '&dateFilter=' + stringDate;
@@ -36,19 +34,14 @@ export class BlogService {
   GetContentItemBySlug(slug: string, siteID: number): Observable<ContentItem> {
     let url = this.serviceURL + 'GetContentItemBySlug?slug=' + slug + '&siteID=' + siteID.toString();
     return this.httpClient.get<ContentItem>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItemBySlug`)), catchError(this.handleError<ContentItem>('GetContentItemBySlug', null)));
-    //return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
-    //.catch(this.handleError);
   }
 
   GetContentItemGroups(groupColumn: string, menuID: number): Observable<KeyValuePair[]> {
     let url = this.serviceURL + 'GetContentItemGroups?groupColumn=' + groupColumn + '&menuID=' + menuID.toString();
     return this.httpClient.get<KeyValuePair[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItemGroups`)), catchError(this.handleError<KeyValuePair[]>('GetContentItemGroups', [])));
-    //return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
-    //.catch(this.handleError);
   }
 
   GetPostHtml(url: string): Observable<string> {
-    // note that this.httpClient is not generic 
     return this.httpClient.get(this.noCache(url), { responseType: 'text' }).pipe(tap(_ => this.log(`GetPostHtml`)), catchError(this.handleError<string>('GetPostHtml', null)));
   }
 
@@ -56,8 +49,6 @@ export class BlogService {
   GetCommentsForContentItem(contentItemID: number): Observable<Comment[]> {
     let url = this.serviceURL + 'GetCommentsForContentItem?contentItemID=' + contentItemID.toString();
     return this.httpClient.get<Comment[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetCommentsForContentItem`)), catchError(this.handleError<Comment[]>('GetCommentsForContentItem', [])));
-    //return this.http.get(this.noCache(url)).pipe(map(response => this.extractData(response)));
-    //  .catch(this.handleError);
   }
 
   SaveComment(comment: Comment, captchaCode: string): Observable<AsyncResult> {
@@ -98,7 +89,7 @@ export class BlogService {
 
 
   private noCache(url: string): string {
-    if (url === null || typeof (url) === 'undefined')
+    if (!url)
       return null;
 
     if (url.slice(-1) === '/')
@@ -110,7 +101,7 @@ export class BlogService {
     return url;
   }
   public DateToString(d: Date): string {
-    if (d === null)
+    if (!d)
       return null;
 
     let result = '';

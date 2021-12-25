@@ -9,8 +9,6 @@ import { CommentsComponent } from '../comments/comments.component';
 
 declare var hljs: any;
 declare var highlight: any; // in site.js
-//declare var jQuery: any;
-
 
 @Component({
   selector: 'app-blog-detail',
@@ -48,13 +46,15 @@ export class BlogDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    if (this.sub !== null)
+    
+    if (this.sub)
       this.sub.unsubscribe();
-    this.siteSubscription.unsubscribe();
+    
+      this.siteSubscription.unsubscribe();
   }
 
   private getContentItem(slug: string) {
-    if (slug === null || typeof slug === 'undefined')
+    if (!slug)
       return;
 
     this.siteSubscription = this.sessionService.siteAnnouncedSource.subscribe(site => {

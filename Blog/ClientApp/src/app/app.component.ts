@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
       const site = data.find(x => x.SiteName === "Sams Blog");
 
-      if (site === null || site === undefined)
+      if (!site)
         throw new Error("Site Sams Blog was not found");
 
       this.sessionService.AnnounceSite(site);

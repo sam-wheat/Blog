@@ -25,7 +25,7 @@ public class Program
 
         try
         {
-            appConfig = BuildConfig(environmentName);
+            appConfig = await ConfigHelper.BuildConfig(environmentName);
             logFolder = appConfig["Logging:LogFolder"];
         }
         catch (Exception ex)
@@ -97,21 +97,5 @@ public class Program
             Log.CloseAndFlush();
             await Task.Delay(2000);
         }
-        
-    }
-
-    private static IConfigurationRoot BuildConfig(LeaderAnalytics.Core.EnvironmentName envName)
-    {
-        string configFilePath = string.Empty;
-
-        if (envName == LeaderAnalytics.Core.EnvironmentName.local || envName == LeaderAnalytics.Core.EnvironmentName.development)
-            configFilePath = ConfigFileLocation.Folder;
-
-        var cfg = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json", optional: true)
-                    .AddJsonFile(Path.Combine(configFilePath, $"appsettings.{envName}.json"), optional: false)
-                    .AddJsonFile(Path.Combine(configFilePath, $"endpoints.{envName}.json"), optional: false)
-                    .AddEnvironmentVariables().Build();
-        return cfg;
     }
 }

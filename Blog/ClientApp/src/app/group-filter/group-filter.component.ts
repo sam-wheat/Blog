@@ -35,7 +35,8 @@ export class GroupFilterComponent implements OnInit, OnDestroy {
   }
 
   initializeGroupData(groups: KeyValuePair[]) {
-    if (groups === null || groups.length === 0)
+    
+    if (!groups)
       return;
 
     let kvp = new KeyValuePair();

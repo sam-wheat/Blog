@@ -28,12 +28,12 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
     this.subscription = this.sessionService.siteAnnouncedSource.subscribe(s => {
 
-      if (s === null)
+      if (!s)
         return;
 
       let navBar = s.Menus.find(x => x.MenuName === "NavBar");
 
-      if (navBar !== null && navBar !== undefined) {
+      if (navBar) {
         this.mainMenu = navBar;
         this.sessionService.AnnounceMenuID(navBar.ID);
       }
@@ -51,7 +51,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
   isActive(menuItem: string) {
     let result = false;
 
-    if (menuItem === null)
+    if (!menuItem )
       return result;
 
     if (menuItem.startsWith("/BlogIndex") && this.router.url.startsWith("/Post"))
@@ -60,12 +60,10 @@ export class SideNavComponent implements OnInit, OnDestroy {
       result = menuItem === this.router.url;
 
     return result;
-
   }
 
   toggleSideNavMode(mode: SideNavMode): void {
     this.router.navigateByUrl('//blogIndex');
-    this.sessionService.AnnounceSideNavMode(mode);
   }
 
 

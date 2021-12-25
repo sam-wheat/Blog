@@ -9,11 +9,9 @@ namespace Blog.MigrationFactories;
 
 public class MSSQLContextFactory : IDesignTimeDbContextFactory<DbMSSQL>
 {
-    private const string configFilePath = "C:\\Users\\sam\\AppData\\Roaming\\Blog";
-
     public DbMSSQL CreateDbContext(string[] args)
     {
-        string appPath = Path.Combine(configFilePath, "endpoints.development.json");
+        string appPath = Path.Combine(ConfigHelper.ConfigFileFolder, "endpoints.development.json");
         string connectionString = ConnectionstringUtility.GetConnectionString(appPath, API_Name.Blog, ProviderName.MSSQL);
         DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
         dbOptions.UseSqlServer(connectionString);
@@ -25,11 +23,9 @@ public class MSSQLContextFactory : IDesignTimeDbContextFactory<DbMSSQL>
 
 public class MySQLContextFactory : IDesignTimeDbContextFactory<DbMySQL>
 {
-    private const string configFilePath = "C:\\Users\\sam\\AppData\\Roaming\\Blog";
-
     public DbMySQL CreateDbContext(string[] args)
     {
-        string appPath = Path.Combine(configFilePath, "endpoints.development.json");
+        string appPath = Path.Combine(ConfigHelper.ConfigFileFolder, "endpoints.development.json");
         string connectionString = ConnectionstringUtility.GetConnectionString(appPath, API_Name.Blog, ProviderName.MySQL);
         DbContextOptionsBuilder dbOptions = new DbContextOptionsBuilder();
         dbOptions.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore));

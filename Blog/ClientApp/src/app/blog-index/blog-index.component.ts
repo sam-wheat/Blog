@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentInit  } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BlogService } from './../services/blogService';
@@ -26,7 +26,11 @@ export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
     this.ContentItems = [];
   }
 
+  
+
   ngOnInit(): void {
+
+    this.sessionService.AnnounceSideNavMode(SideNavMode.PostIndex);
 
     this.siteSubscription = this.sessionService.siteAnnounced$.subscribe(x => {
       this.updateIndex();
@@ -52,7 +56,7 @@ export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
   updateIndex() {
     // Make sure all parameters and filters have been initialized so we don't query multiple times
 
-    if (this.sessionService.IsInitialized() === false)
+    if (! this.sessionService.IsInitialized())
       return;
 
     const currentSiteID = this.sessionService.CurrentSite.ID;

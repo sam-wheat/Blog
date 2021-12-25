@@ -21,7 +21,7 @@ public class BaseTest
 
     protected void BuildContainer()
     {
-        EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(ConfigFileLocation.Folder, "EndPoints.development.json"));
+        EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(ConfigHelper.ConfigFileFolder, "EndPoints.development.json"));
         var builder = new ContainerBuilder();
         builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
         builder.RegisterModule(new Blog.Services.AutofacModule());

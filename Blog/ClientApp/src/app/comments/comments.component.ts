@@ -21,7 +21,7 @@ export class CommentsComponent implements OnChanges {
 
   get CaptchaURL() {
 
-    if (this._captchaURL === null)
+    if (!this._captchaURL)
       this._captchaURL = this.blogService.CaptchaImageURL();
 
     return this._captchaURL;
@@ -42,7 +42,7 @@ export class CommentsComponent implements OnChanges {
 
   private LoadComments(ci: ContentItem) {
 
-    if (ci === null || typeof ci === 'undefined' || ci.ID === 0)
+    if ((!ci) || ci.ID === 0)
       return;
 
     this.blogService.GetCommentsForContentItem(ci.ID).subscribe(x => {
@@ -56,7 +56,7 @@ export class CommentsComponent implements OnChanges {
 
     this.Comment.Date = new Date();
 
-    if (this.ContentItem !== null && typeof this.ContentItem !== 'undefined')
+    if (this.ContentItem)
       this.Comment.ContentItemID = this.ContentItem.ID;
     else
       this.Comment.ContentItemID = null;
@@ -67,7 +67,7 @@ export class CommentsComponent implements OnChanges {
       this.dialogComponent.hideWaitDialog();
       this._captchaURL = null;
 
-      if (typeof x.ErrorMessage !== 'undefined' && x.ErrorMessage !== null && x.ErrorMessage.length > 0)
+      if (x.ErrorMessage && x.ErrorMessage.length > 0)
         this.dialogComponent.showErrorMessage(x.ErrorMessage);
       else {
         this.dialogComponent.showInfoDialog("Your comment was saved successfully.");
