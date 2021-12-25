@@ -57,15 +57,6 @@ steps:
 
 # Install dependencies
 
-#- task: NodeTool@0
-#  displayName: Install Node
-#  inputs:
-#    versionSpec: '16.13.1'
-
-#- script: |
-#    npm install -g npm@8.3.0
-#  displayName: Update NPM
-
 - script: |
     npm install -g @angular/cli
   displayName: Install Angular CLI
@@ -98,3 +89,11 @@ steps:
     appType: webApp
     appName: $(appName)
     package: '$(Build.ArtifactStagingDirectory)/web/Blog/ClientApp/dist/'
+
+# Build and execute database migrations
+- script: |
+    cd $(Build.ArtifactStagingDirectory)
+    dir
+    Blog.MigrationFactories.exe
+
+  displayName: 'Deploy Database Migrations'

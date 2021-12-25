@@ -59,11 +59,12 @@ public class CommentService : BaseService, ICommentService
             Client.EnableSsl = true;
             Client.Credentials = new System.Net.NetworkCredential(emailAccount, emailPassword);
             Client.Send(msg);
+            Log.Information("Email message from {from} was sent successfully.", from);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // not fatal
-            // log it
+            // not fatal jst log it
+            Log.Error("An Exception was encountered while sending an email.  The error is: {err}", ex.ToString());
         }
     }
 }

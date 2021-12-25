@@ -11,3 +11,4 @@ global using LeaderAnalytics.AdaptiveClient.Utilities;
 global using Blog.Services.MSSQL;
 global using LeaderAnalytics.Caching;
 global using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+global using Serilog;
