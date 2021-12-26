@@ -12,6 +12,9 @@
     <Content Include="..\Blog.Core\appsettings.production.json" Link="appsettings.production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Blog.Core\endpoints.production.json" Link="endpoints.production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
  
   <ItemGroup>

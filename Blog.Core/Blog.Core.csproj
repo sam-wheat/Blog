@@ -7,10 +7,16 @@
 
   <ItemGroup>
     <None Remove="appsettings.production.json" />
+    <None Remove="endpoints.production.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="appsettings.production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="endpoints.production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
