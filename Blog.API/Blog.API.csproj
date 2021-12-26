@@ -7,6 +7,12 @@
 	<RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <UserSecretsId>6cb2cbef-1eb5-4450-9338-8f4b029a6b29</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\Blog.Core\appsettings.production.json" Link="appsettings.production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
  
   <ItemGroup>
     <PackageReference Include="LeaderAnalytics.Caching" Version="3.0.24" />
@@ -39,12 +45,6 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="appsettings.production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 

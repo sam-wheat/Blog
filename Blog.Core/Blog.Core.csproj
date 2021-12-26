@@ -4,6 +4,18 @@
     <TargetFramework>net6.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.production.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
   
   <ItemGroup>
 	<PackageReference Include="Azure.Identity" Version="1.5.0" />
