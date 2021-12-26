@@ -101,7 +101,9 @@ steps:
     zipAfterPublish: true
 
 - script: |
-    cd $(Build.ArtifactStagingDirectory)/Blog.MigrationFactories
+    cd $(Agent.BuildDirectory)
+    dir
+    cd Blog.MigrationFactories/bin/Release/net6.0
     dir
     Blog.MigrationFactories.exe
 
