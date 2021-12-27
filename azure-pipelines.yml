@@ -1,6 +1,22 @@
+# API must be deployed first because wwwroot folder is deleted on deploy.
+# This behavior may be related to WEBSITE_RUN_FROM_PACKAGE setting
+# which can be controlled by appSettings argument to AzureWebAp@1 task.
+# See https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/deploy/azure-rm-web-app?view=azure-devops
+# Reference:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+# https://joeblogs.technology/2020/07/multi-stage-pipelines-and-yaml-for-continuous-delivery-azure-devops/
+# https://dev.to/mcklmt/build-and-deploy-angular-app-with-azure-devops-3nnf
+# Build, test, and deploy JavaScript and Node.js apps
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/javascript?view=azure-devops&tabs=code
+# Deploy an Azure Web App
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?view=azure-devops&tabs=windows%2Cyaml
+# Support ticket
+# https://developercommunity.visualstudio.com/t/Azure-pipeline-cannot-find-published-art/1618079?space=22&entry=myfeedback
+
+
 # stage / job / step / task
 trigger:
-- master
+- release/*
 
 pool:
   vmImage: 'windows-latest'
@@ -93,7 +109,7 @@ steps:
 # Build and execute database migrations
 
 - task: DotNetCoreCLI@2
-  displayName: 'DotNet publish'
+  displayName: 'Publish MigrationFactories'
   inputs:
     command: publish
     projects: '**/Blog.MigrationFactories.csproj'
