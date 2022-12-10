@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Blog.Services</AssemblyName>
     <PackageId>Blog.Services</PackageId>
@@ -23,7 +23,7 @@
   <ItemGroup>
     <PackageReference Include="AdaptiveClient" Version="3.0.3" />
     <PackageReference Include="AdaptiveClient.Utilities" Version="3.0.1" />
-    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog" Version="2.12.0" />
   </ItemGroup>
 
   <ItemGroup>
