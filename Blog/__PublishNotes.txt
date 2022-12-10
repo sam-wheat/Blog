@@ -8,8 +8,3 @@ Use VS configuration manager to set the build config.  Check that the correct fl
 Stage -->>> <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod --configuration=stage" />
 Prod -->>> <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
 
--------------------------------------
-Publish using SamWheatWeb - Web Deploy
-Nothing else to do.
----------
-SSL Cert instructions are here: C:\Users\sam\Documents\SSL\PoshACME\notes.txt
