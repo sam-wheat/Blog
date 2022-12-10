@@ -16,7 +16,9 @@
 
 # stage / job / step / task
 trigger:
-- release/*
+  tags:
+      include:
+        - release/*  
 
 pool:
   vmImage: 'windows-latest'
@@ -35,10 +37,10 @@ steps:
 # Build and deploy API        
 
 - task: UseDotNet@2
-  displayName: 'Use dotnet 6'
+  displayName: 'Use dotnet 7'
   inputs:
     packageType: 'sdk'
-    version: '6.x'
+    version: '7.x'
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Restore NuGet packages'
@@ -118,6 +120,6 @@ steps:
 
 - script: |
     cd $(Agent.BuildDirectory)
-    cd s/Blog.MigrationFactories/bin/Release/net6.0
+    cd s/Blog.MigrationFactories/bin/Release/net7.0
     Blog.MigrationFactories.exe
   displayName: 'Deploy Database Migrations'
