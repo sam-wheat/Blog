@@ -249,3 +249,4 @@ ModelManifest.xml
 src/Blog/wwwroot/lib/
 **/appsettings*
 /src/Blog.API/localhostSSLCert.cer
+/Blog/ClientApp/package-lock.json
