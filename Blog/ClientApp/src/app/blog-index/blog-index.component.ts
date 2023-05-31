@@ -35,16 +35,17 @@ export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
   ngOnInit(): void {
 
     this.sessionService.AnnounceSideNavMode(SideNavMode.PostIndex);
-
-    this.siteSubscription = this.sessionService.siteAnnounced$.subscribe(x => {
+    
+    //this.siteSubscription = this.sessionService.siteAnnounced$.subscribe(x => {
+    this.siteSubscription = this.sessionService.siteAnnouncedSource.subscribe(x => {
       this.updateIndex();
     });
 
-    this.groupIDFilterSubscription = this.sessionService.groupAnnounced$.subscribe(x => {
+    this.groupIDFilterSubscription = this.sessionService.groupIDAnnouncedSource.subscribe(x => {
       this.updateIndex();
     });
 
-    this.dateFilterSubscription = this.sessionService.dateFilterAnnouncedSource$.subscribe(x => {
+    this.dateFilterSubscription = this.sessionService.dateFilterAnnouncedSource.subscribe(x => {
       this.updateIndex();
     });
   }

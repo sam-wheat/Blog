@@ -13,22 +13,11 @@ export class SessionService {
   public CurrentGroupID: number;
   public CurrentDateFilter: Date | null;
   public CurrentSideNavMode: SideNavMode;
-   
-
   public siteAnnouncedSource = new AsyncSubject<Site>();  // BehaviorSubject
-  public siteAnnounced$ = this.siteAnnouncedSource.asObservable();
-
-  private groupIDAnnouncedSource = new Subject<number>();
-  public groupAnnounced$ = this.groupIDAnnouncedSource.asObservable();
-
-  private menuIDAnnouncedSource = new Subject<number>();
-  public menuIDAnnouncedSource$ = this.menuIDAnnouncedSource.asObservable();
-
-  private dateFilterAnnouncedSource = new Subject<Date | null>();
-  public dateFilterAnnouncedSource$ = this.dateFilterAnnouncedSource.asObservable();
-
-  private sideNavModeAnnouncedSource = new BehaviorSubject<number>(SideNavMode.Site);
-  public sideNavModeAnnouncedSource$ = this.sideNavModeAnnouncedSource.asObservable();
+  public groupIDAnnouncedSource = new Subject<number>();
+  public menuIDAnnouncedSource = new Subject<number>();
+  public dateFilterAnnouncedSource = new Subject<Date | null>();
+  public sideNavModeAnnouncedSource = new BehaviorSubject<number>(SideNavMode.Site);
 
   constructor() {
     this.ImageRoot = "/assets/img/";
