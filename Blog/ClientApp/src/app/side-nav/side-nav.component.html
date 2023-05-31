@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource$ | async) === 0">
+    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource | async) === 0">
       <ul>
         <li class="active"><button (click)="scroll('hero')" data-target="#hero"><i class="bx bx-home"></i> <span>Home</span></button></li>
         <li><button (click)="scroll('about')" data-target="#about"><i class="bx bx-user"></i> <span> About</span></button></li>
@@ -26,7 +26,7 @@
 
 
 
-    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource$ | async) === 1">
+    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource | async) === 1">
       <ul>
         <li class="active"><a href="/"><i class="bx bx-home"></i><span> Home</span></a></li>
       </ul>
@@ -37,7 +37,7 @@
 
 
 
-    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource$ | async) === 2">
+    <nav class="nav-menu" *ngIf="(sessionService.sideNavModeAnnouncedSource | async) === 2">
       <ul>
         <li class="active"><a href="/"><i class="bx bx-home"></i> <span> Home</span></a></li>
         <li class="active"><a [routerLink]="['/blogIndex']" (click)="toggleSideNavMode(1)"><i class="bx bx-book-content"></i> <span> Blog</span></a></li>

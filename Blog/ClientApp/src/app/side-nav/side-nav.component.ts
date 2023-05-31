@@ -13,25 +13,26 @@ import { SideNavMode } from '../model/model';
 })
 export class SideNavComponent implements OnInit, OnDestroy {
   subscription: Subscription;
-  selectedMenuItem: MenuContentItem;
+  selectedMenuItem?: MenuContentItem | null;
   mainMenu: Menu;
 
 
   constructor(public sessionService: SessionService, private router: Router) {
-    
+    this.subscription = Subscription.EMPTY;
+    this.mainMenu = new Menu();
+    this.mainMenu.MenuContentItems = [];
   }
 
   ngOnInit(): void {
 
-    this.mainMenu = new Menu();
-    this.mainMenu.MenuContentItems = [];
+    
 
     this.subscription = this.sessionService.siteAnnouncedSource.subscribe(s => {
 
       if (!s)
         return;
 
-      let navBar = s.Menus.find(x => x.MenuName === "NavBar");
+      let navBar = s.Menus?.find(x => x.MenuName === "NavBar");
 
       if (navBar) {
         this.mainMenu = navBar;
@@ -68,7 +69,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
 
   scroll(targetID: string) {
-    document.querySelector('#' + targetID).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector('#' + targetID)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   
 }

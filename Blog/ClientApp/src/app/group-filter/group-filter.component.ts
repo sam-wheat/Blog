@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SessionService } from '../services/sessionService';
 import { BlogService } from '../services/blogService';
-import { KeyValuePair } from '../model/model';
+import { KeyValuePair, Menu } from '../model/model';
 
 @Component({
   selector: 'app-group-filter',
@@ -12,19 +12,23 @@ import { KeyValuePair } from '../model/model';
 export class GroupFilterComponent implements OnInit, OnDestroy {
   @Input() GroupColumn: string;
   private menuID: number;
-  SelectedItem: KeyValuePair;
+  SelectedItem?: KeyValuePair;
   Items: KeyValuePair[];
   menuIDSubscripton: Subscription;
   siteSubscription: Subscription;
 
   constructor(private blogService: BlogService, private sessionService: SessionService) {
-
+    this.GroupColumn = "";
+    this.menuID = 0;
+    this.Items = new Array<KeyValuePair>();
+    this.menuIDSubscripton = Subscription.EMPTY;
+    this.siteSubscription = Subscription.EMPTY;
   }
 
   ngOnInit() {
 
     this.siteSubscription = this.sessionService.siteAnnouncedSource.subscribe(x => {
-      let blogIndex = x.Menus.find(x => x.MenuName === "BlogIndex");
+      var blogIndex : Menu | null = x.Menus?.find(x => x.MenuName === "BlogIndex") as Menu;
       this.menuID = blogIndex.ID;
 
       this.blogService.GetContentItemGroups(this.GroupColumn, this.menuID)
@@ -44,9 +48,9 @@ export class GroupFilterComponent implements OnInit, OnDestroy {
     if (this.sessionService.IsInitialized()) {
 
       if (this.GroupColumn === "GroupID")
-        kvp.Key = (this.sessionService.CurrentGroupID + 0 === this.sessionService.CurrentGroupID) ? this.sessionService.CurrentGroupID + '' : null;
+        kvp.Key = (this.sessionService.CurrentGroupID + 0 === this.sessionService.CurrentGroupID) ? this.sessionService.CurrentGroupID + '' : "";
       else if (this.GroupColumn === "PubDate")
-        kvp.Key = this.blogService.DateToString(this.sessionService.CurrentDateFilter);
+        kvp.Key = this.blogService.DateToString(this.sessionService.CurrentDateFilter ?? new Date(1,1,1901)) ?? "";
       else
         throw ("groupFilter.GroupColumn has an unexpected value: " + this.GroupColumn);
     }
@@ -59,12 +63,13 @@ export class GroupFilterComponent implements OnInit, OnDestroy {
 
   onChangeGroup(item: KeyValuePair) {
     this.SelectedItem = item;
+    var newDate : Date | null;
 
     if (this.GroupColumn === "GroupID") {
-      this.sessionService.AnnounceGroupID(item.Key === null ? null : +item.Key);
+      this.sessionService.AnnounceGroupID(item.Key === null ? 0 : +item.Key);
     }
     else if (this.GroupColumn === "PubDate") {
-      let newDate = new Date(item.Key);
+      newDate = new Date(item.Key);
 
       if (item.Key === null)
         newDate = null;
@@ -78,8 +83,8 @@ export class GroupFilterComponent implements OnInit, OnDestroy {
 
   }
 
-  isActive(itemID: string) {
-    return this.SelectedItem.Key === itemID;
+  isActive(itemID: string) : boolean {
+    return this.SelectedItem?.Key === itemID ?? false;
   }
 
   ngOnDestroy() {

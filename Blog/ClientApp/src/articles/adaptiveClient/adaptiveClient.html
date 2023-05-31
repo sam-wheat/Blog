@@ -1,4 +1,4 @@
-﻿<article>
+<p>&lt;article&gt;</p>
 <pre><code class="language-cs">public partial class MainWindow : Window
 {
     private IAdaptiveClient&lt;IUsersService&gt; client;
@@ -20,22 +20,22 @@
 }
 </code></pre>
 <p> </p>
-<h4 id="get-adaptiveclient"><a href="https://github.com/leaderanalytics/AdaptiveClient">Get AdaptiveClient</a></h4>
-<hr />
-<h4 id="get-the-advanced-end-to-end-demo"><a href="https://github.com/leaderanalytics/AdaptiveClient.AdvancedDemo">Get the advanced end-to-end demo</a></h4>
-<hr />
-<h4 id="get-the-nuget-package"><a href="https://www.nuget.org/packages/AdaptiveClient/">Get the nuget package</a></h4>
-<hr />
-<h2 id="what-it-does">What it does</h2>
+<h4><a href="https://github.com/leaderanalytics/AdaptiveClient">Get AdaptiveClient</a></h4>
+<hr>
+<h4><a href="https://github.com/leaderanalytics/AdaptiveClient.AdvancedDemo">Get the advanced end-to-end demo</a></h4>
+<hr>
+<h4><a href="https://www.nuget.org/packages/AdaptiveClient/">Get the nuget package</a></h4>
+<hr>
+<h2>What it does</h2>
 <p>Rather than make a service call directly to a specific server or type of server you make a call using <code>AdaptiveClient</code> instead.  <code>AdaptiveClient</code> will attempt to execute the call using the most preferred server.  If the call fails <code>AdaptiveClient</code> will make successive attempts, each time falling back to other servers of the same type or other types.</p>
 <p>For example, a mobile user who is on-site and connected to a local area network will enjoy the performance of an in-process connection directly to a database server.  If the user moves off-site tries to reconnect from a remote location <code>AdaptiveClient</code> will attempt a LAN connection again but will fall back to a WebAPI server when the LAN connection fails.  Should the WebAPI connection fail, <code>AdaptiveClient</code> will continue an orderly fall back to other WebAPI servers, a WCF server, or any other server as configured.</p>
-<h2 id="who-will-benefit-from-using-it">Who will benefit from using it</h2>
+<h2>Who will benefit from using it</h2>
 <ul>
 <li><code>AdaptiveClient</code> is ideally targeted to organizations that need to give local users access to their APIs over a local area network but who also wish to expose their APIs to remote users.</li>
 <li>Developers who want to implement retry and/or fall back logic when making service calls.</li>
 </ul>
-<h2 id="how-it-works">How it works</h2>
-<p><code>AdaptiveClient</code> is a design pattern that leverages <a href="https://en.wikipedia.org/wiki/Multitier_architecture">n-tier architecture</a> and a dependency injection container.  The client and utility classes included in the <a href="https://github.com/leaderanalytics/AdaptiveClient">download</a> assist you in implementing the pattern.  The <a href="https://github.com/leaderanalytics/AdaptiveClient">download</a> includes a client implementation based on Autofac.  You should be able to implement similar functionality using other DI containers.<br />
+<h2>How it works</h2>
+<p><code>AdaptiveClient</code> is a design pattern that leverages <a href="https://en.wikipedia.org/wiki/Multitier_architecture">n-tier architecture</a> and a dependency injection container.  The client and utility classes included in the <a href="https://github.com/leaderanalytics/AdaptiveClient">download</a> assist you in implementing the pattern.  The <a href="https://github.com/leaderanalytics/AdaptiveClient">download</a> includes a client implementation based on Autofac.  You should be able to implement similar functionality using other DI containers.<br>
 The functionality provided by <code>AdaptiveClient</code> comes primarily from the four classes shown below and their supporting classes:</p>
 <pre><code>EndPointConfiguration
 </code></pre>
@@ -59,22 +59,26 @@ The functionality provided by <code>AdaptiveClient</code> comes primarily from t
 <pre><code>AdaptiveClient
 </code></pre>
 <p><code>AdaptiveClient</code>  is the second of the two Autofac-specific classes.  <code>AdaptiveClient</code> is little more than a wrapper around ClientFactory that insures that objects created within one of the <code>AdaptiveClient.Call()</code> methods are created and disposed within an Autofac LifetimeScope.  If you choose to use the <code>AdaptiveClient</code> pattern with a DI container other than Autofac you can use <code>ClientFactory</code> as required instead of <code>AdaptiveClient</code> and implement scope logic as required by your DI container.</p>
-<h2 id="how-adaptiveclient-resolves-a-client-from-start-to-finish">How <code>AdaptiveClient</code> resolves a client from start to finish:</h2>
-<div style="max-width:800px;margin:auto;">
-<p><img src="https://raw.githubusercontent.com/leaderanalytics/AdaptiveClient/master/LeaderAnalytics.AdaptiveClient/docs/HowAdaptiveClientWorks.png" alt="alt an image" /></p>
-</div>
-<h2 id="getting-started">Getting started</h2>
+<h2>How <code>AdaptiveClient</code> resolves a client from start to finish:</h2>
+<p>&lt;div style=&quot;max-width:800px;margin:auto;&quot;&gt;</p>
+<p><img src="https://raw.githubusercontent.com/leaderanalytics/AdaptiveClient/master/LeaderAnalytics.AdaptiveClient/docs/HowAdaptiveClientWorks.png" alt="alt an image"></p>
+<p>&lt;/div&gt;</p>
+<h2>Getting started</h2>
 <ol>
-<li><p>Define your <code>EndPointConfiguration</code> objects.  See appsettings.development.json in WebAPIServer project of the Demo application.</p>
+<li>Define your <code>EndPointConfiguration</code> objects.  See appsettings.development.json in WebAPIServer project of the Demo application.</li>
+</ol>
+<ol start="2">
+<li>
+<p>Register your <code>EndPointConfiguration</code> objects. Use RegistrationHelper as shown in the section below.</p>
 </li>
-<li><p>Register your <code>EndPointConfiguration</code> objects. Use RegistrationHelper as shown in the section below.</p>
+<li>
+<p>Register your domain services and clients as shown in the section below.  See also the AdaptiveClientModule file in the Application.Services project of the Demo application.</p>
 </li>
-<li><p>Register your domain services and clients as shown in the section below.  See also the AdaptiveClientModule file in the Application.Services project of the Demo application.</p>
-</li>
-<li><p>Accept <code>IAdaptiveClient&lt;T&gt;</code> or <code>IClientFactory&lt;T&gt;</code> in your constructor wherever you need a client.  <code>IAdaptiveClient</code> calls <code>IClientFactory</code> internally and it disposes the objects it creates within the Call method.</p>
+<li>
+<p>Accept <code>IAdaptiveClient&lt;T&gt;</code> or <code>IClientFactory&lt;T&gt;</code> in your constructor wherever you need a client.  <code>IAdaptiveClient</code> calls <code>IClientFactory</code> internally and it disposes the objects it creates within the Call method.</p>
 </li>
 </ol>
-<h5 id="using-registrationhelper">Using <code>RegistrationHelper</code></h5>
+<h5>Using <code>RegistrationHelper</code></h5>
 <p>Follow the two steps below to register your <code>EndPointConfiguration</code> objects and clients.</p>
 <ol>
 <li>Register the entire collection of <code>EndPointConfiguration</code> objects for an API or Application:</li>
@@ -98,23 +102,27 @@ registrationHelper.Register&lt;MyApp.WebAPIClient.UsersClient, IUsersService&gt;
 // WCF client 
 registrationHelper.Register&lt;MyApp.WCFClient.UsersClient, IUsersService&gt;(EndPointType.WCF, apiName);
 </code></pre>
-<h2 id="tips-faqs">Tips &amp; FAQs</h2>
+<h2>Tips &amp; FAQs</h2>
 <ul>
-<li><p><code>AdaptiveClient</code> is designed to work with an n-tier architecture. Make sure your application has clean separation of layers. Generally this means your business logic should reside entirely in your service layer - not in controllers, code-behind, or view models.</p>
+<li>
+<p><code>AdaptiveClient</code> is designed to work with an n-tier architecture. Make sure your application has clean separation of layers. Generally this means your business logic should reside entirely in your service layer - not in controllers, code-behind, or view models.</p>
 </li>
-<li><p>Create clients in their own assemblies as required.  Clients must implement the same interfaces as their server counterparts and the services they access.  Register clients the same way services are registered.  See the Application.WebAPIClient project for an example.</p>
+<li>
+<p>Create clients in their own assemblies as required.  Clients must implement the same interfaces as their server counterparts and the services they access.  Register clients the same way services are registered.  See the Application.WebAPIClient project for an example.</p>
 </li>
-<li><p>Will <code>AdaptiveClient</code> make multiple hops to resolve a client? Yes, see the demo at the link below.</p>
+<li>
+<p>Will <code>AdaptiveClient</code> make multiple hops to resolve a client? Yes, see the demo at the link below.</p>
 </li>
-<li><p>Can I force <code>AdaptiveClient</code> to use a certain EndPoint and bypass the fallback logic? Yes. You can set the IsActive flag to false for EndPointConfigurations you dont want to use.  You can also supply one or more EndPoint names in your call to <code>AdaptiveClient</code> or ClientFactory:</p>
+<li>
+<p>Can I force <code>AdaptiveClient</code> to use a certain EndPoint and bypass the fallback logic? Yes. You can set the IsActive flag to false for EndPointConfigurations you dont want to use.  You can also supply one or more EndPoint names in your call to <code>AdaptiveClient</code> or ClientFactory:</p>
 </li>
 </ul>
 <pre><code class="language-cs">User user = await client.CallAsync(x =&gt; x.GetUser(userID), &quot;MyEndPointName&quot;);
 </code></pre>
 <p> </p>
-<h2 id="adaptiveclient-use-case-and-technical-description"><code>AdaptiveClient</code> Use Case and Technical Description</h2>
+<h2><code>AdaptiveClient</code> Use Case and Technical Description</h2>
 <p>The following is only for those interested in the design and inner workings of <code>AdaptiveClient</code>. You do not need to read this to use <code>AdaptiveClient</code> successfully.</p>
-<h3 id="use-case">Use Case</h3>
+<h3>Use Case</h3>
 <p>A developer is tasked with writing an application that will be used by a company to support their internal operations.  Primary users will be several thousand company employees.  Employees will use the application while on-site at the company offices.  There are few hundred users who will need remote access.  One of the design requirements is that on-site users access data directly from the database server on the company's local area network.  Remote users will access data via a Web API.  To meet this requirement the developer will need to instantiate the correct data access client based on the users location.  The developer will want an approach that is simple, flexible, and generic.  What architecture will allow the developer to meet these objectives?</p>
 <p>To answer this question we look at the components of a hypothetical WPF application.  We assume this application is designed using standard n-tier architecture consisting of a presentation layer, a business logic layer, and a data access layer.</p>
 <p>Lets say the application needs to save a User object to the database.  In the business logic layer we have
@@ -124,7 +132,7 @@ registrationHelper.Register&lt;MyApp.WCFClient.UsersClient, IUsersService&gt;(En
     public class UsersService : BaseService, IUsersService
     {
         // ...
-			
+            
         public async Task&lt;int&gt; SaveUser(User user)
         {
             db.Users.Add(user);
@@ -154,24 +162,24 @@ namespace Application.WebAPIClient
 <p>The presentation layer of the application might look like this:</p>
 <pre><code class="language-cs">namespace WPFApplication
 {
-	public partial class MainWindow : Window
-	{
-		
-		private IUsersService usersClient;
-			
-		public MainWindow(IUsersService usersClient)
-		{
-			this.usersClient = usersClient;
-			InitializeComponent();
-			InitializeAsync();
-		}
+    public partial class MainWindow : Window
+    {
+        
+        private IUsersService usersClient;
+            
+        public MainWindow(IUsersService usersClient)
+        {
+            this.usersClient = usersClient;
+            InitializeComponent();
+            InitializeAsync();
+        }
 
-		public async Task InitializeAsync()
-		{
-			int id = await usersClient.SaveUser(new User { Name = &quot;Bob&quot; });
-			// ...
-		}
-	}
+        public async Task InitializeAsync()
+        {
+            int id = await usersClient.SaveUser(new User { Name = &quot;Bob&quot; });
+            // ...
+        }
+    }
 }
 </code></pre>
 <p>Looking at the code for the presentation layer we see that <code>MainWindow</code> accepts anything that implements <code>IUsersService</code> as a client.  This means we can inject either of the two clients shown above because both clients implement <code>IUsersService</code>.</p>
@@ -179,11 +187,11 @@ namespace Application.WebAPIClient
 <p>If we only have HTTP access we inject an instance of <code>WebAPIClient</code> and serialize the data before sending it over the wire.  On the LAN side, the server that handles the <code>WebAPIClient</code> request creates an instance of <code>UsersService</code> to do its work.</p>
 <p>Having described a data client to use when the user is connected to the LAN and a client to use when the user is remote, we now come to the problem of &quot;How do we inject the correct client for each user?&quot;  It turns out this is not a trivial problem to solve.  There are a number of related issues, not the least of which is knowing which servers to contact, knowing how to contact each server, knowing in what order to contact the servers, and knowing how to construct the object graph when an appropriate server is found.</p>
 <p>Before we go any further lets state our objective in precise terms:  We want to inject an implementation of <code>IUsersService</code> (a client) into the presentation layer of our application that is most appropriate for the type of connectivity the user currently has.  We want the ability to try the fastest client first, than fall back if we must.  We also want this to be a generic approach so we can add clients of various types if we need to. For example, in addition to the WebAPI client we might also want to write a WCF client.  As long as the client implements <code>IUsersService</code> we should be able to inject that client into our application.</p>
-<h3 id="technical-description">Technical Description</h3>
+<h3>Technical Description</h3>
 <p>In researching this problem I found that I had to look no further than my DI container for an answer.  Thanks to powerful DI containers like Autofac and others, we can craft a solution to this problem that is both simple and minimally invasive.  In fact, the solution below can be thought of as an extension to the DI container with a couple of supporting classes thrown in.  &quot;Why the DI container?&quot; you might ask.  The answer is that this is primarily a component resolution and injection problem.  When a client is requested we need to know what servers to test as well as how to test those servers.  We need to assemble the correct components for each test, and upon finding a working client, we need to return that client to the requester.  All of these tasks fall squarely within the domain of the DI container. Rather than reinvent the wheel we will put any one of a number of well designed DI containers to good use.</p>
 <p>This technical description is based on the Autofac implementation of <code>AdaptiveClient</code> because it is the only implementation available as of this writing.  Note, however, that the <code>AdaptiveClient</code> pattern and supporting infrastructure are DI container agnostic.</p>
 <p>This technical description is divided into two parts:  Registration which is done at design time, and Resolution which is done at run time.  <code>AdaptiveClient</code> supporting classes are described where they are first used.</p>
-<h4 id="registration">Registration</h4>
+<h4>Registration</h4>
 <p>For this example let us say there are three different kinds of connectivity we want to test for:  In-process (LAN, direct connection to database), WebAPI, and WCF.  We create an enum that identifies each server that implements any of our connectivity types:</p>
 <pre><code class="language-cs">public enum EndPointType
 {
@@ -250,17 +258,17 @@ Register instance of Perimeter named &quot;Some_Vendor_API&quot; with the key ty
 Register IUsersService plus EndPointType.WebAPI to resolve to an instance of Application.WebAPIClient.UsersClient
 Register IUsersService plus EndPointType.WCF to resolve to an instance of Application.WCFClient.UsersClient
 </code></pre>
-<h4 id="resolution">Resolution</h4>
+<h4>Resolution</h4>
 <p>When the developer requests a client implementation of an interface, <code>AdaptiveClient</code> performs several steps.</p>
 <p>First, the type of the requested interface is used as a key to resolve an <code>IPerimiter</code> object.  Recall that <code>IPerimiter</code> contains a list of all the <code>EndPointConfiguration</code> objects (i.e. servers) that expose the requested interface.</p>
 <p>Second, <code>AdaptiveClient</code> invokes an an instance of <code>IClientFactory</code>, passing it the list of <code>EndPointConfiguration</code> objects resolved in the previous step (code for <code>ClientFactory</code> is omitted for brevity but can be download from <a href="https://github.com/leaderanalytics/AdaptiveClient/blob/master/LeaderAnalytics.AdaptiveClient/src/LeaderAnalytics.AdaptiveClient/ClientFactory.cs">Github</a>).  <code>ClientFactory</code> does what its name implies.  It iterates the list of <code>EndPointConfiguration</code> objects in order of preference and tries to find a live server.  When a live server is found its <code>EndPointType</code> is saved. .</p>
 <p>Finally, the type of the requested interface and the <code>EndPointType</code> of the available server are used as keys to resolve a concrete implementation of the requested interface.</p>
-<hr />
-<h4 id="get-adaptiveclient-1"><a href="https://github.com/leaderanalytics/AdaptiveClient">Get AdaptiveClient</a></h4>
-<hr />
-<h4 id="get-the-simple-console-app-demo"><a href="https://github.com/leaderanalytics/AdaptiveClient.SimpleConsoleDemo">Get the simple console app demo</a></h4>
-<hr />
-<h4 id="get-the-advanced-end-to-end-demo-1"><a href="https://github.com/leaderanalytics/AdaptiveClient.AdvancedDemo">Get the advanced end-to-end demo</a></h4>
-<hr />
-<h4 id="get-the-nuget-package-1"><a href="https://www.nuget.org/packages/AdaptiveClient/">Get the nuget package</a></h4>
-</article>
+<hr>
+<h4><a href="https://github.com/leaderanalytics/AdaptiveClient">Get AdaptiveClient</a></h4>
+<hr>
+<h4><a href="https://github.com/leaderanalytics/AdaptiveClient.SimpleConsoleDemo">Get the simple console app demo</a></h4>
+<hr>
+<h4><a href="https://github.com/leaderanalytics/AdaptiveClient.AdvancedDemo">Get the advanced end-to-end demo</a></h4>
+<hr>
+<h4><a href="https://www.nuget.org/packages/AdaptiveClient/">Get the nuget package</a></h4>
+<p>&lt;/article&gt;</p>

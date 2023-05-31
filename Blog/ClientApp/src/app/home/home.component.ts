@@ -19,7 +19,10 @@ export class HomeComponent implements OnInit, AfterContentInit {
   constructor(
     private blogService: BlogService,
     public sessionService: SessionService) {
-    this.ImageRoot = sessionService.ImageRoot;
+          this.ImageRoot = sessionService.ImageRoot;
+          this.sites = new Array<Site>();
+          this.blogMode = 0;
+
   }
 
   ngOnInit(): void {

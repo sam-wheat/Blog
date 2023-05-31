@@ -15,7 +15,7 @@ declare var highlight: any; // in site.js
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.css']
 })
-export class BlogDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BlogDetailComponent implements OnInit, OnDestroy {
   PostRoot = this.sessionService.PostRoot;
   Post: ContentItem;
   private Content: string;
@@ -31,9 +31,14 @@ export class BlogDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private sessionService: SessionService, private blogService: BlogService, private route: ActivatedRoute, private sanitizer: DomSanitizer, private el: ElementRef) {
     this.Post = new ContentItem();
-    this.Post.ID = 0;  // must initialize property or it will not be created on object
+    this.Post.ID = 0;  
+    this.Content = "";
+    this.sub = Subscription.EMPTY;
+    this.siteSubscription = Subscription.EMPTY;
+    this.contentContainer2 = {} as ElementRef;
   }
 
+  
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       let slug = params['slug'];
@@ -41,9 +46,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
-    
-  }
+  
 
   ngOnDestroy() {
     
@@ -59,9 +62,9 @@ export class BlogDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.siteSubscription = this.sessionService.siteAnnouncedSource.subscribe(site => {
       this.blogService.GetContentItemBySlug(slug, site.ID).subscribe(x => {
-        this.Post = x;
+        this.Post = x ?? new ContentItem();
 
-        this.blogService.GetPostHtml(this.sessionService.PostRoot + this.Post.URL).subscribe((h: string) => {
+        this.blogService.GetPostHtml(this.sessionService.PostRoot + this.Post.URL).subscribe((h: string | null) => {
           // this is correct but does not work due to bug
           // this.Content = this.sanitizer.bypassSecurityTrustHtml(h);
 

@@ -10,13 +10,14 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class DialogComponent implements OnInit {
 
-  public visibleDialog: Subject<Dialog>
-  public message: string;
+  public visibleDialog: BehaviorSubject<Dialog>
+  public message?: string;
   private confirmCallBack: IConfirmation;
   dialog = Dialog;
 
   constructor(private changeDetector: ChangeDetectorRef) {
-    this.visibleDialog = new BehaviorSubject(Dialog.None);
+    this.visibleDialog = new BehaviorSubject<Dialog>(Dialog.None);
+    this.confirmCallBack = {} as IConfirmation;
   }
 
   ngOnInit() {

@@ -20,7 +20,7 @@ export class BlogService {
     return this.httpClient.get<Site[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetActiveSites`)), catchError(this.handleError<Site[]>('GetActiveSites', [])));
   }
 
-  GetContentItems(siteID: number, menuID: number, groupID: number, dateFilter: Date): Observable<ContentItem[]> {
+  GetContentItems(siteID: number, menuID: number, groupID: number, dateFilter: Date | null): Observable<ContentItem[]> {
     let stringDate = "";
 
     // date.tolocalString() leaves embedded chars that cause .net to fail when attempting to convert the date.
@@ -31,9 +31,9 @@ export class BlogService {
     return this.httpClient.get<ContentItem[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItems`)), catchError(this.handleError<ContentItem[]>('GetContentItems', [])));
   }
 
-  GetContentItemBySlug(slug: string, siteID: number): Observable<ContentItem> {
+  GetContentItemBySlug(slug: string, siteID: number): Observable<ContentItem | null> {
     let url = this.serviceURL + 'GetContentItemBySlug?slug=' + slug + '&siteID=' + siteID.toString();
-    return this.httpClient.get<ContentItem>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItemBySlug`)), catchError(this.handleError<ContentItem>('GetContentItemBySlug', null)));
+    return this.httpClient.get<ContentItem | null>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItemBySlug`)), catchError(this.handleError<ContentItem | null>('GetContentItemBySlug', null)));
   }
 
   GetContentItemGroups(groupColumn: string, menuID: number): Observable<KeyValuePair[]> {
@@ -41,8 +41,8 @@ export class BlogService {
     return this.httpClient.get<KeyValuePair[]>(this.noCache(url)).pipe(tap(_ => this.log(`GetContentItemGroups`)), catchError(this.handleError<KeyValuePair[]>('GetContentItemGroups', [])));
   }
 
-  GetPostHtml(url: string): Observable<string> {
-    return this.httpClient.get(this.noCache(url), { responseType: 'text' }).pipe(tap(_ => this.log(`GetPostHtml`)), catchError(this.handleError<string>('GetPostHtml', null)));
+  GetPostHtml(url: string): Observable<string | null> {
+    return this.httpClient.get(this.noCache(url), { responseType: 'text' }).pipe(tap(_ => this.log(`GetPostHtml`)), catchError(this.handleError<string | null>('GetPostHtml', null)));
   }
 
 
@@ -75,7 +75,7 @@ export class BlogService {
     return body || [];
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) : (error: any) => Observable<T> {
     return (error: any): Observable<T> => {
       console.error(error);
       this.log('${operation} failed: ${error.message}');
@@ -88,9 +88,7 @@ export class BlogService {
   }
 
 
-  private noCache(url: string): string {
-    if (!url)
-      return null;
+  private noCache(url: string): string  {
 
     if (url.slice(-1) === '/')
       url = url.slice(0, -1);
@@ -100,7 +98,7 @@ export class BlogService {
     url = url + connector + 'noCache=' + (Math.random().toString().replace('.', ''));
     return url;
   }
-  public DateToString(d: Date): string {
+  public DateToString(d: Date): string  | null{
     if (!d)
       return null;
 

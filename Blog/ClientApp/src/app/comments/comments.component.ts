@@ -12,12 +12,12 @@ import { DialogComponent } from '../dialog/dialog.component';
 
 export class CommentsComponent implements OnChanges {
   @ViewChild(DialogComponent) dialogComponent: DialogComponent;
-  @Input() public ContentItem: ContentItem;
+  @Input() public ContentItem?: ContentItem | null;
 
   Comments: Comment[];
   Comment: Comment;
 
-  private _captchaURL: string;
+  private _captchaURL?: string | null;
 
   get CaptchaURL() {
 
@@ -27,12 +27,13 @@ export class CommentsComponent implements OnChanges {
     return this._captchaURL;
   }
 
-  public CaptchaCode: string;
+  public CaptchaCode?: string | null;
 
   constructor(private sessionService: SessionService, private blogService: BlogService) {
     this.Comments = new Array<Comment>();
     this.Comment = new Comment();
     this._captchaURL = null;
+    this.dialogComponent = {} as DialogComponent;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -51,19 +52,14 @@ export class CommentsComponent implements OnChanges {
   }
 
   public SaveComment() {
-    if (this.Comment === null || typeof this.Comment === 'undefined')
+    if (! this.Comment)
       return;
 
     this.Comment.Date = new Date();
-
-    if (this.ContentItem)
-      this.Comment.ContentItemID = this.ContentItem.ID;
-    else
-      this.Comment.ContentItemID = null;
-
+    this.Comment.ContentItemID = this.ContentItem ?  this.ContentItem.ID : null;
     this.dialogComponent.showWaitDialog();
 
-    this.blogService.SaveComment(this.Comment, this.CaptchaCode).subscribe((x: AsyncResult) => {
+    this.blogService.SaveComment(this.Comment, this.CaptchaCode ?? "").subscribe((x: AsyncResult) => {
       this.dialogComponent.hideWaitDialog();
       this._captchaURL = null;
 
@@ -71,13 +67,14 @@ export class CommentsComponent implements OnChanges {
         this.dialogComponent.showErrorMessage(x.ErrorMessage);
       else {
         this.dialogComponent.showInfoDialog("Your comment was saved successfully.");
-        this.Comment.SenderName = null;
-        this.Comment.SenderEMail = null;
-        this.Comment.SenderWebsite = null;
-        this.Comment.CommentText = null;
+        this.Comment.SenderName = "";
+        this.Comment.SenderEMail = "";
+        this.Comment.SenderWebsite = "";
+        this.Comment.CommentText = "";
         this.CaptchaCode = null;
 
-        this.LoadComments(this.ContentItem);
+        if(this.ContentItem)
+          this.LoadComments(this.ContentItem);
       }
     });
   }
