@@ -14,4 +14,5 @@ One thing I wanted to do with this version of the site is use Docker to deploy i
 
 
 You can download the source code for this site [here](https://github.com/sam-wheat/Blog).
+
 </article>

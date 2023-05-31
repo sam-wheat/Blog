@@ -1,4 +1,4 @@
-﻿<article>
+<p>&lt;article&gt;</p>
 <p>Many types of business problems are solved using techniques that require analysis of a combination of objects that are chosen from a set.  You probably remember from statistics class that a combination is a selection of objects chosen from a set where order is not relevant.</p>
 <p>This article demonstrates a small program that systematically chooses a designated number of elements from a set and passes them to a fitness function for evaluation.  The program chooses different elements with each pass until all elements have been evaluated or the fitness function tells it to stop.  This generic collection finder accepts three parameters:  The first parameter is an integer that indicates how many items are to be chosen from the collection.  The second parameter is the collection from which items are to be chosen.  The third parameter is a fitness function that is called with the selected combination of items as a parameter.  The fitness function can do whatever processing is necessary for the problem at hand.  If the fitness function returns true (success), the collection finder stops processing.</p>
 <p>Lets use this program to solve a simple business problem. Lets say a cargo ship can carry up to six shipping containers for a maximum total weight of 800 tons.  If all weights are equal, it is preferable to carry more containers than fewer since the load is more evenly distributed throughout the ship.  However, the shipping company bills by the ton so in order to maximize revenue, the company always loads the ship with as much weight as possible up to it's limit of 800 tons.</p>
@@ -122,4 +122,4 @@
     }
 }
 </code></pre>
-</article>
+<p>&lt;/article&gt;</p>

@@ -44,8 +44,8 @@
               "node_modules/venobox/venobox/venobox.min.js",
               "node_modules/owl.carousel/dist/owl.carousel.min.js",
               "node_modules/aos/dist/aos.js",
-              "node_modules/typed.js/lib/typed.min.js",
               "node_modules/highlightjs/highlight.pack.js",
+              "node_modules/typed.js/dist/typed.umd.js",
               "src/assets/js/site.js"
             ],
             "vendorChunk": true,

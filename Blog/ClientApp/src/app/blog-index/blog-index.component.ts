@@ -24,6 +24,10 @@ export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
     this.ImageRoot = sessionService.ImageRoot;
     this.PostRoot = sessionService.PostRoot;
     this.ContentItems = [];
+    this.siteSubscription = Subscription.EMPTY;
+    this.groupIDFilterSubscription = Subscription.EMPTY;
+    this.dateFilterSubscription = Subscription.EMPTY;
+    this.SelectedItem = new ContentItem();
   }
 
   
@@ -60,7 +64,7 @@ export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
       return;
 
     const currentSiteID = this.sessionService.CurrentSite.ID;
-    const blogIndex = this.sessionService.CurrentSite.Menus.find(x => x.MenuName === "BlogIndex");
+    const blogIndex = this.sessionService.CurrentSite?.Menus?.find(x => x.MenuName === "BlogIndex") ?? (() => {throw new Error("BlogIndex was not found.");})();
     const currentMenuID = blogIndex.ID
     const currentGroupID = this.sessionService.CurrentGroupID;
     const currentDateFilter = this.sessionService.CurrentDateFilter;

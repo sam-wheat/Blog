@@ -11,7 +11,7 @@ export class SessionService {
   public CurrentSite: Site;
   public CurrentMenuID: number;
   public CurrentGroupID: number;
-  public CurrentDateFilter: Date;
+  public CurrentDateFilter: Date | null;
   public CurrentSideNavMode: SideNavMode;
    
 
@@ -24,7 +24,7 @@ export class SessionService {
   private menuIDAnnouncedSource = new Subject<number>();
   public menuIDAnnouncedSource$ = this.menuIDAnnouncedSource.asObservable();
 
-  private dateFilterAnnouncedSource = new Subject<Date>();
+  private dateFilterAnnouncedSource = new Subject<Date | null>();
   public dateFilterAnnouncedSource$ = this.dateFilterAnnouncedSource.asObservable();
 
   private sideNavModeAnnouncedSource = new BehaviorSubject<number>(SideNavMode.Site);
@@ -33,9 +33,9 @@ export class SessionService {
   constructor() {
     this.ImageRoot = "/assets/img/";
     this.PostRoot = "/articles/";
-    this.CurrentSite = null;
-    this.CurrentMenuID = 0;
-    this.CurrentGroupID = 0;
+    this.CurrentSite = {} as Site;
+    this.CurrentMenuID = -1;
+    this.CurrentGroupID = -1;
     this.CurrentDateFilter = new Date('01/01/1901');
     this.CurrentSideNavMode = SideNavMode.Site;
   }
@@ -63,7 +63,7 @@ export class SessionService {
     this.groupIDAnnouncedSource.next(menuID);
   }
 
-  AnnounceDateFilter(dateFilter: Date) {
+  AnnounceDateFilter(dateFilter: Date | null) {
 
     if (this.CurrentDateFilter === dateFilter)
       return;
@@ -84,10 +84,10 @@ export class SessionService {
 
   IsInitialized(): boolean {
     let isInitialized =
-      this.CurrentSite !== null &&
-      this.CurrentGroupID !== 0 &&
-      this.CurrentMenuID !== 0 &&
-      ((this.CurrentDateFilter !== null && this.CurrentDateFilter.getFullYear() !== 1901) || this.CurrentDateFilter === null);
+      this.CurrentSite &&
+      this.CurrentGroupID !== -1 &&
+      this.CurrentMenuID !== -1 &&
+      (this.CurrentDateFilter?.getFullYear() !== 1901 ?? true);
 
     return isInitialized;
   }
