@@ -76,7 +76,7 @@ steps:
 # Install dependencies
 
 - script: |
-    npm install npm@8.3.1
+    npm install npm@8.3.1 -g
   displayName: Install specific version of npm
 
 - task: NuGetToolInstaller@1
