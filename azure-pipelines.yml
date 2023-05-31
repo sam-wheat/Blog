@@ -91,6 +91,11 @@ steps:
 
 - script: |
     cd Blog/ClientApp
+    npm --version
+  displayName: 'verify npm version'
+
+- script: |
+    cd Blog/ClientApp
     npm install
   displayName: 'npm install'
      
