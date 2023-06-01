@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, timeout } from 'rxjs';
 import { BlogService } from './../services/blogService';
@@ -12,7 +12,7 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./blog-index.component.css']
 })
 export class BlogIndexComponent implements OnInit, OnDestroy {
-  @ViewChild(DialogComponent) dialogComponent: DialogComponent;
+  @ViewChild(DialogComponent, {static: true}) dialogComponent?: DialogComponent | null;
   siteSubscription: Subscription;
   groupIDFilterSubscription: Subscription;
   dateFilterSubscription: Subscription;
@@ -30,7 +30,6 @@ export class BlogIndexComponent implements OnInit, OnDestroy {
     this.groupIDFilterSubscription = Subscription.EMPTY;
     this.dateFilterSubscription = Subscription.EMPTY;
     this.SelectedItem = new ContentItem();
-    this.dialogComponent = {} as DialogComponent;
   }
 
   ngOnInit(): void {
@@ -71,13 +70,14 @@ export class BlogIndexComponent implements OnInit, OnDestroy {
     const currentDateFilter = this.sessionService.CurrentDateFilter;
     const delay = (ms: number | undefined) => new Promise(res => setTimeout(res, ms));
     this.ContentItems = null;
-    this.dialogComponent.showWaitDialog();
+    
+    this.dialogComponent?.showWaitDialog();
 
     this.blogService.GetContentItems(currentSiteID, currentMenuID, currentGroupID, currentDateFilter)
       .subscribe(async (posts: ContentItem[]) => {
         await delay(500);  // prevent flashing
         this.ContentItems = posts;
-        this.dialogComponent.hideWaitDialog();
+        this.dialogComponent?.hideWaitDialog();
       });
   }
 
