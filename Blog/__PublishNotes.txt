@@ -1,7 +1,9 @@
-﻿Build Configuration and EnvironmentName are both set in the publish profile - The VS configuration manager setting is not used.
+﻿Use Visual Studio to generate .html files from .md.  Open the .md and click Save As in the the .html preview window.
+
+Build Configuration and EnvironmentName are both set in the publish profile - The VS configuration manager setting is not used.
 In .pubxml file, EnvironmentName is manually added and is used in addition to BuildConfiguration.
 
-<EnvironmentName>Stag</EnvironmentName>
+<EnvironmentName>Stage</EnvironmentName>
 <LastUsedBuildConfiguration>Stage</LastUsedBuildConfiguration>
 
 Use VS configuration manager to set the build config.  Check that the correct flag is passed to npm build:

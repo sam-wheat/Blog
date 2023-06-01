@@ -1,3 +1,5 @@
-﻿<article>
-    <p>This article has not yet been published.</p>
+<article>
+
+      This article has not yet been published.
+
 </article>

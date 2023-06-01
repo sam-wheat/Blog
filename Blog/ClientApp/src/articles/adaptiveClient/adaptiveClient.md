@@ -1,4 +1,4 @@
-﻿<article>
+<article>
 
 ```cs
 public partial class MainWindow : Window

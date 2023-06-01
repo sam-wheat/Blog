@@ -1,4 +1,5 @@
 <article>
+
 This post is an update of an <a href="http://stackoverflow.com/questions/11064316/what-is-viewmodel-in-mvc/29135747#29135747" target="_blank">
 answer I posted on Stackoverflow</a>.  
 
