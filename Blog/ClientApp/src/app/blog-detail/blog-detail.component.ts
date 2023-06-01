@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { BlogService } from './../services/blogService';
 import { SessionService } from './../services/sessionService';
-import { ContentItem } from '../model/model';
+import { ContentItem, SideNavMode } from '../model/model';
 import { CommentsComponent } from '../comments/comments.component';
 
 declare var hljs: any;
@@ -41,6 +41,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
+      this.sessionService.AnnounceSideNavMode(SideNavMode.Post);
       let slug = params['slug'];
       this.getContentItem(slug);
     });

@@ -1,5 +1,5 @@
 <main id="main" >
-  <div class="postIndexOuterGrid" *ngIf="IsRendered">
+  <div class="postIndexOuterGrid" *ngIf="ContentItems">
     <div class="postIndexItemsGrid">
       <div class="gridContainer" data-aos="fade-down">
         <a *ngFor="let item of ContentItems" class="postIndexContainer" [class.active]="item === SelectedItem" (click)="onClick(item)" href="#" [routerLink]="['/Post', item.Slug]">
@@ -25,4 +25,5 @@
     </div>
   </div>
 </main>
+<app-dialog></app-dialog>
 

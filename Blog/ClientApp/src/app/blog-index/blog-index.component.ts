@@ -1,33 +1,36 @@
-import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, timeout } from 'rxjs';
 import { BlogService } from './../services/blogService';
 import { SessionService } from './../services/sessionService';
 import { ContentItem, SideNavMode } from '../model/model';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-blog-index',
   templateUrl: './blog-index.component.html',
   styleUrls: ['./blog-index.component.css']
 })
-export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
+export class BlogIndexComponent implements OnInit, OnDestroy {
+  @ViewChild(DialogComponent) dialogComponent: DialogComponent;
   siteSubscription: Subscription;
   groupIDFilterSubscription: Subscription;
   dateFilterSubscription: Subscription;
-  ContentItems: ContentItem[];
+  ContentItems: ContentItem[] | null;
   SelectedItem: ContentItem;
   ImageRoot: string;
   PostRoot: string;
-  public IsRendered: number = 0;
+  
 
   constructor(private router: Router, private blogService: BlogService, private sessionService: SessionService) {
     this.ImageRoot = sessionService.ImageRoot;
     this.PostRoot = sessionService.PostRoot;
-    this.ContentItems = [];
+    this.ContentItems = null;
     this.siteSubscription = Subscription.EMPTY;
     this.groupIDFilterSubscription = Subscription.EMPTY;
     this.dateFilterSubscription = Subscription.EMPTY;
     this.SelectedItem = new ContentItem();
+    this.dialogComponent = {} as DialogComponent;
   }
 
   ngOnInit(): void {
@@ -66,20 +69,21 @@ export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
     const currentMenuID = blogIndex.ID
     const currentGroupID = this.sessionService.CurrentGroupID;
     const currentDateFilter = this.sessionService.CurrentDateFilter;
+    const delay = (ms: number | undefined) => new Promise(res => setTimeout(res, ms));
+    this.ContentItems = null;
+    this.dialogComponent.showWaitDialog();
 
     this.blogService.GetContentItems(currentSiteID, currentMenuID, currentGroupID, currentDateFilter)
-      .subscribe((x: ContentItem[]) => {
-        this.ContentItems = x;
+      .subscribe(async (posts: ContentItem[]) => {
+        await delay(500);  // prevent flashing
+        this.ContentItems = posts;
+        this.dialogComponent.hideWaitDialog();
       });
   }
 
   onClick(item: ContentItem) {
-    this.sessionService.AnnounceSideNavMode(SideNavMode.Post);
+    
     this.SelectedItem = item;
     this.router.navigate(['/post', item.Slug]);
-  }
-
-  ngAfterContentInit() {
-    this.IsRendered = 1;
   }
 }
