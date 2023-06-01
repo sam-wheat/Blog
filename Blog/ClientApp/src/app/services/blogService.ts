@@ -98,7 +98,7 @@ export class BlogService {
     url = url + connector + 'noCache=' + (Math.random().toString().replace('.', ''));
     return url;
   }
-  public DateToString(d: Date): string  | null{
+  public DateToString(d: Date | null): string  | null{
     if (!d)
       return null;
 

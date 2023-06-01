@@ -30,13 +30,10 @@ export class BlogIndexComponent implements OnInit, OnDestroy, AfterContentInit {
     this.SelectedItem = new ContentItem();
   }
 
-  
-
   ngOnInit(): void {
 
     this.sessionService.AnnounceSideNavMode(SideNavMode.PostIndex);
     
-    //this.siteSubscription = this.sessionService.siteAnnounced$.subscribe(x => {
     this.siteSubscription = this.sessionService.siteAnnouncedSource.subscribe(x => {
       this.updateIndex();
     });

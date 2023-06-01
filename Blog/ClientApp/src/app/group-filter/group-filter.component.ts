@@ -50,7 +50,7 @@ export class GroupFilterComponent implements OnInit, OnDestroy {
       if (this.GroupColumn === "GroupID")
         kvp.Key = (this.sessionService.CurrentGroupID + 0 === this.sessionService.CurrentGroupID) ? this.sessionService.CurrentGroupID + '' : "";
       else if (this.GroupColumn === "PubDate")
-        kvp.Key = this.blogService.DateToString(this.sessionService.CurrentDateFilter ?? new Date(1,1,1901)) ?? "";
+        kvp.Key = this.blogService.DateToString(this.sessionService.CurrentDateFilter) ?? "" ;
       else
         throw ("groupFilter.GroupColumn has an unexpected value: " + this.GroupColumn);
     }
@@ -69,12 +69,14 @@ export class GroupFilterComponent implements OnInit, OnDestroy {
       this.sessionService.AnnounceGroupID(item.Key === null ? 0 : +item.Key);
     }
     else if (this.GroupColumn === "PubDate") {
-      newDate = new Date(item.Key);
 
-      if (item.Key === null)
+      if ((!item.Key) || item.Key === '')
         newDate = null;
       else
+      {
+        newDate = new Date(item.Key);
         newDate = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate());
+      }
 
       this.sessionService.AnnounceDateFilter(newDate);
     }
