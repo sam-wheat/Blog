@@ -300,7 +300,7 @@ When you register a service, you register it using both EndPointType and Provide
 
 <div style="max-width:800px;margin:auto;">
 
-![How AdaptiveClient resolves a service from start to finish](https://raw.githubusercontent.com/leaderanalytics/AdaptiveClient/master/LeaderAnalytics.AdaptiveClient/docs/AdaptiveClient2.png)
+![How AdaptiveClient resolves a service from start to finish](https://raw.githubusercontent.com/leaderanalytics/AdaptiveClient/master/docs/AdaptiveClient2.png)
 
 </div>
 
