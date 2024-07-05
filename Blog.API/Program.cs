@@ -129,14 +129,7 @@ public class Program
                     });
             });
 
-            IMemoryCache cache = app.Services.GetService<IMemoryCache>();
-            cache.Set<string>(CacheKeyNames.EmailAccount, appConfig["Data:EmailAccount"]);
-            cache.Set<string>(CacheKeyNames.EmailPassword, appConfig["Data:EmailPassword"]);
-
-            if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailAccount)))
-                throw new Exception("EmailAccount not found in appsettings file.");
-            if (string.IsNullOrEmpty(cache.Get<string>(CacheKeyNames.EmailPassword)))
-                throw new Exception("EmailPassword not found in appsettings file.");
+            
 
             app.Run();
 
