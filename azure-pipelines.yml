@@ -136,6 +136,6 @@ steps:
 
 - script: |
     cd $(Agent.BuildDirectory)
-    cd s/Blog.MigrationFactories/bin/Release/net7.0
+    cd s/Blog.MigrationFactories/bin/Release/net8.0
     Blog.MigrationFactories.exe
   displayName: 'Deploy Database Migrations'
