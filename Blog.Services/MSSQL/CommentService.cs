@@ -1,9 +1,13 @@
-﻿namespace Blog.Services.MSSQL;
+﻿using LeaderAnalytics.Core;
+
+namespace Blog.Services.MSSQL;
 
 public class CommentService : BaseService, ICommentService
-{
-    public CommentService(Db db, IServiceManifest serviceManifest, ICacheCollection cache) : base(db, serviceManifest, cache)
+{   private IEMailClient emailClient;
+
+    public CommentService(Db db, IServiceManifest serviceManifest, ICacheCollection cache, IEMailClient emailClient) : base(db, serviceManifest, cache)
     {
+        this.emailClient = emailClient;
     }
 
     public async Task<List<Comment>> GetCommentsForContentItem(int contentItemID)
@@ -42,7 +46,7 @@ public class CommentService : BaseService, ICommentService
             msg.To.Add(to[i]);
 
         msg.From = new MailAddress("sam.wheat@outlook.com");
-        msg.Subject = "A comment was posted on your website";
+        msg.Subject = "A comment was posted on your website SamWheat.com";
 
         if (contentMappingID > 0)
             msg.Subject += (" on page " + db.ContentItems.Where(x => x.ID == contentMappingID).Single().Title);
@@ -53,12 +57,7 @@ public class CommentService : BaseService, ICommentService
 
         try
         {
-            SmtpClient Client;
-            Client = new SmtpClient("smtp-mail.outlook.com");
-            Client.Port = 587;  // this causes smtp permission error on winhost 
-            Client.EnableSsl = true;
-            Client.Credentials = new System.Net.NetworkCredential(emailAccount, emailPassword);
-            Client.Send(msg);
+            emailClient.Send(msg);   
             Log.Information("Email message from {from} was sent successfully.", from);
         }
         catch (Exception ex)

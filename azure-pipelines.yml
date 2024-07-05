@@ -37,10 +37,10 @@ steps:
 # Build and deploy API        
 
 - task: UseDotNet@2
-  displayName: 'Use dotnet 7'
+  displayName: 'Use dotnet 8'
   inputs:
     packageType: 'sdk'
-    version: '7.x'
+    version: '8.x'
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Restore NuGet packages'
@@ -49,6 +49,17 @@ steps:
     feedsToUse: 'select'
     vstsFeed: 'LeaderAnalyticsFeed'
     includeNuGetOrg: true
+
+- task: DownloadSecureFile@1
+  name: appsettingsProd
+  displayName: 'Get appsettings.Production.json from Secure File storage'
+  inputs:
+    secureFile: 'appsettings.Production.json'
+
+- powershell: |
+    Copy-Item  $(appsettingsProd.secureFilePath) -Destination  $(Build.SourcesDirectory)/Blog.API
+  displayName: Copy appsettings.Production.json from temp to source folder
+
  
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'

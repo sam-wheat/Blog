@@ -1,31 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>  
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
 	<RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <UserSecretsId>6cb2cbef-1eb5-4450-9338-8f4b029a6b29</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="..\Blog.Core\appsettings.production.json" Link="appsettings.production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Blog.Core\endpoints.production.json" Link="endpoints.production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
  
   <ItemGroup>
     <PackageReference Include="LeaderAnalytics.Caching" Version="4.0.27" />
-    <PackageReference Include="LeaderAnalytics.Core" Version="3.1.87" />
+    <PackageReference Include="LeaderAnalytics.Core" Version="4.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
-    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="Autofac" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.5" />

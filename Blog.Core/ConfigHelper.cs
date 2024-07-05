@@ -2,8 +2,7 @@
 
 public static class ConfigHelper
 {
-    public const string ConfigFileFolder = "C:\\Users\\sam\\AppData\\Roaming\\Blog";
-
+    public const string ConfigFileFolder = "C:\\Users\\sam\\OneDrive\\LeaderAnalytics\\Config\\SamWheat.Blog";
 
     public async static Task<IConfigurationRoot> BuildConfig(EnvironmentName envName)
     {
@@ -19,9 +18,12 @@ public static class ConfigHelper
         var cfg = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json", optional: true)
                     .AddJsonFile(Path.Combine(configFilePath, $"appsettings.{envName}.json"), optional: false)
-                    .AddJsonFile(Path.Combine(configFilePath, $"endpoints.{envName}.json"), optional: false)
                     .AddEnvironmentVariables().Build();
-
+        /*
+          
+        This is no longer necessary because appsettings.production.json has been moved to secure storage.
+        Retained here for documentation purposes only.
+        
         if (envName == LeaderAnalytics.Core.EnvironmentName.production)
         {
             var client = new SecretClient(new Uri("https://leaderanalyticsvault.vault.azure.net/"), new DefaultAzureCredential());
@@ -33,7 +35,7 @@ public static class ConfigHelper
             cfg["Data:EmailPassword"] = cfg["Data:EmailPassword"].Replace("{EmailPassword}", emailPasswordTask.Result.Value.Value);
             cfg["EndPoints:0:ConnectionString"] = cfg["EndPoints:0:ConnectionString"].Replace("{BlogDBPassword}", blogDBPasswordTask.Result.Value.Value);
         }
-
+        */
         return cfg;
     }
 }

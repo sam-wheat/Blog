@@ -3,6 +3,7 @@ using Blog.Domain;
 using Autofac;
 using LeaderAnalytics.AdaptiveClient;
 using LeaderAnalytics.AdaptiveClient.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Blog.IntegrationTests;
 
@@ -16,16 +17,17 @@ public class BaseTest
 
     public BaseTest()
     {
-        BuildContainer();
+        BuildContainer().Wait();
     }
 
-    protected void BuildContainer()
+    protected async Task BuildContainer()
     {
-        EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(ConfigHelper.ConfigFileFolder, "EndPoints.development.json"));
+        IConfiguration appConfig = await ConfigHelper.BuildConfig(LeaderAnalytics.Core.EnvironmentName.development);
+        EndPoints = EndPointUtilities.LoadEndPoints(Path.Combine(ConfigHelper.ConfigFileFolder, "appsettings.development.json"));
         var builder = new ContainerBuilder();
         builder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
         builder.RegisterModule(new Blog.Services.AutofacModule());
-        builder.RegisterModule(new Blog.Core.AutofacModule());
+        builder.RegisterModule(new Blog.Core.AutofacModule(appConfig));
         RegistrationHelper registrationHelper = new RegistrationHelper(builder);
 
         registrationHelper

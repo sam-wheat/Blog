@@ -24,9 +24,9 @@ public static class ConnectionstringUtility
     {
         ConfigurationBuilder configBuilder = new ConfigurationBuilder();
         if (env == Environment.Dev)
-            configBuilder.AddJsonFile("C:\\Users\\sam\\AppData\\Roaming\\Blog\\appsettings.Development.json");
+            configBuilder.AddJsonFile(Path.Combine(ConfigHelper.ConfigFileFolder, "appsettings.Development.json"));
         else if (env == Environment.Prod)
-            configBuilder.AddJsonFile("C:\\Users\\sam\\AppData\\Roaming\\Blog\\appsettings.Production.json");
+            configBuilder.AddJsonFile(Path.Combine(ConfigHelper.ConfigFileFolder, "appsettings.Production.json"));
         else
             throw new Exception($"Environment not recognized: {env}.");
 

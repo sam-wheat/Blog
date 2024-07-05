@@ -3,6 +3,7 @@
 public abstract class BaseDbClient
 {
     protected IContainer container { get; private set; }
+    protected IConfiguration appConfig { get; private set; }
     //protected IServiceClient ServiceClient { get; private set; }
 
     public BaseDbClient(string env)
@@ -10,15 +11,16 @@ public abstract class BaseDbClient
         if (env != "development" && env != "prod")
             throw new Exception("environment variable must be \"prod\" or \"development\".");
 
-        BuildContainer();
         CreateServiceClient(env);
+        BuildContainer();
+     
     }
 
     protected void BuildContainer()
     {
         ContainerBuilder builder = new ContainerBuilder();
         builder.RegisterModule(new Blog.Services.AutofacModule());
-        builder.RegisterModule(new Blog.Core.AutofacModule());
+        builder.RegisterModule(new Blog.Core.AutofacModule(appConfig));
         container = builder.Build();
     }
 
@@ -28,9 +30,9 @@ public abstract class BaseDbClient
         IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings." + env + ".json");
-        var config = builder.Build();
+        appConfig = builder.Build();
 
-        conn.ConnectionString = config["Data:ConnectionString"];
+        conn.ConnectionString = appConfig["Data:ConnectionString"];
         //ServiceClient = container.Resolve<IServiceClient>();
     }
 }

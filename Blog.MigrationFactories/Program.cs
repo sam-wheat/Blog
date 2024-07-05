@@ -63,7 +63,7 @@ public class Program
             {
                 containerBuilder.RegisterModule(new LeaderAnalytics.AdaptiveClient.EntityFrameworkCore.AutofacModule());
                 containerBuilder.RegisterModule(new Blog.Services.AutofacModule());
-                containerBuilder.RegisterModule(new Blog.Core.AutofacModule());
+                containerBuilder.RegisterModule(new Blog.Core.AutofacModule(appConfig));
                 containerBuilder.RegisterType<MemoryCache>().As<IMemoryCache>().SingleInstance();
                 RegistrationHelper registrationHelper = new RegistrationHelper(containerBuilder);
                 EndPoints = appConfig.GetSection("EndPoints").Get<IEnumerable<EndPointConfiguration>>();
