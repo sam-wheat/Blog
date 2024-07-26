@@ -21,6 +21,12 @@
 				"isDefault": true
 			},
 			"label": "gulp: default"
+		},
+		{
+			"type": "gulp",
+			"task": "markdown",
+			"problemMatcher": [],
+			"label": "gulp: markdown"
 		}
 	]
   }

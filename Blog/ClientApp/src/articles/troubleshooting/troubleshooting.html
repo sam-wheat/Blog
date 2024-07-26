@@ -1,84 +1,54 @@
-<!DOCTYPE html>
-<!-- saved from url=(0011)about:blank -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta charset="" utf-8""="">
-    <!--<base href="http://browsing-file-host/">--><base href=".">
-    <style>
-        :root { --vs-scrollbar: #e8e8ec; --vs-scrollbar-thumb: #c2c3c9; --vs-scrollbar-hover: #686868;}
-        html, body {margin: 6px; padding-bottom:10px}
-        /* From https://github.com/sindresorhus/github-markdown-css */
-
-.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;margin:0;color:#24292f;background-color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.markdown-body h1:hover .anchor .octicon-link:before,.markdown-body h2:hover .anchor .octicon-link:before,.markdown-body h3:hover .anchor .octicon-link:before,.markdown-body h4:hover .anchor .octicon-link:before,.markdown-body h5:hover .anchor .octicon-link:before,.markdown-body h6:hover .anchor .octicon-link:before{width:16px;height:16px;content:' ';display:inline-block;background-color:currentColor;-webkit-mask-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>");mask-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' version='1.1' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>")}.markdown-body details,.markdown-body figcaption,.markdown-body figure{display:block}.markdown-body summary{display:list-item}.markdown-body [hidden]{display:none !important}
-.markdown-body a{background-color:transparent;color:#0969da;text-decoration:none}.markdown-body a:active,.markdown-body a:hover{outline-width:0}.markdown-body abbr[title]{border-bottom:none;text-decoration:underline dotted}.markdown-body b,.markdown-body strong{font-weight:600}.markdown-body dfn{font-style:italic}.markdown-body h1{margin:.67em 0;font-weight:600;padding-bottom:.3em;font-size:2em;border-bottom:1px solid hsla(210,18%,87%,1)}.markdown-body mark{background-color:#fff8c5;color:#24292f}.markdown-body small{font-size:90%}.markdown-body sub,.markdown-body sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}.markdown-body sub{bottom:-.25em}.markdown-body sup{top:-.5em}.markdown-body img{border-style:none;max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body code,.markdown-body kbd,.markdown-body pre,.markdown-body samp{font-family:monospace,monospace;font-size:1em}.markdown-body figure{margin:1em 40px}.markdown-body hr{box-sizing:content-box;overflow:hidden;background:0 0;border-bottom:1px solid hsla(210,18%,87%,1);height:.25em;padding:0;margin:24px 0;background-color:#d0d7de;border:0}
-.markdown-body input{font:inherit;margin:0;overflow:visible;font-family:inherit;font-size:inherit;line-height:inherit}.markdown-body [type=button],.markdown-body [type=reset],.markdown-body [type=submit]{-webkit-appearance:button}.markdown-body [type=button]::-moz-focus-inner,.markdown-body [type=reset]::-moz-focus-inner,.markdown-body [type=submit]::-moz-focus-inner{border-style:none;padding:0}.markdown-body [type=button]:-moz-focusring,.markdown-body [type=reset]:-moz-focusring,.markdown-body [type=submit]:-moz-focusring{outline:1px dotted ButtonText}.markdown-body [type=checkbox],.markdown-body [type=radio]{box-sizing:border-box;padding:0}.markdown-body [type=number]::-webkit-inner-spin-button,.markdown-body [type=number]::-webkit-outer-spin-button{height:auto}.markdown-body [type=search]{-webkit-appearance:textfield;outline-offset:-2px}.markdown-body [type=search]::-webkit-search-cancel-button,.markdown-body [type=search]::-webkit-search-decoration{-webkit-appearance:none}.markdown-body ::-webkit-input-placeholder{color:inherit;opacity:.54}
-.markdown-body ::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}.markdown-body a:hover{text-decoration:underline}.markdown-body hr:before{display:table;content:""}.markdown-body hr:after{display:table;clear:both;content:""}.markdown-body table{border-spacing:0;border-collapse:collapse;display:block;width:max-content;max-width:100%;overflow:auto}.markdown-body td,.markdown-body th{padding:0}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>*:not(summary){display:none !important}.markdown-body kbd{display:inline-block;padding:3px 5px;font:11px ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;line-height:10px;color:#24292f;vertical-align:middle;background-color:#f6f8fa;border:solid 1px rgba(175,184,193,.2);border-bottom-color:rgba(175,184,193,.2);border-radius:6px;box-shadow:inset 0 -1px 0 rgba(175,184,193,.2)}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}
-.markdown-body h2{font-weight:600;padding-bottom:.3em;font-size:1.5em;border-bottom:1px solid hsla(210,18%,87%,1)}.markdown-body h3{font-weight:600;font-size:1.25em}.markdown-body h4{font-weight:600;font-size:1em}.markdown-body h5{font-weight:600;font-size:.875em}.markdown-body h6{font-weight:600;font-size:.85em;color:#57606a}.markdown-body p{margin-top:0;margin-bottom:10px}.markdown-body blockquote{margin:0;padding:0 1em;color:#57606a;border-left:.25em solid #d0d7de}.markdown-body ul {list-style:disc}.markdown-body ul,.markdown-body ol{margin-top:0;margin-bottom:0;padding-left:2em}.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.markdown-body ul ul ol,.markdown-body ul ol ol,.markdown-body ol ul ol,.markdown-body ol ol ol{list-style-type:lower-alpha}.markdown-body dd{margin-left:0}.markdown-body tt,.markdown-body code{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:12px}.markdown-body pre{margin-top:0;margin-bottom:0;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:12px;word-wrap:normal}
-.markdown-body .octicon{display:inline-block;overflow:visible !important;vertical-align:text-bottom;fill:currentColor}.markdown-body ::placeholder{color:#6e7781;opacity:1}.markdown-body input::-webkit-outer-spin-button,.markdown-body input::-webkit-inner-spin-button{margin:0;-webkit-appearance:none;appearance:none}.markdown-body .pl-c{color:#6e7781}.markdown-body .pl-c1,.markdown-body .pl-s .pl-v{color:#0550ae}.markdown-body .pl-e,.markdown-body .pl-en{color:#8250df}.markdown-body .pl-smi,.markdown-body .pl-s .pl-s1{color:#24292f}.markdown-body .pl-ent{color:#116329}.markdown-body .pl-k{color:#cf222e}.markdown-body .pl-s,.markdown-body .pl-pds,.markdown-body .pl-s .pl-pse .pl-s1,.markdown-body .pl-sr,.markdown-body .pl-sr .pl-cce,.markdown-body .pl-sr .pl-sre,.markdown-body .pl-sr .pl-sra{color:#0a3069}.markdown-body .pl-v,.markdown-body .pl-smw{color:#953800}.markdown-body .pl-bu{color:#82071e}.markdown-body .pl-ii{color:#f6f8fa;background-color:#82071e}.markdown-body .pl-c2{color:#f6f8fa;background-color:#cf222e}
-.markdown-body .pl-sr .pl-cce{font-weight:700;color:#116329}.markdown-body .pl-ml{color:#3b2300}.markdown-body .pl-mh,.markdown-body .pl-mh .pl-en,.markdown-body .pl-ms{font-weight:700;color:#0550ae}.markdown-body .pl-mi{font-style:italic;color:#24292f}.markdown-body .pl-mb{font-weight:700;color:#24292f}.markdown-body .pl-md{color:#82071e;background-color:#ffebe9}.markdown-body .pl-mi1{color:#116329;background-color:#dafbe1}.markdown-body .pl-mc{color:#953800;background-color:#ffd8b5}.markdown-body .pl-mi2{color:#eaeef2;background-color:#0550ae}.markdown-body .pl-mdr{font-weight:700;color:#8250df}.markdown-body .pl-ba{color:#57606a}.markdown-body .pl-sg{color:#8c959f}.markdown-body .pl-corl{text-decoration:underline;color:#0a3069}.markdown-body [data-catalyst]{display:block}.markdown-body g-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:1em;font-style:normal !important;font-weight:400;line-height:1;vertical-align:-.075em}.markdown-body g-emoji img{width:1em;height:1em}
-.markdown-body:before{display:table;content:""}.markdown-body:after{display:table;clear:both;content:""}.markdown-body>*:first-child{margin-top:0 !important}.markdown-body>*:last-child{margin-bottom:0 !important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#cf222e}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body p,.markdown-body blockquote,.markdown-body ul,.markdown-body ol,.markdown-body dl,.markdown-body table,.markdown-body pre,.markdown-body details{margin-top:0;margin-bottom:16px}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body sup>a:before{content:"["}.markdown-body sup>a:after{content:"]"}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#24292f;vertical-align:middle;visibility:hidden}
-.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 tt,.markdown-body h1 code,.markdown-body h2 tt,.markdown-body h2 code,.markdown-body h3 tt,.markdown-body h3 code,.markdown-body h4 tt,.markdown-body h4 code,.markdown-body h5 tt,.markdown-body h5 code,.markdown-body h6 tt,.markdown-body h6 code{padding:0 .2em;font-size:inherit}.markdown-body ul.no-list,.markdown-body ol.no-list{padding:0;list-style-type:none}.markdown-body ol[type="1"]{list-style-type:decimal}.markdown-body ol[type=a]{list-style-type:lower-alpha}
-.markdown-body ol[type=i]{list-style-type:lower-roman}.markdown-body div>ol:not([type]){list-style-type:decimal}.markdown-body ul ul,.markdown-body ul ol,.markdown-body ol ol,.markdown-body ol ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table th{font-weight:600}.markdown-body table th,.markdown-body table td{padding:6px 13px;border:1px solid #d0d7de}.markdown-body table tr{background-color:#fff;border-top:1px solid hsla(210,18%,87%,1)}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body table img{background-color:transparent}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}
-.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #d0d7de}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#24292f}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}
-.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:.2em .4em;margin:0;font-size:85%;background-color:rgba(175,184,193,.2);border-radius:6px}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre code{font-size:100%}.markdown-body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:6px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}
-.markdown-body .csv-data .blob-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:600;background:#f6f8fa;border-top:0}.markdown-body .footnotes{font-size:12px;color:#57606a;border-top:1px solid #d0d7de}.markdown-body .footnotes ol{padding-left:16px}.markdown-body .footnotes li{position:relative}.markdown-body .footnotes li:target:before{position:absolute;top:-8px;right:-8px;bottom:-8px;left:-24px;pointer-events:none;content:"";border:2px solid #0969da;border-radius:6px}.markdown-body .footnotes li:target{color:#24292f}.markdown-body .footnotes .data-footnote-backref g-emoji{font-family:monospace}.markdown-body .task-list-item{list-style-type:none}.markdown-body .task-list-item label{font-weight:400}.markdown-body .task-list-item.enabled label{cursor:pointer}.markdown-body .task-list-item+.task-list-item{margin-top:3px}.markdown-body .task-list-item .handle{display:none}.markdown-body .task-list-item-checkbox{margin:0 .2em .25em -1.6em;vertical-align:middle}
-.markdown-body .contains-task-list:dir(rtl) .task-list-item-checkbox{margin:0 -1.6em .25em .2em}.markdown-body ::-webkit-calendar-picker-indicator{filter:invert(50%)}
-    </style>
-    <title>Markdown Preview</title>
-    <meta http-equiv="cache-control" content="no-cache">
-</head>
-<body>
-    <div id="___markdown-content___" class="markdown-body"><article>
-<p id="pragma-line-2">Those who have played the game DOOM will recognize the BFG9000 as an enormous weapon that delivers a highly destructive round.  In the war on software defects there is no single analogy for the BFG9000.  There are, however, a variety of "big gun" techniques for dispatching bugs and defects.  Almost all of these techniques center around identifying and fixing high-value issues.  Fixing a high-value issue can have a beneficial impact as a result of the fix itself, or, as is often the case, it will bring to light other deficiencies that exist as a result of the high-value cause.  In either case, fixing a high-value issue can deliver a massively beneficial result - often with relatively little effort or risk.</p>
-<h2 id="go-big-and-get-lucky"><a id="pragma-line-4"></a>Go big and get lucky</h2>
-<p id="pragma-line-6">From a purely statistical standpoint, hunting down high-value issues puts the odds on your side.  The <a href="https://www.investopedia.com/terms/p/paretoprinciple.asp">Pareto Principle</a> states that eighty percent of consequences come from twenty percent of causes.  Pareto's principal is highly applicable in the domain of troubleshooting software defects.  This is good news for most software developers because it means that for a given application, correcting a few critical deficiencies will result in a cascade of beneficial results.</p>
-<h2 id="where-to-find-trouble"><a id="pragma-line-8"></a>Where to find trouble</h2>
-<p id="pragma-line-10">Not every application is a target for big gun troubleshooting.  Prime candidates tend to have these characteristics:</p>
-<ul id="pragma-line-12">
-<li id="pragma-line-12">Large code base, lots of business logic</li>
-<li id="pragma-line-13">Multiple integrated platforms such as order management, CRM, accounting, etc.</li>
-<li id="pragma-line-14">Many domain entities</li>
-<li id="pragma-line-15">Many ETL processes.</li>
-<li id="pragma-line-16">Large number of reports.</li>
-<li id="pragma-line-17">Older application, subject of numerous and/or ongoing improvements.</li>
+<article>
+<p>Those who have played the game DOOM will recognize the BFG9000 as an enormous weapon that delivers a highly destructive round.  In the war on software defects there is no single analogy for the BFG9000.  There are, however, a variety of &quot;big gun&quot; techniques for dispatching bugs and defects.  Almost all of these techniques center around identifying and fixing high-value issues.  Fixing a high-value issue can have a beneficial impact as a result of the fix itself, or, as is often the case, it will bring to light other deficiencies that exist as a result of the high-value cause.  In either case, fixing a high-value issue can deliver a massively beneficial result - often with relatively little effort or risk.</p>
+<h2>Go big and get lucky</h2>
+<p>From a purely statistical standpoint, hunting down high-value issues puts the odds on your side.  The <a href="https://www.investopedia.com/terms/p/paretoprinciple.asp">Pareto Principle</a> states that eighty percent of consequences come from twenty percent of causes.  Pareto's principal is highly applicable in the domain of troubleshooting software defects.  This is good news for most software developers because it means that for a given application, correcting a few critical deficiencies will result in a cascade of beneficial results.</p>
+<h2>Where to find trouble</h2>
+<p>Not every application is a target for big gun troubleshooting.  Prime candidates tend to have these characteristics:</p>
+<ul>
+<li>Large code base, lots of business logic</li>
+<li>Multiple integrated platforms such as order management, CRM, accounting, etc.</li>
+<li>Many domain entities</li>
+<li>Many ETL processes.</li>
+<li>Large number of reports.</li>
+<li>Older application, subject of numerous and/or ongoing improvements.</li>
 </ul>
-<p id="pragma-line-19">Symptoms the application is distressed include:</p>
-<ul id="pragma-line-21">
-<li id="pragma-line-21">Slow execution</li>
-<li id="pragma-line-22">Incorrect data</li>
-<li id="pragma-line-23">Numerous exceptions</li>
-<li id="pragma-line-24">Unusually complex or verbose code</li>
-<li id="pragma-line-25">Fragile code i.e. implementing minor changes causes breakage elsewhere in the application.</li>
-<li id="pragma-line-26">Difficult to work on - small improvements are often blocked by deficiencies in code that is only remotely related.</li>
+<p>Symptoms the application is distressed include:</p>
+<ul>
+<li>Slow execution</li>
+<li>Incorrect data</li>
+<li>Numerous exceptions</li>
+<li>Unusually complex or verbose code</li>
+<li>Fragile code i.e. implementing minor changes causes breakage elsewhere in the application.</li>
+<li>Difficult to work on - small improvements are often blocked by deficiencies in code that is only remotely related.</li>
 </ul>
-<p id="pragma-line-28">As a contractor or new employee you may be tasked with stabilizing an application with the characteristics and symptoms described above.  It is possible you will have not have a good understanding of the business domain and certainly you will not have a full understanding of the more complex business logic.  You will probably be asking yourself "How do I solve this problem?  Where do I begin?"</p>
-<p id="pragma-line-30">If you walk around the company and talk to the developers who wrote the code you might hear some of them say things like "We need to implement SOLID design principals."  Others might say "We should create Microservices."  You might also hear "We need to write testable code and unit tests."  All of these suggestions will most likely be true to some to extent.  However, all of these objectives are a step removed from your immediate goal which is to stabilize the code base and ensure the application is usable for the company's daily needs.  To get to the heart of the matter you need to first target two primary enemies: <em>Garbage data and redundant code</em>.  The reasons for this are twofold:</p>
-<p id="pragma-line-32">The first reason is that these types of deficiencies are often root causes and/or pointers to where further attention should be directed.</p>
-<p id="pragma-line-34">The second reason has to do with practicality.  Using the methods described below you can spot high-value targets with little or no domain knowledge and no special tools.  If you know how to use "Find All" in your text editor you are good to go.</p>
-<h2 id="know-your-enemy"><a id="pragma-line-36"></a>Know your enemy</h2>
-<h4 id="garbage-in-garbage-out"><a id="pragma-line-38"></a>Garbage in, garbage out</h4>
-<p id="pragma-line-40">Garbage in, garbage out (GIGO) is one of the oldest axioms in computing.  By preventing garbage data from ever entering your database you can avoid validating it and cleansing it again and again throughout application layers.</p>
-<p id="pragma-line-42">Sources of garbage data include:</p>
-<ul id="pragma-line-44">
-<li id="pragma-line-44">Improper database schema - wrongly nullable fields, wrongly typed fields, missing PK's, FK's, and unique constraints.</li>
-<li id="pragma-line-45">Duplicate data.</li>
-<li id="pragma-line-46">Multiple entry points for data.</li>
-<li id="pragma-line-47">Swallowing exceptions.</li>
-<li id="pragma-line-48">Missing or conflicting validation rules.</li>
-<li id="pragma-line-49">Not programming defensively - making assumptions on behalf of the user, open ended if and case statements.</li>
+<p>As a contractor or new employee you may be tasked with stabilizing an application with the characteristics and symptoms described above.  It is possible you will have not have a good understanding of the business domain and certainly you will not have a full understanding of the more complex business logic.  You will probably be asking yourself &quot;How do I solve this problem?  Where do I begin?&quot;</p>
+<p>If you walk around the company and talk to the developers who wrote the code you might hear some of them say things like &quot;We need to implement SOLID design principals.&quot;  Others might say &quot;We should create Microservices.&quot;  You might also hear &quot;We need to write testable code and unit tests.&quot;  All of these suggestions will most likely be true to some to extent.  However, all of these objectives are a step removed from your immediate goal which is to stabilize the code base and ensure the application is usable for the company's daily needs.  To get to the heart of the matter you need to first target two primary enemies: <em>Garbage data and redundant code</em>.  The reasons for this are twofold:</p>
+<p>The first reason is that these types of deficiencies are often root causes and/or pointers to where further attention should be directed.</p>
+<p>The second reason has to do with practicality.  Using the methods described below you can spot high-value targets with little or no domain knowledge and no special tools.  If you know how to use &quot;Find All&quot; in your text editor you are good to go.</p>
+<h2>Know your enemy</h2>
+<h4>Garbage in, garbage out</h4>
+<p>Garbage in, garbage out (GIGO) is one of the oldest axioms in computing.  By preventing garbage data from ever entering your database you can avoid validating it and cleansing it again and again throughout application layers.</p>
+<p>Sources of garbage data include:</p>
+<ul>
+<li>Improper database schema - wrongly nullable fields, wrongly typed fields, missing PK's, FK's, and unique constraints.</li>
+<li>Duplicate data.</li>
+<li>Multiple entry points for data.</li>
+<li>Swallowing exceptions.</li>
+<li>Missing or conflicting validation rules.</li>
+<li>Not programming defensively - making assumptions on behalf of the user, open ended if and case statements.</li>
 </ul>
-<h4 id="dont-repeat-yourself"><a id="pragma-line-51"></a>Don't repeat yourself</h4>
-<p id="pragma-line-53">Don't Repeat Yourself (DRY) is the mother of all architectural principals. DRY literally means that every responsibility within your system is represented exactly once.</p>
-<p id="pragma-line-55">Redundant code is caused by copy/pasting code or writing it twice.  Primary drivers of DRY violations are failing to factor code correctly and failing to place code in the correct application layer.  Redundant code is often found in:</p>
-<ul id="pragma-line-56">
-<li id="pragma-line-56">Controllers</li>
-<li id="pragma-line-57">WCF .svc files</li>
-<li id="pragma-line-58">Stored procedures</li>
-<li id="pragma-line-59">Report definition files</li>
+<h4>Don't repeat yourself</h4>
+<p>Don't Repeat Yourself (DRY) is the mother of all architectural principals. DRY literally means that every responsibility within your system is represented exactly once.</p>
+<p>Redundant code is caused by copy/pasting code or writing it twice.  Primary drivers of DRY violations are failing to factor code correctly and failing to place code in the correct application layer.  Redundant code is often found in:</p>
+<ul>
+<li>Controllers</li>
+<li>WCF .svc files</li>
+<li>Stored procedures</li>
+<li>Report definition files</li>
 </ul>
-<p id="pragma-line-61">These days it is common to code for style points rather than practicality or usefulness.  Whoever can cite a cool acronym or architectural fad in support of their code will win favor from the group.  Unfortunately, the glitter has long ago faded for DRY. It receives little attention in the headlines yet it remains the single most important driver of application design.  Some developers may be surprised to learn that building an enterprise application with no regard for DRY is a difficult if not impossible task, whereas building an enterprise application with no regard for SOLID is far more achievable.  Repeated DRY violations will quickly cause an application to begin to work against itself.  The size of the code base will grow exponentially as the application grows and it will soon become impossible to scale.  SOLID violations, while by no means desirable or benign, are not nearly as destructive.  In fact there are thousands of applications in use today that were written long before SOLID was popularized.</p>
-<p id="pragma-line-63">The above paragraph is meant only to underscore the importance of DRY - not to compare DRY versus SOLID.  Such a comparison is not a valid concept at all.  DRY and SOLID are distinct yet complimentary principals.  Writing SOLID code does not in any way guarantee that the code is also DRY and vice versa.  To make a naively simple example say we have the following class:</p>
-<pre><code id="pragma-line-65" class="language-csharp">public class DRY_but_not_SOLID
+<p>These days it is common to code for style points rather than practicality or usefulness.  Whoever can cite a cool acronym or architectural fad in support of their code will win favor from the group.  Unfortunately, the glitter has long ago faded for DRY. It receives little attention in the headlines yet it remains the single most important driver of application design.  Some developers may be surprised to learn that building an enterprise application with no regard for DRY is a difficult if not impossible task, whereas building an enterprise application with no regard for SOLID is far more achievable.  Repeated DRY violations will quickly cause an application to begin to work against itself.  The size of the code base will grow exponentially as the application grows and it will soon become impossible to scale.  SOLID violations, while by no means desirable or benign, are not nearly as destructive.  In fact there are thousands of applications in use today that were written long before SOLID was popularized.</p>
+<p>The above paragraph is meant only to underscore the importance of DRY - not to compare DRY versus SOLID.  Such a comparison is not a valid concept at all.  DRY and SOLID are distinct yet complimentary principals.  Writing SOLID code does not in any way guarantee that the code is also DRY and vice versa.  To make a naively simple example say we have the following class:</p>
+<pre><code class="language-csharp">public class DRY_but_not_SOLID
 {
   public void ResponsibilityA()
   {
@@ -92,8 +62,8 @@
   }
 }
 </code></pre>
-<p id="pragma-line-80">The above code violates the Single Responsibility Principle however it is DRY as long as it is represented only once within a system.  Eventually the developer may need code that performs ResponsibilityA only.  If the developer creates a copy of the above class than a DRY violation occurs even if the code is modified to be SOLID compliant:</p>
-<pre><code id="pragma-line-82" class="language-csharp">public class SOLID_but_not_DRY
+<p>The above code violates the Single Responsibility Principle however it is DRY as long as it is represented only once within a system.  Eventually the developer may need code that performs ResponsibilityA only.  If the developer creates a copy of the above class than a DRY violation occurs even if the code is modified to be SOLID compliant:</p>
+<pre><code class="language-csharp">public class SOLID_but_not_DRY
 {
   public void ResponsibilityA()
   {
@@ -101,19 +71,19 @@
   }
 }
 </code></pre>
-<h2 id="check-your-database-schema"><a id="pragma-line-93"></a>Check your database schema</h2>
-<p id="pragma-line-95">Your first mission is to analyze your database schema - not from the perspective of a DBA, but as a user of the application.  You have a single objective: to verify the schema implements every possible safeguard to ensure data is always in a valid state.</p>
+<h2>Check your database schema</h2>
+<p>Your first mission is to analyze your database schema - not from the perspective of a DBA, but as a user of the application.  You have a single objective: to verify the schema implements every possible safeguard to ensure data is always in a valid state.</p>
 <div style="background-color:lightblue;padding:12px;margin:10px;">
 Tip: If your database platform is Microsoft SQL Server, you can generate a script of your database.  In SSMS, right click on the database and click Tasks, than click Generate Scripts.  Choose all database objects and save the script to a single file.  You can use this file in several of the exercises in this section.  
 </div>
-<h4 id="check-for-invalid-data-types-primary-keys-foreign-keys-and-unique-constraints"><a id="pragma-line-103"></a>Check for invalid data types, primary keys, foreign keys, and unique constraints</h4>
-<p id="pragma-line-105">This may seem obvious but you should be using primary keys and foreign keys correctly.  If your primary key does not capture the unique characteristics of a row consider using a unique constraint.  Scan each column in each table and make sure the data type is correct.  The constraint checks done by your DBMS are a powerful weapon against a wide variety bugs.  Keep your DBMS working for you to the greatest extent possible at all times.</p>
-<h4 id="check-for-improperly-nullable-columns"><a id="pragma-line-107"></a>Check for improperly nullable columns</h4>
-<p id="pragma-line-108">This is one of the most important exorcises you can undertake to repair a broken or poorly maintained schema.  If your application suffers from data integrity problems you should plan to spend some time here.  The goal is to check each column that allows a null value and determine if the column should actually be nullable.</p>
-<p id="pragma-line-110">Nullable columns should be avoided if at all possible.  One of the problems with nullable columns is that they bypass required value checking done by the DBMS.  As mentioned previously you want to keep the DBMS working for you at all times.  With that said, there is nothing inherently wrong with nullable columns - certain data elements are not always mandatory and thats just the way it is.</p>
-<p id="pragma-line-112">If you find a nullable column in your database, check to see if the column is used in the WHERE, GROUP BY, or ORDER BY clause of any query.  If it is, that is a good sign that the column should not be nullable.  If you are casting the value to a non-nullable type in your code that is another sign the column should not be nullable.</p>
-<p id="pragma-line-114">When you check nullable columns on your database you get some very valuable information as a free byproduct of your analysis.  While this information may not be directly tied to the validity of your data you should take notes for future work you may want to do.  If you conclude a column MUST be nullable you should look carefully at the reasoning behind your conclusion as it may be a sign that you can better normalize or restructure your database.  This is best explained with an example.  Suppose you have a table called ORDERS that has a schema that looks like this:</p>
-<pre><code id="pragma-line-116" class="language-sql">[ID] [int] IDENTITY(1,1) NOT NULL,
+<h4>Check for invalid data types, primary keys, foreign keys, and unique constraints</h4>
+<p>This may seem obvious but you should be using primary keys and foreign keys correctly.  If your primary key does not capture the unique characteristics of a row consider using a unique constraint.  Scan each column in each table and make sure the data type is correct.  The constraint checks done by your DBMS are a powerful weapon against a wide variety bugs.  Keep your DBMS working for you to the greatest extent possible at all times.</p>
+<h4>Check for improperly nullable columns</h4>
+<p>This is one of the most important exorcises you can undertake to repair a broken or poorly maintained schema.  If your application suffers from data integrity problems you should plan to spend some time here.  The goal is to check each column that allows a null value and determine if the column should actually be nullable.</p>
+<p>Nullable columns should be avoided if at all possible.  One of the problems with nullable columns is that they bypass required value checking done by the DBMS.  As mentioned previously you want to keep the DBMS working for you at all times.  With that said, there is nothing inherently wrong with nullable columns - certain data elements are not always mandatory and thats just the way it is.</p>
+<p>If you find a nullable column in your database, check to see if the column is used in the WHERE, GROUP BY, or ORDER BY clause of any query.  If it is, that is a good sign that the column should not be nullable.  If you are casting the value to a non-nullable type in your code that is another sign the column should not be nullable.</p>
+<p>When you check nullable columns on your database you get some very valuable information as a free byproduct of your analysis.  While this information may not be directly tied to the validity of your data you should take notes for future work you may want to do.  If you conclude a column MUST be nullable you should look carefully at the reasoning behind your conclusion as it may be a sign that you can better normalize or restructure your database.  This is best explained with an example.  Suppose you have a table called ORDERS that has a schema that looks like this:</p>
+<pre><code class="language-sql">[ID] [int] IDENTITY(1,1) NOT NULL,
 [CustomerID] [int] NOT NULL,
 [OrderDate] [datetime2](0) NOT NULL,
 [ShipDate] [datetime2](0) NULL,
@@ -121,18 +91,18 @@ Tip: If your database platform is Microsoft SQL Server, you can generate a scrip
 [Notes] [nvarchar](3000) NULL,
 // More columns...
 </code></pre>
-<p id="pragma-line-126">In the table above the ShipDate column is nullable.  An argument can be made that the column should be nullable because at the time an order is placed the ship date does not yet exist and cannot be known with certainty.  That argument is entirely correct and would seem to support the column being nullable.  But there is a deeper issue here, and that is that the ShipDate column does not belong on the ORDERS table.  It belongs on a SHIPMENTS table and it should not be nullable.  The only flag that calls for further investigation is the fact that the ShipDate column is nullable.</p>
+<p>In the table above the ShipDate column is nullable.  An argument can be made that the column should be nullable because at the time an order is placed the ship date does not yet exist and cannot be known with certainty.  That argument is entirely correct and would seem to support the column being nullable.  But there is a deeper issue here, and that is that the ShipDate column does not belong on the ORDERS table.  It belongs on a SHIPMENTS table and it should not be nullable.  The only flag that calls for further investigation is the fact that the ShipDate column is nullable.</p>
 <div style="background-color:lightblue;padding:12px;margin:10px;">
-Tip: If you created a script file of your database you can use <a href="https://notepad-plus-plus.org/">Notepad++</a> to quickly find NULL columns.  Open your file in Notepad++ and press Ctrl+F. Paste this into the "Find what" box: <code>(\) NULL)|(\] NULL)</code>. Set Search Mode to Regualar expression, then click "Find All in Current Document".
+Tip: If you created a script file of your database you can use <a href="https://notepad-plus-plus.org">Notepad++</a> to quickly find NULL columns.  Open your file in Notepad++ and press Ctrl+F. Paste this into the "Find what" box: <code>(\) NULL)|(\] NULL)</code>. Set Search Mode to Regualar expression, then click "Find All in Current Document".
 </div>
-<h2 id="clean-up-your-data"><a id="pragma-line-132"></a>Clean up your data</h2>
-<h4 id="guard-the-perimiter"><a id="pragma-line-134"></a>Guard the perimiter</h4>
-<p id="pragma-line-136">As a developer your ongoing objective is to make sure your database has valid, current, and complete data at all times.  One of the best ways to do this is to establish a single point of entry for each of your domain entities and enforce your validation rules at that point.  For example a method to insert or update a Customer object may look like this:</p>
-<pre><code id="pragma-line-138" class="language-csharp">// This is the only method that inserts or updates the customer table.
+<h2>Clean up your data</h2>
+<h4>Guard the perimiter</h4>
+<p>As a developer your ongoing objective is to make sure your database has valid, current, and complete data at all times.  One of the best ways to do this is to establish a single point of entry for each of your domain entities and enforce your validation rules at that point.  For example a method to insert or update a Customer object may look like this:</p>
+<pre><code class="language-csharp">// This is the only method that inserts or updates the customer table.
 public string SaveCustomer(Customer customer)
 {
   if(customer == null)
-    throw new ArgumentNullException("customer");
+    throw new ArgumentNullException(&quot;customer&quot;);
 
   // all incoming Customer objects are validated here
   string errorMessage = ValidateCustomer(customer);
@@ -148,62 +118,62 @@ public string SaveCustomer(Customer customer)
   return errorMessage;
 }
 </code></pre>
-<p id="pragma-line-160">Some developers will encounter edge cases where maintaining perfect data at all times will not be achievable or desirable.  Maintaining a pristine database is much like maintaining a highly normalized database.  Normalization is a worthy endeavor however it eventually reaches a point where usability and performance begin to diminish.  In the same sense, a hyper-vigilant approach to data cleanliness may at some point begin to conflict with the objectives of the business.  If this happens and you decide to allow your database to become less than pristine you will want to make sure the bar for doing so is very high.  Once you start mixing bad data with good you find yourself in the position of "guarding from within" which means your internal business logic becomes responsible for separating clean data from dirty.</p>
-<p id="pragma-line-162">A full discussion of how to design and maintain a database is beyond the scope of this article.  However there are a couple of points you can take away from this section:</p>
-<ul id="pragma-line-164">
-<li id="pragma-line-164">Be aware of your priorities and objectives in terms of maintaining a clean database.</li>
-<li id="pragma-line-165">Defend your objectives relentlessly.  Explore every option before making any concession to allow dirty data or partial data into your database.</li>
-<li id="pragma-line-166">Spend a lot of design time in this area.</li>
-<li id="pragma-line-167">The cost of getting it wrong here is high.</li>
+<p>Some developers will encounter edge cases where maintaining perfect data at all times will not be achievable or desirable.  Maintaining a pristine database is much like maintaining a highly normalized database.  Normalization is a worthy endeavor however it eventually reaches a point where usability and performance begin to diminish.  In the same sense, a hyper-vigilant approach to data cleanliness may at some point begin to conflict with the objectives of the business.  If this happens and you decide to allow your database to become less than pristine you will want to make sure the bar for doing so is very high.  Once you start mixing bad data with good you find yourself in the position of &quot;guarding from within&quot; which means your internal business logic becomes responsible for separating clean data from dirty.</p>
+<p>A full discussion of how to design and maintain a database is beyond the scope of this article.  However there are a couple of points you can take away from this section:</p>
+<ul>
+<li>Be aware of your priorities and objectives in terms of maintaining a clean database.</li>
+<li>Defend your objectives relentlessly.  Explore every option before making any concession to allow dirty data or partial data into your database.</li>
+<li>Spend a lot of design time in this area.</li>
+<li>The cost of getting it wrong here is high.</li>
 </ul>
-<h2 id="finding-the-enemy-in-code"><a id="pragma-line-170"></a>Finding the enemy in code</h2>
-<h4 id="get-out-of-your-own-way-organize-your-business-logic"><a id="pragma-line-174"></a>Get out of your own way - organize your business logic</h4>
-<p id="pragma-line-176">Loosely defined, business logic is any code that depends on or operates on a domain entity such as an Order, Client, Product, etc.  Business logic belongs in one place only - the business logic layer.  Business logic libraries are .dll files that can be referenced by higher level layers or wrapped by some transport-specific layer such as REST or WCF.</p>
-<p id="pragma-line-178">Factoring business logic out of the presentation layer and into the business logic layer is an essential first step if you want to scale your application.  Business logic that is incorrectly placed in the presentation layer - such as a controller or view model -  is unusable to other controllers or view models that may need to call it.  The presentation layer becomes a breeding grounds for DRY violations when business logic is placed there.  The way to mitigate that obstacle is to move business logic to the lower level business logic layer where is accessible to all presentation objects.</p>
-<p id="pragma-line-180">It is not uncommon to find seventy percent or more of your application's code in the business logic layer.  Controllers and view models should be very thin and serve little purpose other than to map presentation functions to the business logic layer.</p>
-<p id="pragma-line-182">If you have a large and complex business logic layer consider using a facade or a variation thereof.  See <a href="https://github.com/leaderanalytics/AdaptiveClient">AdaptiveClient</a> for examples.</p>
-<h4 id="dont-juggle-a-live-grenade-if-your-app-throws-stop-processing"><a id="pragma-line-185"></a>Don't juggle a live grenade - if your app throws stop processing</h4>
-<p id="pragma-line-187">A common problem found in many code bases today is incorrect error handling.  The problem is rooted in a thought process called "Log and continue" that holds dear three deeply flawed beliefs:</p>
-<ul id="pragma-line-189">
-<li id="pragma-line-189">More <code>try</code> / <code>catch</code> blocks somehow make code more resilient.</li>
-<li id="pragma-line-190">Exceptions should be logged and execution should continue.</li>
-<li id="pragma-line-191">Exceptions should not be thrown when internal low-level code encounters unexpected or invalid business logic.</li>
+<h2>Finding the enemy in code</h2>
+<h4>Get out of your own way - organize your business logic</h4>
+<p>Loosely defined, business logic is any code that depends on or operates on a domain entity such as an Order, Client, Product, etc.  Business logic belongs in one place only - the business logic layer.  Business logic libraries are .dll files that can be referenced by higher level layers or wrapped by some transport-specific layer such as REST or WCF.</p>
+<p>Factoring business logic out of the presentation layer and into the business logic layer is an essential first step if you want to scale your application.  Business logic that is incorrectly placed in the presentation layer - such as a controller or view model -  is unusable to other controllers or view models that may need to call it.  The presentation layer becomes a breeding grounds for DRY violations when business logic is placed there.  The way to mitigate that obstacle is to move business logic to the lower level business logic layer where is accessible to all presentation objects.</p>
+<p>It is not uncommon to find seventy percent or more of your application's code in the business logic layer.  Controllers and view models should be very thin and serve little purpose other than to map presentation functions to the business logic layer.</p>
+<p>If you have a large and complex business logic layer consider using a facade or a variation thereof.  See <a href="https://github.com/leaderanalytics/AdaptiveClient">AdaptiveClient</a> for examples.</p>
+<h4>Don't juggle a live grenade - if your app throws stop processing</h4>
+<p>A common problem found in many code bases today is incorrect error handling.  The problem is rooted in a thought process called &quot;Log and continue&quot; that holds dear three deeply flawed beliefs:</p>
+<ul>
+<li>More <code>try</code> / <code>catch</code> blocks somehow make code more resilient.</li>
+<li>Exceptions should be logged and execution should continue.</li>
+<li>Exceptions should not be thrown when internal low-level code encounters unexpected or invalid business logic.</li>
 </ul>
-<p id="pragma-line-193">These falsehoods, individually and collectively, are directly responsible for a multitude of afflictions which include:</p>
-<ul id="pragma-line-195">
-<li id="pragma-line-195">Errors that are difficult or literally impossible to trace.</li>
-<li id="pragma-line-196">Corrupt data.</li>
-<li id="pragma-line-197">Bloated, complex, and unnecessary error handling routines.</li>
-<li id="pragma-line-198">Propagation of ambiguous and/or contradictory logic.</li>
+<p>These falsehoods, individually and collectively, are directly responsible for a multitude of afflictions which include:</p>
+<ul>
+<li>Errors that are difficult or literally impossible to trace.</li>
+<li>Corrupt data.</li>
+<li>Bloated, complex, and unnecessary error handling routines.</li>
+<li>Propagation of ambiguous and/or contradictory logic.</li>
 </ul>
-<p id="pragma-line-200">The correct approach to error handling is embodied in a pattern called Fail Fast which proposes these guidelines:</p>
-<ul id="pragma-line-202">
-<li id="pragma-line-202">Fewer <code>try</code>/<code>catch</code> blocks are better.  Exceptions should flow up to a global exception handler.</li>
-<li id="pragma-line-203"><code>try</code>/<code>catch</code> blocks should only be used to catch specific errors that are actually handled in some way.</li>
-<li id="pragma-line-204">Unhandled exceptions should be logged and execution should stop.</li>
-<li id="pragma-line-205">An exception should be thrown immediately when internal low-level code encounters unexpected or invalid business logic.</li>
+<p>The correct approach to error handling is embodied in a pattern called Fail Fast which proposes these guidelines:</p>
+<ul>
+<li>Fewer <code>try</code>/<code>catch</code> blocks are better.  Exceptions should flow up to a global exception handler.</li>
+<li><code>try</code>/<code>catch</code> blocks should only be used to catch specific errors that are actually handled in some way.</li>
+<li>Unhandled exceptions should be logged and execution should stop.</li>
+<li>An exception should be thrown immediately when internal low-level code encounters unexpected or invalid business logic.</li>
 </ul>
-<p id="pragma-line-207">With regard to the last point above - don't be afraid to throw Exceptions when there is an expectation of compliance in your code.  Consider the following two methods:</p>
-<pre><code id="pragma-line-209" class="language-csharp">public Customer GetCustomerByID(int id)
+<p>With regard to the last point above - don't be afraid to throw Exceptions when there is an expectation of compliance in your code.  Consider the following two methods:</p>
+<pre><code class="language-csharp">public Customer GetCustomerByID(int id)
 {
     Customer c = db.Customers.FirstOrDefault(x =&gt; x.ID == id);
     return c;
 }
 </code></pre>
-<p id="pragma-line-216">In the code above you should not throw if the passed id is not found.  This is a public method.  There is no expectation the user knows a valid ID from an invalid one.</p>
-<pre><code id="pragma-line-218" class="language-csharp">private void ProcessOrder(Order order)
+<p>In the code above you should not throw if the passed id is not found.  This is a public method.  There is no expectation the user knows a valid ID from an invalid one.</p>
+<pre><code class="language-csharp">private void ProcessOrder(Order order)
 {
   Customer c = GetCustomerByID(order.CustomerID);
 
   if(c == null)
-    throw new Exception($"Invalid customer ID: {order.CustomerID}"); 
+    throw new Exception($&quot;Invalid customer ID: {order.CustomerID}&quot;); 
 
   c.YTDOrders += order.Amount;
 }
 </code></pre>
-<p id="pragma-line-229">In the code above there is an expectation the customer ID on the order is correct.  Definitely throw if order.CustomerID is not found!  If an upstream change causes order.CustomerID to become invalid this code will likely catch that error in QA.</p>
-<p id="pragma-line-231">The code shown below is the wrong way to do it.  This error is common because developers are afraid to throw exceptions.  If an upstream change causes order.CustomerID to become invalid the error will most likely be discovered by the end user - after data corruption has occurred.</p>
-<pre><code id="pragma-line-234" class="language-csharp">private void ProcessOrder(Order order)
+<p>In the code above there is an expectation the customer ID on the order is correct.  Definitely throw if order.CustomerID is not found!  If an upstream change causes order.CustomerID to become invalid this code will likely catch that error in QA.</p>
+<p>The code shown below is the wrong way to do it.  This error is common because developers are afraid to throw exceptions.  If an upstream change causes order.CustomerID to become invalid the error will most likely be discovered by the end user - after data corruption has occurred.</p>
+<pre><code class="language-csharp">private void ProcessOrder(Order order)
 {
   Customer c = GetCustomerByID(order.CustomerID);
 
@@ -211,12 +181,9 @@ public string SaveCustomer(Customer customer)
   if(c != null)
     c.YTDOrders += order.Amount;
   else
-    Log.Error($"Invalid customer ID: {order.CustomerID}"); 
+    Log.Error($&quot;Invalid customer ID: {order.CustomerID}&quot;); 
 }
 </code></pre>
-<h4 id="use-the-compiler-luke"><a id="pragma-line-247"></a>Use the compiler, Luke</h4>
-<p id="pragma-line-249">If there is any single analogy for the BFG9000 in computing MSBUILD.exe would surely be it.  Your compiler is the most powerful weapon you have.  Very technically speaking, failing to use the compiler effectively is probably not tied directly to garbage data or redundant code.  However the compiler is such an effective weapon that this article would not be complete if it did not exhort you to use it to your fullest advantage.  Early in your troubleshooting project you should check for and fix any code that passes or expects as a parameter an object of type <code>object</code>.  Avoid the <code>dynamic</code> keyword, and avoid using JavaScript. Except for the presentation layer.</p>
+<h4>Use the compiler, Luke</h4>
+<p>If there is any single analogy for the BFG9000 in computing MSBUILD.exe would surely be it.  Your compiler is the most powerful weapon you have.  Very technically speaking, failing to use the compiler effectively is probably not tied directly to garbage data or redundant code.  However the compiler is such an effective weapon that this article would not be complete if it did not exhort you to use it to your fullest advantage.  Early in your troubleshooting project you should check for and fix any code that passes or expects as a parameter an object of type <code>object</code>.  Avoid the <code>dynamic</code> keyword, and avoid using JavaScript. Except for the presentation layer.</p>
 </article>
-</div>
-
-</body></html>
